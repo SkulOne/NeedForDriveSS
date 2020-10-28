@@ -11,6 +11,7 @@
     min-width: 65px;
 
     .side-bar__menu-button {
+        z-index: 5;
         color: white;
     }
 
@@ -23,4 +24,10 @@
 
 .spacer {
     flex: 0 1 75%;
+}
+
+@media screen and (max-width: 767px) {
+    :host {
+        display: none;
+    }
 }

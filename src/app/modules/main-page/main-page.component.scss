@@ -1,5 +1,13 @@
 @import 'src/app/shared/style/variables';
 
+mat-sidenav {
+    min-width: 688px+65px;
+}
+
+.side-bar__language-change-button {
+    display: none;
+}
+
 :host {
     height: 100vh;
     display: flex;
@@ -8,36 +16,85 @@
     mat-sidenav-container {
         height: 100%;
         width: 100%;
-    }
-    mat-sidenav {
-        background: #111518;
-        min-width: 688px+65px;
+        mat-sidenav {
+            background: #111518;
 
-        .mat-sidenav__list {
-            font-size: 2rem;
-            color: white;
-            list-style: none;
-            .mat-sidenav__list-item {
-                &:hover {
-                    color: $accent-color;
+            .mat-sidenav__close-button {
+                position: absolute;
+                color: white;
+                top: 2rem;
+                left: 1rem;
+                font-size: 1.5rem;
+            }
+
+            .side-nav__item {
+                display: flex;
+                flex-direction: column;
+                padding-left: 20px;
+                .mat-sidenav__list {
+                    font-size: 2rem;
+                    color: white;
+                    list-style: none;
+                    padding: 0;
+                    .mat-sidenav__list-item {
+                        &:hover {
+                            color: $accent-color;
+                        }
+                    }
                 }
+                .shared-buttons {
+                    display: flex;
+                    button {
+                        margin: 0 0.5rem;
+                        background: white;
+                        border-radius: 50%;
+                        height: 33px;
+                        fa-icon {
+                            font-size: 1.5rem;
+                            color: #111518;
+                        }
+                    }
+                }
+            }
+            .side-bar__language-change-button {
+                color: $accent-color;
+                border-radius: 50%;
+                cursor: pointer;
+                position: absolute;
+                left: 20px;
+                bottom: 20px;
             }
         }
-        .shared-buttons {
+        mat-sidenav-content {
             display: flex;
-            button {
-                margin: 0 0.5rem;
-                background: white;
-                border-radius: 50%;
-                height: 33px;
-                fa-icon {
-                    font-size: 1.5rem;
-                    color: #111518;
-                }
-            }
         }
     }
-    mat-sidenav-content {
-        display: flex;
+}
+
+@media screen and (max-width: 1439px) {
+    mat-sidenav {
+        min-width: 550px;
+    }
+}
+@media screen and (max-width: 1023px) {
+    mat-sidenav {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 767px) {
+    mat-sidenav {
+        min-width: 95%;
+        .side-bar__language-change-button {
+            display: block;
+        }
+    }
+    .mat-sidenav__list {
+        font-size: 22px;
+        padding: 0;
+    }
+
+    .mat-sidenav__close-button {
+        top: 20px;
+        left: 20px;
     }
 }

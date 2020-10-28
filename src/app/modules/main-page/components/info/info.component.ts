@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 
@@ -10,6 +10,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 export class InfoComponent implements OnInit {
     faMapMarkerAlt = faMapMarkerAlt;
     faBars = faBars;
+    @Output() sideNavOpen = new EventEmitter();
     constructor() {}
 
     ngOnInit(): void {}

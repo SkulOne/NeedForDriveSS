@@ -39,8 +39,6 @@ button {
 html,
 body {
     height: 100%;
-}
-body {
     margin: 0;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
@@ -48,34 +46,41 @@ body {
 .mat-drawer-inner-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    width: auto;
 }
 
-.swiper-button-next,
-.swiper-button-prev {
-    margin: 0;
-    position: absolute;
-    top: 0;
-    height: 100%;
-    padding: 0 10px;
-    &:hover {
-        background-color: rgba(14, 194, 97, 0.2);
+//.swiper-button-next,
+//.swiper-button-prev {
+//    margin: 0;
+//    position: absolute;
+//    top: 0;
+//    height: 100%;
+//    padding: 0 10px;
+//    &:hover {
+//        background-color: rgba(14, 194, 97, 0.2);
+//    }
+//    &:after {
+//        font-size: 1.125rem;
+//        color: rgba(238, 238, 238, 1);
+//    }
+//}
+//
+//.swiper-button-next {
+//    right: 0;
+//}
+//
+//.swiper-button-prev {
+//    left: 0;
+//}
+//
+//.swiper-pagination-bullet {
+//    background: $accent-color;
+//}
+@media screen and (max-width: 767px) {
+    .mat-drawer-inner-container {
+        width: auto;
+        align-items: flex-start;
+        padding: 0;
     }
-    &:after {
-        font-size: 1.125rem;
-        color: rgba(238, 238, 238, 1);
-    }
-}
-
-.swiper-button-next {
-    right: 0;
-}
-
-.swiper-button-prev {
-    left: 0;
-}
-
-.swiper-pagination-bullet {
-    background: $accent-color;
 }

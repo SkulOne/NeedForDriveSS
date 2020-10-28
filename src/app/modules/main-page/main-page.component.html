@@ -1,20 +1,26 @@
 <mat-sidenav-container>
     <mat-sidenav #drawer mode="over">
-        <ul class="mat-sidenav__list">
-            <li class="mat-sidenav__list-item">Парковка</li>
-            <li class="mat-sidenav__list-item">Страховка</li>
-            <li class="mat-sidenav__list-item">Бензин</li>
-            <li class="mat-sidenav__list-item">Обслуживание</li>
-        </ul>
-        <div class="shared-buttons">
-            <button *ngFor="let social of socials">
-                <fa-icon [icon]="social"></fa-icon>
-            </button>
+        <button (click)="drawer.toggle()" class="mat-sidenav__close-button">
+            <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+        <div class="side-nav__item">
+            <ul class="mat-sidenav__list">
+                <li class="mat-sidenav__list-item">ПАРКОВКА</li>
+                <li class="mat-sidenav__list-item">СТРАХОВКА</li>
+                <li class="mat-sidenav__list-item">БЕНЗИН</li>
+                <li class="mat-sidenav__list-item">ОБСЛУЖИВАНИЕ</li>
+            </ul>
+            <div class="shared-buttons">
+                <button *ngFor="let social of socials">
+                    <fa-icon [icon]="social"></fa-icon>
+                </button>
+            </div>
         </div>
+        <button class="side-bar__language-change-button">Eng</button>
     </mat-sidenav>
     <mat-sidenav-content>
         <app-side-bar (sideNavOpen)="drawer.toggle()"></app-side-bar>
-        <app-info></app-info>
+        <app-info (sideNavOpen)="drawer.toggle()"></app-info>
         <app-slider></app-slider>
     </mat-sidenav-content>
 </mat-sidenav-container>

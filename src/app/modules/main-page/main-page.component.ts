@@ -4,6 +4,8 @@ import {
     faTelegram,
     faFacebook,
 } from '@fortawesome/free-brands-svg-icons';
+
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 @Component({
     selector: 'app-main-page',
     templateUrl: './main-page.component.html',
@@ -11,6 +13,7 @@ import {
 })
 export class MainPageComponent implements OnInit {
     socials = [faInstagram, faTelegram, faFacebook];
+    faTimes = faTimes;
     constructor() {}
 
     ngOnInit(): void {}

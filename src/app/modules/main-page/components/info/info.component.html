@@ -1,8 +1,16 @@
 <header>
-    <span class="info-header__logo">Need for Drive</span>
-    <div class="info-header__location-block">
-        <fa-icon class="location-block__item" [icon]="faMapMarkerAlt"></fa-icon>
-        <span class="location-block__item">Ульяновск</span>
+    <button (click)="sideNavOpen.emit()" class="mat-sidenav__open-button">
+        <fa-icon [icon]="faBars"></fa-icon>
+    </button>
+    <div class="header-content">
+        <span class="info-header__logo">Need for Drive</span>
+        <div class="info-header__location-block">
+            <fa-icon
+                class="location-block__item"
+                [icon]="faMapMarkerAlt"
+            ></fa-icon>
+            <span class="location-block__item">Ульяновск</span>
+        </div>
     </div>
 </header>
 

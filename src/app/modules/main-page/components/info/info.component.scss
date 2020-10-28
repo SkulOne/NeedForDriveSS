@@ -13,24 +13,29 @@ header {
     display: flex;
     justify-content: space-between;
 
-    .info-header__logo {
-        font-size: 1.875rem;
-        font-weight: bold;
-        color: $accent-color;
+    .mat-sidenav__open-button {
+        display: none;
     }
 
-    .spacer {
-        flex: 1 1 100%;
-    }
-
-    .info-header__location-block {
+    .header-content {
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        width: 100%;
+        .info-header__logo {
+            font-size: 1.875rem;
+            font-weight: bold;
+            color: $accent-color;
+        }
 
-        .location-block__item {
-            color: $gray-color;
-            margin: 0 8px;
+        .info-header__location-block {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .location-block__item {
+                color: $gray-color;
+                margin: 0 8px;
+            }
         }
     }
 }
@@ -74,5 +79,80 @@ footer {
 
     .footer__number {
         color: $main-black-color;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    :host {
+        padding: 2rem 4rem;
+    }
+}
+
+@media screen and (max-width: 1439px) {
+    :host {
+        min-width: 419px;
+        padding: 2rem 2rem;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    :host {
+        width: 100%;
+        padding: 2rem 2rem;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    :host {
+        min-width: 100%;
+        padding: 0;
+        header {
+            padding: 1rem;
+            align-items: baseline;
+            .mat-sidenav__open-button {
+                display: block;
+            }
+            .header-content {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        }
+
+        .info {
+            padding: 1rem;
+            height: 55%;
+            .info__title,
+            .info__logo {
+                font-size: 32px;
+            }
+
+            .info__subtitle {
+                font-size: 18px;
+                margin: 1rem 0 2rem;
+            }
+
+            .info-header__logo {
+                margin-bottom: 8px;
+            }
+
+            .accent-button {
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+
+        footer {
+            height: 40px;
+            justify-content: center;
+            align-items: flex-end;
+            flex-direction: column-reverse;
+            background: #151b1f;
+            padding: 16px;
+
+            .footer__number {
+                color: $accent-color;
+                margin-bottom: 8px;
+            }
+        }
     }
 }
