@@ -1,0 +1,78 @@
+@import 'src/app/shared/style/variables';
+
+:host {
+    display: flex;
+    padding: 2rem 4rem;
+    align-self: stretch;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 560px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+
+    .info-header__logo {
+        font-size: 1.875rem;
+        font-weight: bold;
+        color: $accent-color;
+    }
+
+    .spacer {
+        flex: 1 1 100%;
+    }
+
+    .info-header__location-block {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .location-block__item {
+            color: $gray-color;
+            margin: 0 8px;
+        }
+    }
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .info__title,
+    .info__logo {
+        font-size: 4.375rem;
+        font-weight: 700;
+    }
+
+    .info__title {
+        color: $main-black-color;
+    }
+
+    .info__logo {
+        color: $accent-color;
+    }
+
+    .info__subtitle {
+        font-size: 1.625rem;
+        font-weight: 300;
+        color: $gray-color;
+        margin: 34px 0 60px;
+    }
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+    align-items: center;
+
+    .footer__privat-policy {
+        color: $gray-color;
+    }
+
+    .footer__number {
+        color: $main-black-color;
+    }
+}

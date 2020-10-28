@@ -1,0 +1,43 @@
+@import 'src/app/shared/style/variables';
+
+:host {
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mat-sidenav-container {
+        height: 100%;
+        width: 100%;
+    }
+    mat-sidenav {
+        background: #111518;
+        min-width: 688px+65px;
+
+        .mat-sidenav__list {
+            font-size: 2rem;
+            color: white;
+            list-style: none;
+            .mat-sidenav__list-item {
+                &:hover {
+                    color: $accent-color;
+                }
+            }
+        }
+        .shared-buttons {
+            display: flex;
+            button {
+                margin: 0 0.5rem;
+                background: white;
+                border-radius: 50%;
+                height: 33px;
+                fa-icon {
+                    font-size: 1.5rem;
+                    color: #111518;
+                }
+            }
+        }
+    }
+    mat-sidenav-content {
+        display: flex;
+    }
+}

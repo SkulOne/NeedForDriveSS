@@ -1,0 +1,26 @@
+@import 'src/app/shared/style/variables';
+
+:host {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0;
+    align-self: stretch;
+    background: rgba(21, 27, 31, 1);
+    min-width: 65px;
+
+    .side-bar__menu-button {
+        color: white;
+    }
+
+    .side-bar__language-change-button {
+        color: $accent-color;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+}
+
+.spacer {
+    flex: 0 1 75%;
+}

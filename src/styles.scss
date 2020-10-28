@@ -1,1 +1,81 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'app/shared/style/variables';
+
+@mixin button-background($darken) {
+    background: linear-gradient(
+        90deg,
+        darken($accent-color, $darken) 2.61%,
+        darken(#039f67, $darken) 112.6%
+    );
+}
+
+.accent-button {
+    color: $font-color;
+    border-radius: 8px;
+    @include button-background(0%);
+    border: none;
+    padding: 15px 48px 11px;
+
+    &:hover,
+    &:focus {
+        outline: none;
+        @include button-background(10%);
+    }
+
+    &:active {
+        @include button-background(20%);
+        outline: none;
+    }
+}
+
+button {
+    background: none;
+    border: none;
+    &:focus {
+        outline: none;
+    }
+}
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.mat-drawer-inner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    margin: 0;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    padding: 0 10px;
+    &:hover {
+        background-color: rgba(14, 194, 97, 0.2);
+    }
+    &:after {
+        font-size: 1.125rem;
+        color: rgba(238, 238, 238, 1);
+    }
+}
+
+.swiper-button-next {
+    right: 0;
+}
+
+.swiper-button-prev {
+    left: 0;
+}
+
+.swiper-pagination-bullet {
+    background: $accent-color;
+}
