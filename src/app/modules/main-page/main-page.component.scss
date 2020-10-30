@@ -49,6 +49,9 @@ mat-sidenav-container {
                     height: 33px;
                     width: 33px;
                     padding: 0;
+                    &:hover {
+                        background: $accent-color;
+                    }
                     fa-icon {
                         font-size: 1.5rem;
                         color: #111518;
@@ -74,7 +77,7 @@ mat-sidenav-container {
 }
 @media screen and (max-width: 1439px) {
     mat-sidenav {
-        min-width: 550px;
+        min-width: 619px;
     }
     .side-nav__item {
         padding-left: 97px;

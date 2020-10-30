@@ -29,3 +29,11 @@ $test: red;
         }
     }
 }
+
+@media screen and (max-width: 1439px) {
+    :host {
+        .slide-item {
+            padding: 0 4rem;
+        }
+    }
+}
