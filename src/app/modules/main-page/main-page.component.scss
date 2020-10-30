@@ -1,79 +1,83 @@
 @import 'src/app/shared/style/variables';
 
-mat-sidenav {
-    min-width: 688px+65px;
-}
-
-.side-bar__language-change-button {
-    display: none;
-}
-
 :host {
     height: 100vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    mat-sidenav-container {
-        height: 100%;
-        width: 100%;
-        mat-sidenav {
-            background: #111518;
+}
 
-            .mat-sidenav__close-button {
-                position: absolute;
-                color: white;
-                top: 2rem;
-                left: 1rem;
-                font-size: 1.5rem;
-            }
+.side-bar__language-change-button {
+    position: absolute;
+    bottom: 27px;
+    color: $accent-color;
+}
 
-            .side-nav__item {
-                display: flex;
-                flex-direction: column;
-                padding-left: 20px;
-                .mat-sidenav__list {
-                    font-size: 2rem;
-                    color: white;
-                    list-style: none;
-                    padding: 0;
-                    .mat-sidenav__list-item {
-                        &:hover {
-                            color: $accent-color;
-                        }
-                    }
-                }
-                .shared-buttons {
-                    display: flex;
-                    button {
-                        margin: 0 0.5rem;
-                        background: white;
-                        border-radius: 50%;
-                        height: 33px;
-                        fa-icon {
-                            font-size: 1.5rem;
-                            color: #111518;
-                        }
-                    }
-                }
-            }
-            .side-bar__language-change-button {
-                color: $accent-color;
-                border-radius: 50%;
-                cursor: pointer;
-                position: absolute;
-                left: 20px;
-                bottom: 20px;
-            }
+mat-sidenav-container {
+    height: 100%;
+    width: 100%;
+    mat-sidenav {
+        background: #111518;
+        .mat-sidenav__close-button {
+            position: absolute;
+            color: white;
+            top: 2rem;
+            left: 19px;
+            font-size: 1.3rem;
         }
-        mat-sidenav-content {
+
+        .side-nav__item {
             display: flex;
+            flex-direction: column;
+            .mat-sidenav__list {
+                font-size: 2rem;
+                color: white;
+                list-style: none;
+                padding: 0;
+                .mat-sidenav__list-item {
+                    &:hover {
+                        color: $accent-color;
+                    }
+                }
+            }
+            .shared-buttons {
+                display: flex;
+                button {
+                    margin: 0 0.5rem;
+                    background: white;
+                    border-radius: 50%;
+                    height: 33px;
+                    width: 33px;
+                    padding: 0;
+                    fa-icon {
+                        font-size: 1.5rem;
+                        color: #111518;
+                    }
+                }
+            }
         }
+    }
+    mat-sidenav-content {
+        display: flex;
+        position: initial;
     }
 }
 
+@media screen and (min-width: 1440px) {
+    .side-nav__item {
+        padding-left: 127px;
+    }
+
+    mat-sidenav {
+        min-width: 753px;
+    }
+}
 @media screen and (max-width: 1439px) {
     mat-sidenav {
         min-width: 550px;
+    }
+    .side-nav__item {
+        padding-left: 97px;
     }
 }
 @media screen and (max-width: 1023px) {
@@ -85,12 +89,12 @@ mat-sidenav {
     mat-sidenav {
         min-width: 95%;
         .side-bar__language-change-button {
-            display: block;
+            left: 20px;
         }
     }
-    .mat-sidenav__list {
+    .side-nav__item {
         font-size: 22px;
-        padding: 0;
+        padding: 20px;
     }
 
     .mat-sidenav__close-button {

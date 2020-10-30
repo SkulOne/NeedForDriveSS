@@ -1,7 +1,4 @@
-<fa-icon
-    class="side-bar__menu-button"
-    [icon]="faBars"
-    (click)="sideNavOpen.emit()"
-></fa-icon>
-<div class="spacer"></div>
+<button (click)="sideNavOpen.emit()">
+    <fa-icon class="side-bar__menu-button" [icon]="faBars"></fa-icon>
+</button>
 <button class="side-bar__language-change-button">Eng</button>

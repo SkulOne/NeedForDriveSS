@@ -1,13 +1,13 @@
+@import 'src/app/shared/style/variables';
+$test: red;
 :host {
     display: flex;
-    flex-direction: column;
-    width: 100%;
     height: 100%;
 
     .slide-item {
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
-        height: 100%;
         display: flex;
+        width: 100%;
         flex-direction: column;
         justify-content: center;
         padding: 0 6rem;

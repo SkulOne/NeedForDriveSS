@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { SwiperOptions } from 'swiper';
 import { slides } from '../../../../shared/entities/slides';
 
@@ -6,6 +6,7 @@ import { slides } from '../../../../shared/entities/slides';
     selector: 'app-slider',
     templateUrl: './slider.component.html',
     styleUrls: ['./slider.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SliderComponent implements OnInit {
     config: SwiperOptions = {

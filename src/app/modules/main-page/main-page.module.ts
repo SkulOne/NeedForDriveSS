@@ -12,6 +12,7 @@ import {
 } from 'ngx-swiper-wrapper';
 import { SlideItemComponent } from './components/slider/slide-item/slide-item.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     direction: 'horizontal',
@@ -27,7 +28,13 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
         SlideItemComponent,
     ],
     exports: [MainPageComponent],
-    imports: [CommonModule, FontAwesomeModule, SwiperModule, MatSidenavModule],
+    imports: [
+        CommonModule,
+        FontAwesomeModule,
+        SwiperModule,
+        MatSidenavModule,
+        MatButtonModule,
+    ],
     providers: [
         {
             provide: SWIPER_CONFIG,
