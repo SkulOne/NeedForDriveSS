@@ -1,4 +1,4 @@
-@import 'src/app/shared/style/variables';
+@import '../../shared/style/variables';
 
 app-side-bar {
     height: 100%;
@@ -35,6 +35,7 @@ app-side-bar {
 @media screen and (max-width: 767px) {
     app-side-bar {
         height: 0;
+        width: 0;
         min-width: 0;
     }
     .side-bar__menu-button {

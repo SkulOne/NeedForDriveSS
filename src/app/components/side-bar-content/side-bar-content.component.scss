@@ -1,0 +1,76 @@
+@import 'src/app/shared/style/variables';
+
+.mat-sidenav__close-button {
+    position: absolute;
+    color: white;
+    top: 2rem;
+    left: 19px;
+    font-size: 1.3rem;
+}
+
+.side-nav__item {
+    display: flex;
+    flex-direction: column;
+
+    .mat-sidenav__list {
+        font-size: 2rem;
+        color: white;
+        list-style: none;
+        padding: 0;
+
+        .mat-sidenav__list-item {
+            &:hover {
+                color: $accent-color;
+            }
+        }
+    }
+
+    .shared-buttons {
+        display: flex;
+
+        button {
+            margin: 0 0.5rem;
+            background: white;
+            border-radius: 50%;
+            height: 33px;
+            width: 33px;
+            padding: 0;
+
+            &:hover {
+                background: $accent-color;
+            }
+
+            fa-icon {
+                font-size: 1.5rem;
+                color: #111518;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .side-nav__item {
+        padding-left: 127px;
+    }
+}
+
+@media screen and (max-width: 1439px) {
+    .side-nav__item {
+        padding-left: 97px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .side-bar__language-change-button {
+        left: 20px;
+    }
+    .side-nav__item {
+        font-size: 22px;
+        padding: 20px;
+    }
+
+    .mat-sidenav__close-button {
+        top: 20px;
+        left: 20px;
+    }
+}

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainPageComponent } from './main-page.component';
 import { InfoComponent } from './components/info/info.component';
-import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -13,6 +12,7 @@ import {
 import { SlideItemComponent } from './components/slider/slide-item/slide-item.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
+import { HeaderComponent } from '../../components/header/header.component';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     direction: 'horizontal',
@@ -23,9 +23,9 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     declarations: [
         MainPageComponent,
         InfoComponent,
-        SideBarComponent,
         SliderComponent,
         SlideItemComponent,
+        HeaderComponent,
     ],
     exports: [MainPageComponent],
     imports: [

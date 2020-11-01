@@ -1,0 +1,16 @@
+<button (click)="sideNavClose.emit()" class="mat-sidenav__close-button">
+    <fa-icon [icon]="faTimes"></fa-icon>
+</button>
+<div class="side-nav__item">
+    <ul class="mat-sidenav__list">
+        <li class="mat-sidenav__list-item">ПАРКОВКА</li>
+        <li class="mat-sidenav__list-item">СТРАХОВКА</li>
+        <li class="mat-sidenav__list-item">БЕНЗИН</li>
+        <li class="mat-sidenav__list-item">ОБСЛУЖИВАНИЕ</li>
+    </ul>
+    <div class="shared-buttons">
+        <button *ngFor="let social of socials">
+            <fa-icon [icon]="social"></fa-icon>
+        </button>
+    </div>
+</div>

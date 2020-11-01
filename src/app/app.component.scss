@@ -1,0 +1,43 @@
+@import 'src/app/shared/style/variables';
+
+:host {
+}
+
+.side-bar__language-change-button {
+    position: absolute;
+    bottom: 27px;
+    color: $accent-color;
+}
+
+mat-sidenav-container {
+    height: 100%;
+    width: 100%;
+    mat-sidenav {
+        background: #111518;
+    }
+    mat-sidenav-content {
+        display: flex;
+        position: initial;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    mat-sidenav {
+        min-width: 753px;
+    }
+}
+@media screen and (max-width: 1439px) {
+    mat-sidenav {
+        min-width: 619px;
+    }
+}
+@media screen and (max-width: 1023px) {
+    mat-sidenav {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 767px) {
+    mat-sidenav {
+        min-width: 95%;
+    }
+}

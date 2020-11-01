@@ -1,11 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {
-    faFacebook,
-    faInstagram,
-    faTelegram,
-} from '@fortawesome/free-brands-svg-icons';
-
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
     selector: 'app-main-page',
@@ -13,8 +6,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
     styleUrls: ['./main-page.component.scss'],
 })
 export class MainPageComponent implements OnInit {
-    socials = [faInstagram, faTelegram, faFacebook];
-    faTimes = faTimes;
     constructor() {}
 
     ngOnInit(): void {}

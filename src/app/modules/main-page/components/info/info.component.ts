@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 
 @Component({
@@ -8,7 +7,6 @@ import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
     styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent implements OnInit {
-    faMapMarkerAlt = faMapMarkerAlt;
     faBars = faBars;
     constructor() {}
 

@@ -8,6 +8,12 @@ swiper {
     width: 100%;
 }
 
+@media screen and (min-width: 1440px) {
+    :host {
+        min-width: 688px;
+    }
+}
+
 @media screen and (max-width: 1439px) {
     :host {
         min-width: 410px;
