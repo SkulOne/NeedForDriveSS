@@ -1,0 +1,30 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .form__item {
+            display: flex;
+            width: 350px;
+            justify-content: flex-end;
+            align-items: baseline;
+
+            mat-form-field {
+                margin-left: 10px;
+                mat-icon {
+                    font-size: 14px;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    agm-map {
+        width: 90%;
+        height: 400px;
+        align-self: center;
+    }
+}

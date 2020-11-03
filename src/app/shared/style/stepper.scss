@@ -1,0 +1,31 @@
+@import 'variables';
+
+.mat-stepper-horizontal-line:after {
+    font-family: 'Material Icons', serif;
+    content: 'arrow_right';
+    color: $accent-color;
+    font-size: 24px;
+}
+
+div.mat-stepper-horizontal-line {
+    border-top-style: none;
+    flex: none;
+    display: flex;
+    align-items: center;
+}
+
+.mat-horizontal-stepper-header .mat-step-icon {
+    display: none;
+}
+
+.mat-horizontal-stepper-header-container {
+    height: 50px;
+    border: {
+        top: 1px solid #eeeeee;
+        bottom: 1px solid #eeeeee;
+    }
+}
+
+mat-step-header.mat-horizontal-stepper-header {
+    height: 100%;
+}

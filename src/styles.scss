@@ -1,59 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'app/shared/style/variables';
-
-@mixin button($color, $secondColor: $color) {
-    color: $font-color;
-    border-radius: 8px;
-    border: none;
-    padding: 15px 48px 11px;
-    background: linear-gradient(
-        90deg,
-        darken($color, 0%),
-        darken($secondColor, 0%)
-    );
-    &:hover,
-    &:focus {
-        outline: none;
-        background: linear-gradient(
-            90deg,
-            darken($color, 10%),
-            darken($secondColor, 10%)
-        );
-    }
-    &:active {
-        background: linear-gradient(
-            90deg,
-            darken($color, 20%),
-            darken($secondColor, 20%)
-        );
-        outline: none;
-    }
-}
-
-.green-background {
-    @include button(rgba(19, 73, 63, 1), rgba(12, 123, 27, 1));
-}
-.blue-background {
-    @include button(rgba(19, 41, 73, 1), rgba(12, 123, 103, 1));
-}
-.red-background {
-    @include button(rgba(73, 48, 19, 1), rgba(123, 12, 59, 1));
-}
-.violet-background {
-    @include button(rgba(40, 19, 73, 1), rgba(114, 12, 123, 1));
-}
-
-.accent-button {
-    @include button($accent-color);
-}
-
-button {
-    background: none;
-    border: none;
-    &:focus {
-        outline: none;
-    }
-}
+@import 'app/shared/style/global';
+@import 'app/shared/style/stepper';
+@import 'app/shared/style/swiper';
 
 html,
 body {
@@ -62,44 +10,6 @@ body {
     font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-.mat-drawer-inner-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-@media screen and (max-width: 767px) {
-    .mat-drawer-inner-container {
-        margin-top: 28px;
-        justify-content: flex-start;
-        padding: 0;
-    }
-}
-
-div.swiper-button-next,
-div.swiper-button-prev {
-    margin: 0;
-    position: absolute;
-    top: 0;
-    height: 100%;
-    padding: 0 10px;
-    &:hover {
-        background-color: rgba(14, 194, 97, 0.2);
-    }
-    &:after {
-        font-size: 1.125rem;
-        color: rgba(238, 238, 238, 1);
-    }
-}
-
-div.swiper-button-next {
-    right: 0;
-}
-
-div.swiper-button-prev {
-    left: 0;
-}
-
-span.swiper-pagination-bullet {
-    background: $accent-color;
+figure.mat-figure {
+    align-items: flex-start !important;
 }

@@ -1,0 +1,52 @@
+<form [formGroup]="locationForm">
+    <div class="form__item">
+        <span> Город: </span>
+        <mat-form-field>
+            <mat-label>Поле города</mat-label>
+            <input
+                type="text"
+                matInput
+                placeholder="Начните вводить город..."
+                formControlName="city"
+                [matAutocomplete]="auto"
+            />
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option
+                    *ngFor="let option of filteredOptions | async"
+                    [value]="option"
+                >
+                    {{ option }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+
+    <div class="form__item">
+        <span> Пункт выдачи: </span>
+        <mat-form-field>
+            <mat-label>Поле пункта выдачи</mat-label>
+            <input
+                type="text"
+                matInput
+                placeholder="Начните вводить пункт..."
+                formControlName="pickupPoint"
+            />
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option
+                    *ngFor="let option of filteredOptions | async"
+                    [value]="option"
+                >
+                    {{ option }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+</form>
+
+<agm-map
+    *ngIf="coords"
+    [styles]="mapStyle"
+    [latitude]="coords.lat"
+    [longitude]="coords.lng"
+    [zoom]="11"
+></agm-map>

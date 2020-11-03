@@ -1,6 +1,6 @@
 @import '../../shared/style/variables';
 
-app-side-bar {
+:host {
     height: 100%;
     background: rgba(21, 27, 31, 1);
     min-width: 64px;
@@ -33,7 +33,7 @@ app-side-bar {
 }
 
 @media screen and (max-width: 767px) {
-    app-side-bar {
+    :host {
         height: 0;
         width: 0;
         min-width: 0;

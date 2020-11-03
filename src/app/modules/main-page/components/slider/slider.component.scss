@@ -1,17 +1,11 @@
 @import 'src/app/shared/style/variables';
 
-app-slider {
-    min-width: 47%;
+:host {
+    min-width: 688px;
 }
 
 swiper {
     width: 100%;
-}
-
-@media screen and (min-width: 1440px) {
-    :host {
-        min-width: 688px;
-    }
 }
 
 @media screen and (max-width: 1439px) {

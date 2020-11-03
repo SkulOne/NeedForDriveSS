@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { LocationService } from '../../../../shared/services/location/location.service';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-header',
@@ -8,8 +10,10 @@ import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 })
 export class HeaderComponent implements OnInit {
     faMapMarkerAlt = faMapMarkerAlt;
+    userCity: Observable<string>;
+    constructor(private locationService: LocationService) {}
 
-    constructor() {}
-
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.userCity = this.locationService.getUserCity();
+    }
 }

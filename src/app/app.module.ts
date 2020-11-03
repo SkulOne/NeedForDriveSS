@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SideBarContentComponent } from './components/side-bar-content/side-bar-content.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { OrderModule } from './modules/order/order.module';
 
 @NgModule({
     declarations: [AppComponent, SideBarContentComponent, SideBarComponent],
@@ -21,6 +22,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
         BrowserAnimationsModule,
         MatIconModule,
         MatSidenavModule,
+        OrderModule,
     ],
     providers: [],
     exports: [],

@@ -12,7 +12,8 @@ import {
 import { SlideItemComponent } from './components/slider/slide-item/slide-item.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
-import { HeaderComponent } from '../../components/header/header.component';
+import { AppRoutingModule } from '../../app-routing.module';
+import { SharedModule } from '../shared-module/shared.module';
 
 const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
     direction: 'horizontal',
@@ -25,7 +26,6 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
         InfoComponent,
         SliderComponent,
         SlideItemComponent,
-        HeaderComponent,
     ],
     exports: [MainPageComponent],
     imports: [
@@ -34,6 +34,8 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
         SwiperModule,
         MatSidenavModule,
         MatButtonModule,
+        AppRoutingModule,
+        SharedModule,
     ],
     providers: [
         {

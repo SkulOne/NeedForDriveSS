@@ -3,10 +3,34 @@
 </button>
 <div class="side-nav__item">
     <ul class="mat-sidenav__list">
-        <li class="mat-sidenav__list-item">ПАРКОВКА</li>
-        <li class="mat-sidenav__list-item">СТРАХОВКА</li>
-        <li class="mat-sidenav__list-item">БЕНЗИН</li>
-        <li class="mat-sidenav__list-item">ОБСЛУЖИВАНИЕ</li>
+        <li
+            class="mat-sidenav__list-item"
+            routerLink="../order"
+            (click)="sideNavClose.emit()"
+        >
+            ПАРКОВКА
+        </li>
+        <li
+            class="mat-sidenav__list-item"
+            routerLink="../order"
+            (click)="sideNavClose.emit()"
+        >
+            СТРАХОВКА
+        </li>
+        <li
+            class="mat-sidenav__list-item"
+            routerLink="../order"
+            (click)="sideNavClose.emit()"
+        >
+            БЕНЗИН
+        </li>
+        <li
+            class="mat-sidenav__list-item"
+            routerLink="../order"
+            (click)="sideNavClose.emit()"
+        >
+            ОБСЛУЖИВАНИЕ
+        </li>
     </ul>
     <div class="shared-buttons">
         <button *ngFor="let social of socials">
