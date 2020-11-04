@@ -1,17 +1,19 @@
 @import 'src/app/shared/style/variables';
-$test: red;
+
+$blackout-slider:linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+
 :host {
     display: flex;
     height: 100%;
 
     .slide-item {
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+        background: $blackout-slider;
         display: flex;
         width: 100%;
         flex-direction: column;
         justify-content: center;
         padding: 0 6rem;
-        color: white;
+        color: $font-color;
         .slide-item__title {
             font-size: 2.5em;
             font-weight: 500;

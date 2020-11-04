@@ -8,14 +8,15 @@
                 matInput
                 placeholder="Начните вводить город..."
                 formControlName="city"
-                [matAutocomplete]="auto"
+                [matAutocomplete]="cityAutocomplete"
             />
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-autocomplete autoActiveFirstOption #cityAutocomplete>
                 <mat-option
-                    *ngFor="let option of filteredOptions | async"
-                    [value]="option"
-                >
-                    {{ option }}
+                    *ngFor="let city of filteredOptions | async"
+                    [value]="city.name"
+                    (onSelectionChange)="citySelected(city)"
+              >
+                    {{ city.name }}
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>
@@ -30,13 +31,16 @@
                 matInput
                 placeholder="Начните вводить пункт..."
                 formControlName="pickupPoint"
+                [matAutocomplete]="pointAutocomplete"
             />
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-autocomplete autoActiveFirstOption #pointAutocomplete>
                 <mat-option
-                    *ngFor="let option of filteredOptions | async"
-                    [value]="option"
+                    *ngFor="let point of filteredOptionsPoints | async"
+                    [value]="point.address"
+                    (onSelectionChange)="addressSelect(point)"
+
                 >
-                    {{ option }}
+                    {{ point.address }}
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>
@@ -49,4 +53,6 @@
     [latitude]="coords.lat"
     [longitude]="coords.lng"
     [zoom]="11"
-></agm-map>
+    [fitBounds]="bounds">
+<agm-marker *ngFor="let point of pointCoords" [longitude]="point.lng" [latitude]="point.lat"></agm-marker>
+</agm-map>

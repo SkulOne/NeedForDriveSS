@@ -18,28 +18,28 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
-    declarations: [
-        OrderComponent,
-        StepperComponent,
-        LocationComponent,
-        OrderPropertiesComponent,
-    ],
-    imports: [
-        CommonModule,
-        SharedModule,
-        MatTabsModule,
-        MatIconModule,
-        MatGridListModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyDLs3CudxoCs9C43iKaJqQ31Xg3w89_8G8',
-        }),
-        HttpClientModule,
-        MatStepperModule,
-        MatAutocompleteModule,
-    ],
+  declarations: [
+    OrderComponent,
+    StepperComponent,
+    LocationComponent,
+    OrderPropertiesComponent,
+  ],
+  imports: [
+    CommonModule,
+    MatTabsModule,
+    MatIconModule,
+    MatGridListModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDLs3CudxoCs9C43iKaJqQ31Xg3w89_8G8',
+    }),
+    HttpClientModule,
+    MatStepperModule,
+    MatAutocompleteModule,
+    SharedModule,
+  ],
 })
 export class OrderModule {}

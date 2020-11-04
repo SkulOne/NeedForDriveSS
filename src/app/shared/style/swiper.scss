@@ -1,5 +1,7 @@
 @import 'variables';
 
+$arrows-hover-color:  rgba(14, 194, 97, 0.2);
+
 .mat-drawer-inner-container {
     display: flex;
     flex-direction: column;
@@ -22,11 +24,11 @@ div.swiper-button-prev {
     height: 100%;
     padding: 0 10px;
     &:hover {
-        background-color: rgba(14, 194, 97, 0.2);
+        background-color: $arrows-hover-color;
     }
     &:after {
         font-size: 1.125rem;
-        color: rgba(238, 238, 238, 1);
+        color: $font-color;
     }
 }
 
@@ -40,4 +42,8 @@ div.swiper-button-prev {
 
 span.swiper-pagination-bullet {
     background: $accent-color;
+}
+
+div.swiper-pagination.swiper-pagination-bullets{
+bottom:2rem
 }

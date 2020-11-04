@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SwiperOptions } from 'swiper';
-import { slides } from '../../../../shared/entities/slides';
+import { slides } from './slides';
 
 @Component({
     selector: 'app-slider',
     templateUrl: './slider.component.html',
     styleUrls: ['./slider.component.scss'],
 })
-export class SliderComponent implements OnInit {
+export class SliderComponent{
     config: SwiperOptions = {
         pagination: true,
         navigation: true,
@@ -15,5 +15,4 @@ export class SliderComponent implements OnInit {
     slides = slides;
     constructor() {}
 
-    ngOnInit(): void {}
 }

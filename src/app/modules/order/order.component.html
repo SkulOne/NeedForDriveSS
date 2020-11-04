@@ -1,10 +1,13 @@
 <app-header class="order-header"></app-header>
+
 <mat-grid-list cols="4" rowHeight="48px">
-    <mat-grid-tile colspan="3" rowspan="12" class="order-list">
-        <app-stepper></app-stepper>
-    </mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="1" class="empty"></mat-grid-tile>
-    <mat-grid-tile colspan="1" rowspan="10">
-        <app-order-properties></app-order-properties>
-    </mat-grid-tile>
+  <mat-grid-tile colspan="3" rowspan="12" class="order-list">
+    <app-stepper></app-stepper>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="1" rowspan="1" class="mat-horizontal-stepper-header-container"></mat-grid-tile>
+
+  <mat-grid-tile colspan="1" rowspan="10">
+    <app-order-properties></app-order-properties>
+  </mat-grid-tile>
 </mat-grid-list>

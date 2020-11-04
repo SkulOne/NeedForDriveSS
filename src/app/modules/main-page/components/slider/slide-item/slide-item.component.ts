@@ -1,12 +1,12 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { Slide } from '../../../../../shared/interfaces/slide';
+import { Component, HostBinding, Input} from '@angular/core';
+import { Slide } from './slide';
 
 @Component({
     selector: 'app-slide-item',
     templateUrl: './slide-item.component.html',
     styleUrls: ['./slide-item.component.scss'],
 })
-export class SlideItemComponent implements OnInit {
+export class SlideItemComponent{
     @Input() slide: Slide;
 
     constructor() {}
@@ -17,5 +17,5 @@ export class SlideItemComponent implements OnInit {
                 background-position: center;`;
     }
 
-    ngOnInit(): void {}
+
 }

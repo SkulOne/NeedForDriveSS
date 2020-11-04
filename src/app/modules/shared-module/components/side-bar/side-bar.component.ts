@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -6,10 +6,9 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
     templateUrl: './side-bar.component.html',
     styleUrls: ['./side-bar.component.scss'],
 })
-export class SideBarComponent implements OnInit {
+export class SideBarComponent{
     @Output() sideNavOpen = new EventEmitter();
     faBars = faBars;
     constructor() {}
 
-    ngOnInit(): void {}
 }

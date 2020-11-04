@@ -1,3 +1,6 @@
+@import 'src/app/shared/style/variables';
+@import 'src/app/shared/style/stepper';
+
 :host {
     width: 100%;
     padding: 32px 64px;
@@ -10,14 +13,4 @@ mat-tab.test {
 
 .order-list {
     height: 100%;
-}
-
-// todo: опиши глобальный класс чтобы заюзать его из stepper.scss
-// todo: А мб стоит всё заменить на таблицу))))))))))))
-.empty {
-    height: 50px !important;
-    border: {
-        top: 1px solid #eeeeee;
-        bottom: 1px solid #eeeeee;
-    }
 }

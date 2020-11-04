@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { LocationService } from '../../../../shared/services/location/location.service';
+import { LocationService } from '../../../../shared/services/location.service';
 import { Observable } from 'rxjs';
 
 @Component({

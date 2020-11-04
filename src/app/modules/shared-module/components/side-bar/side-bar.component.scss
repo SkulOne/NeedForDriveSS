@@ -1,20 +1,20 @@
-@import '../../shared/style/variables';
+@import '../../../../shared/style/variables';
 
 :host {
     height: 100%;
-    background: rgba(21, 27, 31, 1);
+    background: $dark-background;
     min-width: 64px;
 
     .side-bar__menu-button {
         position: absolute;
-        color: white;
+        color: $font-color;
         top: 31px;
         left: 25px;
     }
 
     .side-bar__language-change-button {
         position: absolute;
-        bottom: 27px;
+        bottom: 24px;
         color: $accent-color;
         border-radius: 50%;
         cursor: pointer;
@@ -23,11 +23,11 @@
         padding: 0;
         z-index: 3;
         &:hover {
-            border: 2px solid white;
-            color: white;
+            border: 2px solid $font-color;
+            color: $font-color;
         }
         &:active {
-            border: 2px solid white;
+            border: 2px solid $font-color;
         }
     }
 }
@@ -37,16 +37,18 @@
         height: 0;
         width: 0;
         min-width: 0;
-    }
-    .side-bar__menu-button {
-        color: black !important;
-    }
-    .side-bar__language-change-button {
+      .side-bar__menu-button {
+        color: $main-black-color !important;
+      }
+      .side-bar__language-change-button {
         left: -38px;
-    }
-    .mat-drawer-container-has-open {
+      }
+      .mat-drawer-container-has-open {
+        //todo: Вот почему я юзаю инкапсуляцию
         .side-bar__language-change-button {
-            left: 10px;
+          left: 10px;
         }
+      }
     }
+
 }
