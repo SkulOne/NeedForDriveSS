@@ -16,6 +16,7 @@ import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {LocationService} from '../../shared/services/location.service';
 
 @NgModule({
   declarations: [
@@ -41,5 +42,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatAutocompleteModule,
     SharedModule,
   ],
+  providers: [LocationService]
 })
 export class OrderModule {}
