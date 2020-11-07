@@ -1,15 +1,15 @@
 <span class="order-title">Ваш заказ:</span>
 <ul class="order-properties">
-    <li class="order-properties_item" *ngIf="address">
+    <li class="order-properties_item" *ngIf="point">
         <span class="item-title"> Пункт выдачи </span>
 
-        <span class="item_sub">{{address}}</span>
+        <span class="item_sub">{{point.address}}</span>
     </li>
 </ul>
 
 <span class="order-price">
     <span class="price-title">Цена:</span>от 8000 до 12 000Р
 </span>
-<button mat-raised-button *ngIf="address" class="accent-button">
+<button mat-raised-button *ngIf="point" class="accent-button">
     Выбрать модель
 </button>

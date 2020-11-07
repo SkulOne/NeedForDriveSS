@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import { SwiperOptions } from 'swiper';
 import { slides } from './slides';
 
@@ -6,6 +6,8 @@ import { slides } from './slides';
     selector: 'app-slider',
     templateUrl: './slider.component.html',
     styleUrls: ['./slider.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class SliderComponent{
     config: SwiperOptions = {

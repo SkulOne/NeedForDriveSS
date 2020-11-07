@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Output} from '@angular/core';
 import {
   faFacebook,
   faInstagram,
@@ -10,6 +10,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
   selector: 'app-side-bar-content',
   templateUrl: './side-bar-content.component.html',
   styleUrls: ['./side-bar-content.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SideBarContentComponent{
   @Output() sideNavClose = new EventEmitter();

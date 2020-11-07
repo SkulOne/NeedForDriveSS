@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
@@ -7,10 +9,7 @@ import { AbstractControl } from '@angular/forms';
 import { LocationService } from '../../../../shared/services/location.service';
 import { mapStyle } from './mapStyle';
 import { Observable } from 'rxjs';
-import {
-  map,
-  startWith,
-} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { PointService } from '../../../../shared/services/point.service';
 import { City } from '../../../../shared/interfaces/city';
 import { Point } from '../../../../shared/interfaces/point';
@@ -24,6 +23,7 @@ import LatLng = google.maps.LatLng;
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationComponent implements OnInit {
   @Input() locationForm: AbstractControl;
@@ -38,7 +38,8 @@ export class LocationComponent implements OnInit {
   constructor(
     private locationService: LocationService,
     private pointService: PointService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -68,19 +69,21 @@ export class LocationComponent implements OnInit {
   }
 
   addressSelect(point: Point): void {
-    this.orderService.address.next(point.address);
+    console.log('address');
+    this.orderService.point.next(point);
   }
 
   private getPoints(city: City): void {
-    this.pointService
-      .getPointsFormCity(city.id)
-      .subscribe((value) => {
-        this.points = value;
-        this.filteredPoints = this.locationForm.get('pickupPoint').valueChanges.pipe(
+    this.pointService.getPointsFormCity(city.id).subscribe((value) => {
+      this.points = value;
+      this.filteredPoints = this.locationForm
+        .get('pickupPoint')
+        .valueChanges.pipe(
           startWith(''),
           map((changedValue) => this.filter(changedValue, value) as Point[])
         );
-      });
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   private filter(value: string, array: City[] | Point[]): City[] | Point[] {
@@ -100,5 +103,9 @@ export class LocationComponent implements OnInit {
     this.locationForm.get('city').setValue(point.cityId.name);
     this.locationForm.get('pickupPoint').setValue(point.address);
     this.addressSelect(point);
+  }
+
+  clearValue(formControlName: string): void {
+    this.locationForm.get(formControlName).setValue('');
   }
 }

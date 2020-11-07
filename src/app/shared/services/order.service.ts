@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject} from 'rxjs';
+import {Subject} from 'rxjs';
+import {Point} from '../interfaces/point';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
-  address = new Subject<string>();
+  point = new Subject<Point>();
 
   constructor() {
   }
