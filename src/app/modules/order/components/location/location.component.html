@@ -1,32 +1,32 @@
 <form [formGroup]="locationForm">
   <label class="form__item">
-      <span> Город: </span>
-      <mat-form-field>
-        <mat-label>Поле города</mat-label>
-        <input
-          type="text"
-          matInput
-          placeholder="Начните вводить город..."
-          formControlName="city"
-          [matAutocomplete]="cityAutocomplete"
-        />
-        <button matSuffix mat-icon-button (click)="clearValue('city')">
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-autocomplete autoActiveFirstOption #cityAutocomplete>
-          <mat-option
-            *ngFor="let city of filteredOptions | async"
-            [value]="city.name"
-            (onSelectionChange)="citySelected(city)"
-          >
-            {{ city.name }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+    <span class="form-label"> Город: </span>
+    <mat-form-field>
+      <mat-label>Поле города</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Начните вводить город..."
+        formControlName="city"
+        [matAutocomplete]="cityAutocomplete"
+      />
+      <button matSuffix mat-icon-button (click)="clearValue('city')">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #cityAutocomplete>
+        <mat-option
+          *ngFor="let city of filteredOptions | async"
+          [value]="city.name"
+          (onSelectionChange)="citySelected(city)"
+        >
+          {{ city.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </label>
 
   <label class="form__item">
-    <span> Пункт выдачи: </span>
+    <span class="form-label"> Пункт выдачи: </span>
     <mat-form-field>
       <mat-label>Поле пункта выдачи</mat-label>
       <input
@@ -57,7 +57,8 @@
   [styles]="mapStyle"
   [latitude]="coords.lat"
   [longitude]="coords.lng"
-  [zoom]="zoom">
+  [zoom]="zoom"
+>
   <agm-marker
     *ngFor="let point of points"
     [longitude]="point.coords.lng"

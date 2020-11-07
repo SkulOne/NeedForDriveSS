@@ -53,6 +53,8 @@ export class LocationComponent implements OnInit {
     });
 
     this.clear();
+
+    alert('Enable mixed content in your browser');
   }
 
   citySelected(city: City): void {
