@@ -10,7 +10,7 @@ import { LocationService } from './location.service';
   providedIn: 'root',
 })
 export class PointService {
-  private httpOptions = {
+  private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'X-Api-Factory-Application-Id': '5e25c641099b810b946c5d5b',
@@ -25,19 +25,21 @@ export class PointService {
 
   getPointsFormCity(cityId: string): Observable<Point[]> {
     return this.httpClient
-      .get<ResponseResult>(
+      .get<ResponseResult<Point>>(
         `http://api-factory.simbirsoft1.com/api/db/point?cityId=${cityId}`,
         this.httpOptions
       )
       .pipe(
         mergeMap((result) => {
           return result.data.map((point: Point) => {
-            return this.locationService.getCoordsByAddress(`${point.cityId.name}, ${point.address}`).pipe(
-              map((coords) => {
-                point.coords = coords;
-                return point;
-              })
-            );
+            return this.locationService
+              .getCoordsByAddress(`${point.cityId.name}, ${point.address}`)
+              .pipe(
+                map((coords) => {
+                  point.coords = coords;
+                  return point;
+                })
+              );
           });
         }),
         combineAll()

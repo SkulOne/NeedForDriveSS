@@ -18,7 +18,7 @@ interface GeocoderResponseArray {
 export class LocationService {
   private readonly googleMapKey = 'key=AIzaSyDLs3CudxoCs9C43iKaJqQ31Xg3w89_8G8';
   private readonly url = 'https://maps.googleapis.com/maps/api/';
-  private httpOptions = {
+  private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
       'X-Api-Factory-Application-Id': '5e25c641099b810b946c5d5b',
@@ -61,23 +61,11 @@ export class LocationService {
 
   getAllCity(): Observable<City[]> {
     return this.httpClient
-      .get<ResponseResult>(
+      .get<ResponseResult<City>>(
         'http://api-factory.simbirsoft1.com/api/db/city',
         this.httpOptions
       )
       .pipe(map((result) => result.data));
-  }
-
-  getCityByName(cityName: string): Observable<LatLng> {
-    return this.httpClient
-      .get<GeocoderResponseArray>(
-        `${this.url}geocode/json?address=${cityName}&${this.googleMapKey}`
-      )
-      .pipe(
-        map((result) => {
-          return result.results[0].geometry.location;
-        })
-      );
   }
 
   getCoordsByAddress(address: string): Observable<LatLng> {
@@ -85,9 +73,7 @@ export class LocationService {
       .get<GeocoderResponseArray>(
         `${this.url}geocode/json?address=${address}&${this.googleMapKey}`
       )
-      .pipe(
-        map((result) => result.results[0].geometry.location)
-      );
+      .pipe(map((result) => result.results[0].geometry.location));
   }
 
   private requestCity(coords: LatLngLiteral): Observable<GeocoderResult> {

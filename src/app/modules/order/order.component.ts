@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+} from '@angular/core';
 
 @Component({
   selector: 'app-order',
@@ -10,7 +14,7 @@ export class OrderComponent {
   breakpoint = 4;
   constructor() {}
 
-  log(): void {
+  @HostListener('window:resize') onResize(): void {
     this.breakpoint = window.innerWidth <= 767 ? 3 : 4;
   }
 }

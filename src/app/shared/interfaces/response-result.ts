@@ -1,5 +1,5 @@
-export interface ResponseResult {
+export interface ResponseResult<T> {
   count: number;
-  data: any[];
+  data: T[];
   fields: any;
 }

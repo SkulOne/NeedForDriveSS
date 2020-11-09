@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
@@ -18,6 +19,7 @@ import { checkInterface } from '../../../../shared/utils';
 import MapTypeStyle = google.maps.MapTypeStyle;
 import LatLngLiteral = google.maps.LatLngLiteral;
 import LatLng = google.maps.LatLng;
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-location',
@@ -25,7 +27,7 @@ import LatLng = google.maps.LatLng;
   styleUrls: ['./location.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationComponent implements OnInit {
+export class LocationComponent implements OnInit, OnDestroy {
   @Input() locationForm: AbstractControl;
   mapStyle: MapTypeStyle[] = mapStyle;
 
@@ -45,47 +47,65 @@ export class LocationComponent implements OnInit {
   ngOnInit(): void {
     this.coords$ = this.locationService.getUserCoords();
 
-    this.locationService.getAllCity().subscribe((cities) => {
-      this.filteredOptions = this.locationForm.get('city').valueChanges.pipe(
-        startWith(''),
-        map((changedValue) => this.filter(changedValue, cities) as City[])
-      );
-    });
+    this.locationService
+      .getAllCity()
+      .pipe(untilDestroyed(this))
+      .subscribe((cities) => {
+        this.filteredOptions = this.locationForm.get('city').valueChanges.pipe(
+          startWith(''),
+          map((changedValue) => this.filter(changedValue, cities) as City[])
+        );
+      });
 
     this.clear();
-
-    alert('Enable mixed content in your browser');
   }
 
   citySelected(city: City): void {
-    this.coords$ = this.locationService.getCityByName(city.name);
+    this.coords$ = this.locationService.getCoordsByAddress(city.name);
     this.getPoints(city);
   }
 
   clear(): void {
-    this.locationForm.get('city').valueChanges.subscribe((value) => {
-      if (value.length === 0) {
-        this.locationForm.get('pickupPoint').setValue('');
-      }
-    });
+    this.locationForm
+      .get('city')
+      .valueChanges.pipe(untilDestroyed(this))
+      .subscribe((value) => {
+        if (value.length) {
+          this.locationForm.get('pickupPoint').setValue('');
+        }
+      });
   }
 
   addressSelect(point: Point): void {
-    console.log('address');
     this.orderService.point.next(point);
   }
 
+  markerClick(point: Point): void {
+    this.locationForm.get('city').setValue(point.cityId.name);
+    this.locationForm.get('pickupPoint').setValue(point.address);
+    this.addressSelect(point);
+  }
+
+  clearValue(formControlName: string): void {
+    this.locationForm.get(formControlName).setValue('');
+  }
+
+  ngOnDestroy(): void {}
+
   private getPoints(city: City): void {
-    this.pointService.getPointsFormCity(city.id).subscribe((value) => {
-      this.points = value;
-      this.filteredPoints = this.locationForm
-        .get('pickupPoint')
-        .valueChanges.pipe(
-          startWith(''),
-          map((changedValue) => this.filter(changedValue, value) as Point[])
-        );
-      this.changeDetectorRef.detectChanges();
-    });
+    this.pointService
+      .getPointsFormCity(city.id)
+      .pipe(untilDestroyed(this))
+      .subscribe((value) => {
+        this.points = value;
+        this.filteredPoints = this.locationForm
+          .get('pickupPoint')
+          .valueChanges.pipe(
+            startWith(''),
+            map((changedValue) => this.filter(changedValue, value) as Point[])
+          );
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   private filter(value: string, array: City[] | Point[]): City[] | Point[] {
@@ -99,15 +119,5 @@ export class LocationComponent implements OnInit {
         (option) => option.name.toLowerCase().indexOf(filterValue) > -1
       );
     }
-  }
-
-  markerClick(point: Point): void {
-    this.locationForm.get('city').setValue(point.cityId.name);
-    this.locationForm.get('pickupPoint').setValue(point.address);
-    this.addressSelect(point);
-  }
-
-  clearValue(formControlName: string): void {
-    this.locationForm.get(formControlName).setValue('');
   }
 }
