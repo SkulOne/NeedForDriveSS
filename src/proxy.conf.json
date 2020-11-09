@@ -1,6 +1,7 @@
 {
   "/api": {
     "target": "http://api-factory.simbirsoft1.com",
-    "secure": false
+    "secure": false,
+    "logLevel": "debug"
   }
 }
