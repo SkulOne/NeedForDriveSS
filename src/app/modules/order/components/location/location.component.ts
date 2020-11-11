@@ -1,21 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { LocationService } from '../../../../shared/services/location.service';
 import { mapStyle } from './mapStyle';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { PointService } from '../../../../shared/services/point.service';
 import { City } from '../../../../shared/interfaces/city';
 import { Point } from '../../../../shared/interfaces/point';
 import { OrderService } from '../../../../shared/services/order.service';
-import { checkInterface } from '../../../../shared/utils';
 import MapTypeStyle = google.maps.MapTypeStyle;
 import LatLngLiteral = google.maps.LatLngLiteral;
 import LatLng = google.maps.LatLng;
@@ -32,37 +23,28 @@ export class LocationComponent implements OnInit, OnDestroy {
   mapStyle: MapTypeStyle[] = mapStyle;
 
   coords$: Observable<LatLng | LatLngLiteral>;
-  points: Point[];
-  filteredOptions: Observable<City[]>;
-  filteredPoints: Observable<Point[]>;
+  cities$: Observable<City[]>;
+  points$: Observable<Point[]>;
+
   zoom = 11;
 
   constructor(
     private locationService: LocationService,
     private pointService: PointService,
-    private orderService: OrderService,
-    private changeDetectorRef: ChangeDetectorRef
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
     this.coords$ = this.locationService.getUserCoords();
 
-    this.locationService
-      .getAllCity()
-      .pipe(untilDestroyed(this))
-      .subscribe((cities) => {
-        this.filteredOptions = this.locationForm.get('city').valueChanges.pipe(
-          startWith(''),
-          map((changedValue) => this.filter(changedValue, cities) as City[])
-        );
-      });
+    this.cities$ = this.locationService.getAllCity();
 
     this.clear();
   }
 
   citySelected(city: City): void {
     this.coords$ = this.locationService.getCoordsByAddress(city.name);
-    this.getPoints(city);
+    this.points$ = this.pointService.getPointsFormCity(city.id);
   }
 
   clear(): void {
@@ -78,6 +60,7 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   addressSelect(point: Point): void {
     this.orderService.point.next(point);
+    this.coords$ = of(point.coords);
   }
 
   markerClick(point: Point): void {
@@ -91,33 +74,4 @@ export class LocationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
-
-  private getPoints(city: City): void {
-    this.pointService
-      .getPointsFormCity(city.id)
-      .pipe(untilDestroyed(this))
-      .subscribe((value) => {
-        this.points = value;
-        this.filteredPoints = this.locationForm
-          .get('pickupPoint')
-          .valueChanges.pipe(
-            startWith(''),
-            map((changedValue) => this.filter(changedValue, value) as Point[])
-          );
-        this.changeDetectorRef.detectChanges();
-      });
-  }
-
-  private filter(value: string, array: City[] | Point[]): City[] | Point[] {
-    const filterValue = value.toLowerCase();
-    if (checkInterface<Point>('address', array[0])) {
-      return (array as Point[]).filter(
-        (option) => option.address.toLowerCase().indexOf(filterValue) > -1
-      );
-    } else {
-      return (array as City[]).filter(
-        (option) => option.name.toLowerCase().indexOf(filterValue) > -1
-      );
-    }
-  }
 }

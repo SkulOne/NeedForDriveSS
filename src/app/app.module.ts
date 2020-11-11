@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SharedModule } from './modules/shared-module/shared.module';
-import {OrderModule} from './modules/order/order.module';
+import { OrderModule } from './modules/order/order.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +20,7 @@ import {OrderModule} from './modules/order/order.module';
     MatIconModule,
     MatSidenavModule,
     SharedModule,
-    OrderModule
+    OrderModule,
   ],
   providers: [],
   exports: [],

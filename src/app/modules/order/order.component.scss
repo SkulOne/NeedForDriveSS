@@ -24,7 +24,7 @@ mat-grid-list {
 
 @media screen and (max-width: 767px) {
   :host {
-    padding: 1rem 2rem;
+    padding: 0;
   }
   mat-grid-list {
     overflow-y: scroll;

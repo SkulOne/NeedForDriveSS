@@ -4,13 +4,13 @@ import { MainPageComponent } from './modules/main-page/main-page.component';
 import { OrderComponent } from './modules/order/order.component';
 
 const routes: Routes = [
-    { path: 'main', component: MainPageComponent },
-    { path: 'order', component: OrderComponent },
-    { path: '', redirectTo: '/order', pathMatch: 'full' },
+  { path: 'main', component: MainPageComponent },
+  { path: 'order', component: OrderComponent },
+  { path: '', redirectTo: '/main', pathMatch: 'full' },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

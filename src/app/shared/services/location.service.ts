@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ResponseResult } from '../interfaces/response-result';
 import { City } from '../interfaces/city';
 import LatLngLiteral = google.maps.LatLngLiteral;
 import GeocoderResult = google.maps.GeocoderResult;
 import LatLng = google.maps.LatLng;
+import { ErrorHandlerService } from './error-handler.service';
 
 interface GeocoderResponseArray {
   results: GeocoderResult[];
@@ -26,7 +27,7 @@ export class LocationService {
     }),
   };
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
 
   getUserCity(): Observable<string> {
     return this.getUserCoords().pipe(
@@ -60,20 +61,21 @@ export class LocationService {
   }
 
   getAllCity(): Observable<City[]> {
-    return this.httpClient
-      .get<ResponseResult<City>>(
-        'http://api-factory.simbirsoft1.com/api/db/city',
-        this.httpOptions
-      )
-      .pipe(map((result) => result.data));
+    return this.httpClient.get<ResponseResult<City>>('api/db/city', this.httpOptions).pipe(
+      catchError((err) => this.errorHandler.handleError(err)),
+      map((result) => {
+        return result.data;
+      })
+    );
   }
 
   getCoordsByAddress(address: string): Observable<LatLng> {
     return this.httpClient
-      .get<GeocoderResponseArray>(
-        `${this.url}geocode/json?address=${address}&${this.googleMapKey}`
-      )
-      .pipe(map((result) => result.results[0].geometry.location));
+      .get<GeocoderResponseArray>(`${this.url}geocode/json?address=${address}&${this.googleMapKey}`)
+      .pipe(
+        catchError((err) => this.errorHandler.handleError(err)),
+        map((result) => result.results[0].geometry.location)
+      );
   }
 
   private requestCity(coords: LatLngLiteral): Observable<GeocoderResult> {
@@ -81,6 +83,9 @@ export class LocationService {
       .get<GeocoderResponseArray>(
         `${this.url}geocode/json?${this.googleMapKey}&latlng=${coords.lat},${coords.lng}&result_type=locality`
       )
-      .pipe(map((result) => result.results[0]));
+      .pipe(
+        catchError((err) => this.errorHandler.handleError(err)),
+        map((result) => result.results[0])
+      );
   }
 }

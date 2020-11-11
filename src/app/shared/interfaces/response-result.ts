@@ -1,5 +1,15 @@
 export interface ResponseResult<T> {
   count: number;
   data: T[];
-  fields: any;
+  fields: Fields;
+}
+
+interface Fields {
+  [key: string]: Field;
+}
+
+interface Field {
+  name: string;
+  type: string;
+  required: boolean;
 }

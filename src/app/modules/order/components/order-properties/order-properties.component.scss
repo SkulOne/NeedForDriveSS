@@ -38,3 +38,11 @@
     }
   }
 }
+
+@media screen and (max-width: 767px) {
+  :host {
+    .order-title {
+      align-self: flex-start;
+    }
+  }
+}

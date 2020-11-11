@@ -9,13 +9,14 @@
         placeholder="Начните вводить город..."
         formControlName="city"
         [matAutocomplete]="cityAutocomplete"
+        #cityInput
       />
       <button matSuffix mat-icon-button (click)="clearValue('city')">
         <mat-icon>close</mat-icon>
       </button>
       <mat-autocomplete autoActiveFirstOption #cityAutocomplete>
         <mat-option
-          *ngFor="let city of filteredOptions | async"
+          *ngFor="let city of cities$ | async | autocomplete: cityInput.value:'City'"
           [value]="city.name"
           (onSelectionChange)="citySelected(city)"
         >
@@ -26,7 +27,7 @@
   </label>
 
   <label class="form__item">
-    <span class="form-label"> Пункт выдачи: </span>
+    <span class="form-label">Пункт выдачи: </span>
     <mat-form-field>
       <mat-label>Поле пункта выдачи</mat-label>
       <input
@@ -35,13 +36,14 @@
         placeholder="Начните вводить пункт..."
         formControlName="pickupPoint"
         [matAutocomplete]="pointAutocomplete"
+        #pointInput
       />
       <button matSuffix mat-icon-button (click)="clearValue('pickupPoint')">
         <mat-icon>close</mat-icon>
       </button>
       <mat-autocomplete autoActiveFirstOption #pointAutocomplete>
         <mat-option
-          *ngFor="let point of filteredPoints | async"
+          *ngFor="let point of points$ | async | autocomplete: pointInput.value:'Point'"
           [value]="point.address"
           (onSelectionChange)="addressSelect(point)"
         >
@@ -60,7 +62,7 @@
   [zoom]="zoom"
 >
   <agm-marker
-    *ngFor="let point of points"
+    *ngFor="let point of points$ | async"
     [longitude]="point.coords.lng"
     [latitude]="point.coords.lat"
     [iconUrl]="'assets/marker-icon.svg'"

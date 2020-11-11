@@ -17,14 +17,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LocationService } from '../../shared/services/location.service';
+import { ErrorHandlerService } from '../../shared/services/error-handler.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-  declarations: [
-    OrderComponent,
-    StepperComponent,
-    LocationComponent,
-    OrderPropertiesComponent,
-  ],
+  declarations: [OrderComponent, StepperComponent, LocationComponent, OrderPropertiesComponent],
   imports: [
     CommonModule,
     MatTabsModule,
@@ -41,7 +38,8 @@ import { LocationService } from '../../shared/services/location.service';
     MatStepperModule,
     MatAutocompleteModule,
     SharedModule,
+    MatSnackBarModule,
   ],
-  providers: [LocationService],
+  providers: [LocationService, ErrorHandlerService],
 })
 export class OrderModule {}

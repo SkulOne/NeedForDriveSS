@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -16,11 +17,8 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderPropertiesComponent implements OnInit, OnDestroy {
-  point: Point;
-  constructor(
-    private orderService: OrderService,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+  @Input() point: Point;
+  constructor(private orderService: OrderService, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.orderService.point.pipe(untilDestroyed(this)).subscribe((value) => {
