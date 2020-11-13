@@ -4,11 +4,7 @@ import { MainPageComponent } from './main-page.component';
 import { InfoComponent } from './components/info/info.component';
 import { SliderComponent } from './components/slider/slider.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {
-  SWIPER_CONFIG,
-  SwiperConfigInterface,
-  SwiperModule,
-} from 'ngx-swiper-wrapper';
+import { SWIPER_CONFIG, SwiperConfigInterface, SwiperModule } from 'ngx-swiper-wrapper';
 import { SlideItemComponent } from './components/slider/slide-item/slide-item.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,12 +17,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
 };
 
 @NgModule({
-  declarations: [
-    MainPageComponent,
-    InfoComponent,
-    SliderComponent,
-    SlideItemComponent,
-  ],
+  declarations: [MainPageComponent, InfoComponent, SliderComponent, SlideItemComponent],
   exports: [MainPageComponent],
   imports: [
     CommonModule,
