@@ -1,15 +1,18 @@
 @import 'src/app/shared/style/global';
 
 :host {
-  overflow-y: scroll;
+  overflow-y: auto;
+
+  .car-type {
+    padding: 48px 0;
+  }
 
   .car-models {
     display: flex;
     flex-wrap: wrap;
-    height: 500px;
+    height: 400px;
     overflow: auto;
-    input {
-    }
+
     input {
       display: none;
       &:checked + label {
@@ -18,5 +21,19 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .car-type {
+    display: flex;
+    flex-direction: column;
+    padding: 0 16px;
+  }
+
+  .car-radio {
+    width: 100%;
+    margin: 1px 0;
+    padding: 0 8px;
   }
 }

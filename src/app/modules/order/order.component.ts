@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } f
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { OrderService } from '../../shared/services/order.service';
 import { Point } from '../../shared/interfaces/point';
+import { Car } from '../../shared/interfaces/car';
 
 @Component({
   selector: 'app-order',
@@ -12,17 +13,18 @@ import { Point } from '../../shared/interfaces/point';
 export class OrderComponent implements OnInit, OnDestroy {
   breakpoint = 4;
   point: Point;
+  car: Car;
   constructor(private orderService: OrderService) {}
 
   @HostListener('window:resize') onResize(): void {
     this.breakpoint = window.innerWidth <= 767 ? 3 : 4;
   }
 
-  ngOnDestroy(): void {
+  ngOnInit(): void {
     this.orderService.point.pipe(untilDestroyed(this)).subscribe((value) => {
       this.point = value;
     });
   }
 
-  ngOnInit(): void {}
+  ngOnDestroy(): void {}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { CarService } from '../../../../shared/services/car.service';
 import { Observable } from 'rxjs';
@@ -11,7 +11,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   styleUrls: ['./car-model-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarModelListComponent implements OnInit {
+export class CarModelListComponent implements OnInit, OnDestroy {
   @Input() carModelForm: AbstractControl;
   cars: Observable<Car[]>;
   category: CarCategory = 'Все';
@@ -27,4 +27,6 @@ export class CarModelListComponent implements OnInit {
         this.category = value;
       });
   }
+
+  ngOnDestroy(): void {}
 }

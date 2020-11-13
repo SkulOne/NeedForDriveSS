@@ -12,6 +12,7 @@ div.mat-stepper-horizontal-line {
   flex: none;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .mat-horizontal-stepper-header .mat-step-icon {
@@ -28,4 +29,9 @@ div.mat-stepper-horizontal-line {
 
 mat-step-header.mat-horizontal-stepper-header {
   height: 100%;
+}
+
+.mat-horizontal-stepper-header-container .mat-horizontal-stepper-header {
+  padding: 0 16px;
+  margin: 0 7px;
 }
