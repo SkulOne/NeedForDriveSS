@@ -1,0 +1,24 @@
+<form [formGroup]="carModelForm">
+  <div class="car-type">
+    <label>
+      <input type="radio" value="Все" formControlName="carCategory" />
+      Все модели
+    </label>
+    <label>
+      <input type="radio" value="Эконом" formControlName="carCategory" />
+      Эконом
+    </label>
+    <label>
+      <input type="radio" value="Премиум" formControlName="carCategory" />
+      Премиум
+    </label>
+  </div>
+  <div class="car-models">
+    <ng-container *ngFor="let car of cars | async | filterCar: category; let i = index">
+      <input id="car{{ i }}" type="radio" formControlName="carModel" [value]="car" />
+      <label for="car{{ i }}">
+        <app-car-model [carModel]="car"></app-car-model>
+      </label>
+    </ng-container>
+  </div>
+</form>

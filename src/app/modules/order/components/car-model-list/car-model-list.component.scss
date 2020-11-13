@@ -1,0 +1,22 @@
+@import 'src/app/shared/style/global';
+
+:host {
+  overflow-y: scroll;
+
+  .car-models {
+    display: flex;
+    flex-wrap: wrap;
+    height: 500px;
+    overflow: auto;
+    input {
+    }
+    input {
+      display: none;
+      &:checked + label {
+        app-car-model {
+          border: 1px solid $accent-color;
+        }
+      }
+    }
+  }
+}

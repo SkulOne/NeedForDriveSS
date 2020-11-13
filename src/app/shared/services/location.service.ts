@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ResponseResult } from '../interfaces/response-result';
 import { City } from '../interfaces/city';
@@ -8,6 +8,7 @@ import LatLngLiteral = google.maps.LatLngLiteral;
 import GeocoderResult = google.maps.GeocoderResult;
 import LatLng = google.maps.LatLng;
 import { ErrorHandlerService } from './error-handler.service';
+import { httpOptions } from '../const';
 
 interface GeocoderResponseArray {
   results: GeocoderResult[];
@@ -19,13 +20,7 @@ interface GeocoderResponseArray {
 export class LocationService {
   private readonly googleMapKey = 'key=AIzaSyDLs3CudxoCs9C43iKaJqQ31Xg3w89_8G8';
   private readonly url = 'https://maps.googleapis.com/maps/api/';
-  private readonly httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'X-Api-Factory-Application-Id': '5e25c641099b810b946c5d5b',
-      Authorization: 'Bearer 52efbe08228671240494f537f2486bc109a637b4',
-    }),
-  };
+  private readonly httpOptions = httpOptions;
 
   constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
 

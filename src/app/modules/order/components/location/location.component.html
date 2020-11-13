@@ -16,7 +16,7 @@
       </button>
       <mat-autocomplete autoActiveFirstOption #cityAutocomplete>
         <mat-option
-          *ngFor="let city of cities$ | async | autocomplete: cityInput.value:'City'"
+          *ngFor="let city of cities$ | async | autocomplete: cityInput.value:'name'"
           [value]="city.name"
           (onSelectionChange)="citySelected(city)"
         >
@@ -43,7 +43,7 @@
       </button>
       <mat-autocomplete autoActiveFirstOption #pointAutocomplete>
         <mat-option
-          *ngFor="let point of points$ | async | autocomplete: pointInput.value:'Point'"
+          *ngFor="let point of points$ | async | autocomplete: pointInput.value:'address'"
           [value]="point.address"
           (onSelectionChange)="addressSelect(point)"
         >

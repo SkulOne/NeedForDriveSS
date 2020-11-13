@@ -16,12 +16,15 @@ export class StepperComponent implements OnInit {
     this.initForms();
   }
 
-  // todo: Возможно тут можно добавить кнопку, заполнения города автоматически
   private initForms(): void {
     this.orderForm = this.formBuilder.group({
       locationFormGroup: this.formBuilder.group({
-        city: ['', Validators.required],
-        pickupPoint: ['', Validators.required],
+        city: ['TEST', Validators.required],
+        pickupPoint: ['TEST', Validators.required],
+      }),
+      carModelFormGroup: this.formBuilder.group({
+        carCategory: ['Все', Validators.required],
+        carModel: [false, Validators.required],
       }),
     });
   }
