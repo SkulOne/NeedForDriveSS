@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 
 @Component({
-    selector: 'app-info',
-    templateUrl: './info.component.html',
-    styleUrls: ['./info.component.scss'],
+  selector: 'app-info',
+  templateUrl: './info.component.html',
+  styleUrls: ['./info.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InfoComponent implements OnInit {
-    faBars = faBars;
-    constructor() {}
-
-    ngOnInit(): void {}
+export class InfoComponent {
+  faBars = faBars;
+  constructor() {}
 }

@@ -1,0 +1,71 @@
+<form [formGroup]="locationForm">
+  <label class="form__item">
+    <span class="form-label"> Город: </span>
+    <mat-form-field>
+      <mat-label>Поле города</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Начните вводить город..."
+        formControlName="city"
+        [matAutocomplete]="cityAutocomplete"
+        #cityInput
+      />
+      <button matSuffix mat-icon-button (click)="clearValue('city')">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #cityAutocomplete>
+        <mat-option
+          *ngFor="let city of cities$ | async | autocomplete: cityInput.value:'City'"
+          [value]="city.name"
+          (onSelectionChange)="citySelected(city)"
+        >
+          {{ city.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </label>
+
+  <label class="form__item">
+    <span class="form-label">Пункт выдачи: </span>
+    <mat-form-field>
+      <mat-label>Поле пункта выдачи</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Начните вводить пункт..."
+        formControlName="pickupPoint"
+        [matAutocomplete]="pointAutocomplete"
+        #pointInput
+      />
+      <button matSuffix mat-icon-button (click)="clearValue('pickupPoint')">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #pointAutocomplete>
+        <mat-option
+          *ngFor="let point of points$ | async | autocomplete: pointInput.value:'Point'"
+          [value]="point.address"
+          (onSelectionChange)="addressSelect(point)"
+        >
+          {{ point.address }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </label>
+</form>
+
+<agm-map
+  *ngIf="coords$ | async; let coords"
+  [styles]="mapStyle"
+  [latitude]="coords.lat"
+  [longitude]="coords.lng"
+  [zoom]="zoom"
+>
+  <agm-marker
+    *ngFor="let point of points$ | async"
+    [longitude]="point.coords.lng"
+    [latitude]="point.coords.lat"
+    [iconUrl]="'assets/marker-icon.svg'"
+    (markerClick)="markerClick(point)"
+  ></agm-marker>
+</agm-map>

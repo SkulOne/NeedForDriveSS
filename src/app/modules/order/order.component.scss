@@ -1,0 +1,39 @@
+@import 'src/app/shared/style/variables';
+@import 'src/app/shared/style/stepper';
+
+:host {
+  width: 100%;
+  padding: 2rem 4rem;
+  background: white;
+  overflow: hidden;
+}
+
+mat-grid-list {
+  margin-top: 1rem;
+}
+
+.order-list {
+  height: 100%;
+}
+
+.order-properties {
+  border: {
+    left: 1px solid $light-gray-color;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :host {
+    padding: 0;
+  }
+  mat-grid-list {
+    overflow-y: scroll;
+    height: 100% !important;
+  }
+  mat-grid-tile {
+    width: 100% !important;
+  }
+  .order-properties {
+    border: none;
+  }
+}

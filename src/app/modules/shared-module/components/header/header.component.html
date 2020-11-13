@@ -6,7 +6,7 @@
                 class="location-block__item"
                 [icon]="faMapMarkerAlt"
             ></fa-icon>
-            <span class="location-block__item">Ульяновск</span>
+            <span class="location-block__item">{{ userCity | async }}</span>
         </div>
     </div>
 </header>
