@@ -2,9 +2,11 @@
 
 :host {
   font-size: 14px;
+
   ul {
     list-style: none;
     padding: 0;
+
     .service-header {
       color: $main-black-color;
       margin: {
@@ -24,17 +26,21 @@
 
     .color-block {
       flex-direction: row;
+
       label {
         margin-right: 16px;
       }
     }
 
     .date-block {
+      width: 100%;
+
       label {
         display: flex;
         justify-content: flex-end;
-        width: 25%;
+        width: 205px;
         align-items: baseline;
+
         span {
           margin-right: 8px;
         }
