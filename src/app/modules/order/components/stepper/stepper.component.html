@@ -9,7 +9,9 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Дополнительно</ng-template>
-    <div>test</div>
+    <app-additionally
+      [additionallyForm]="orderForm.get('additionallyFormGroup')"
+    ></app-additionally>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Итого</ng-template>

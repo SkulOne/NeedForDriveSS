@@ -22,6 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CarModelListComponent } from './components/car-model-list/car-model-list.component';
 import { CarModelComponent } from './components/car-model-list/car-model/car-model.component';
 import { MatCardModule } from '@angular/material/card';
+import { AdditionallyComponent } from './components/additionally/additionally.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { MatCardModule } from '@angular/material/card';
     OrderPropertiesComponent,
     CarModelListComponent,
     CarModelComponent,
+    AdditionallyComponent,
   ],
   imports: [
     CommonModule,

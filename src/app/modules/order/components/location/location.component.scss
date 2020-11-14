@@ -1,3 +1,5 @@
+@import 'src/app/shared/style/variables';
+
 :host {
   display: flex;
   flex-direction: column;
@@ -15,7 +17,7 @@
       display: flex;
       justify-content: flex-end;
       align-items: baseline;
-
+      //color: $main-black-color;
       mat-form-field {
         margin-left: 10px;
         width: 300px;
