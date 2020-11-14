@@ -1,23 +1,18 @@
 <mat-horizontal-stepper linear #stepper>
-    <mat-step
-        [stepControl]="orderForm.controls.locationFormGroup"
-        [editable]="true"
-    >
-        <ng-template matStepLabel>Местоположение</ng-template>
-        <app-location
-            [locationForm]="orderForm.get('locationFormGroup')"
-        ></app-location>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>Модель</ng-template>
-        <div>test</div>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>Дополнительно</ng-template>
-        <div>test</div>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>Итого</ng-template>
-        <div>test</div>
-    </mat-step>
+  <mat-step [stepControl]="orderForm.controls.locationFormGroup" [editable]="true">
+    <ng-template matStepLabel>Местоположение</ng-template>
+    <app-location [locationForm]="orderForm.get('locationFormGroup')"></app-location>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Модель</ng-template>
+    <app-car-model-list [carModelForm]="orderForm.get('carModelFormGroup')"></app-car-model-list>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Дополнительно</ng-template>
+    <div>test</div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Итого</ng-template>
+    <div>test</div>
+  </mat-step>
 </mat-horizontal-stepper>

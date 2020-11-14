@@ -19,9 +19,19 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LocationService } from '../../shared/services/location.service';
 import { ErrorHandlerService } from '../../shared/services/error-handler.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CarModelListComponent } from './components/car-model-list/car-model-list.component';
+import { CarModelComponent } from './components/car-model-list/car-model/car-model.component';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
-  declarations: [OrderComponent, StepperComponent, LocationComponent, OrderPropertiesComponent],
+  declarations: [
+    OrderComponent,
+    StepperComponent,
+    LocationComponent,
+    OrderPropertiesComponent,
+    CarModelListComponent,
+    CarModelComponent,
+  ],
   imports: [
     CommonModule,
     MatTabsModule,
@@ -39,6 +49,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatAutocompleteModule,
     SharedModule,
     MatSnackBarModule,
+    MatCardModule,
   ],
   providers: [LocationService, ErrorHandlerService],
 })

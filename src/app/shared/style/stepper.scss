@@ -1,31 +1,37 @@
 @import 'variables';
 
 .mat-stepper-horizontal-line:after {
-    font-family: 'Material Icons', serif;
-    content: 'arrow_right';
-    color: $accent-color;
-    font-size: 1.5rem;
+  font-family: 'Material Icons', serif;
+  content: 'arrow_right';
+  color: $accent-color;
+  font-size: 1.5rem;
 }
 
 div.mat-stepper-horizontal-line {
-    border-top-style: none;
-    flex: none;
-    display: flex;
-    align-items: center;
+  border-top-style: none;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mat-horizontal-stepper-header .mat-step-icon {
-    display: none;
+  display: none;
 }
 
 .mat-horizontal-stepper-header-container {
-    height: 50px!important;
-    border: {
-        top: 1px solid $light-gray-color;
-        bottom: 1px solid $light-gray-color;
-    }
+  height: 50px !important;
+  border: {
+    top: 1px solid $light-gray-color;
+    bottom: 1px solid $light-gray-color;
+  }
 }
 
 mat-step-header.mat-horizontal-stepper-header {
-    height: 100%;
+  height: 100%;
+}
+
+.mat-horizontal-stepper-header-container .mat-horizontal-stepper-header {
+  padding: 0 16px;
+  margin: 0 7px;
 }
