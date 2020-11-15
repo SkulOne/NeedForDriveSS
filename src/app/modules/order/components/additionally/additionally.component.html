@@ -18,13 +18,23 @@
         <label>
           <span>C</span>
           <mat-form-field>
-            <input matInput type="datetime-local" placeholder="Введите дату начала" />
+            <input
+              matInput
+              type="datetime-local"
+              formControlName="startDate"
+              placeholder="Введите дату начала"
+            />
           </mat-form-field>
         </label>
         <label>
           <span>По</span>
           <mat-form-field>
-            <input matInput type="datetime-local" placeholder="Введите дату конца" />
+            <input
+              matInput
+              type="datetime-local"
+              formControlName="endDate"
+              placeholder="Введите дату конца"
+            />
           </mat-form-field>
         </label>
       </div>
