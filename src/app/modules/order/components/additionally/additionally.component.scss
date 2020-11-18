@@ -3,6 +3,9 @@
 :host {
   font-size: 14px;
 
+  input[type='checkbox'] {
+    margin-right: 8px;
+  }
   ul {
     list-style: none;
     padding: 0;
@@ -21,6 +24,9 @@
 
       .additionally-item__value {
         display: flex;
+        &:not(:last-child) {
+          margin-bottom: 8px;
+        }
       }
     }
 
@@ -34,11 +40,10 @@
 
     .date-block {
       width: 100%;
-
       label {
+        width: 205px;
         display: flex;
         justify-content: flex-end;
-        width: 205px;
         align-items: baseline;
 
         span {
