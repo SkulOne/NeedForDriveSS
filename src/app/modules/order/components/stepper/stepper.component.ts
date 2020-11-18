@@ -26,6 +26,12 @@ export class StepperComponent implements OnInit {
         carCategory: ['Все', Validators.required],
         carModel: [false, Validators.required],
       }),
+      additionallyFormGroup: this.formBuilder.group({
+        color: ['Любой', Validators.required],
+        rentalDate: ['', Validators.required],
+        rate: ['', Validators.required],
+        additionally: [false],
+      }),
     });
   }
 }

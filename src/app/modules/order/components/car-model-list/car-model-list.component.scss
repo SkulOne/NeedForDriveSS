@@ -5,6 +5,9 @@
 
   .car-type {
     padding: 48px 0;
+    .car-type__item {
+      display: flex;
+    }
   }
 
   .car-models {

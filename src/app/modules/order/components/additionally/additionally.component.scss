@@ -1,0 +1,50 @@
+@import 'src/app/shared/style/variables';
+
+:host {
+  font-size: 14px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    .service-header {
+      color: $main-black-color;
+      margin: {
+        top: 32px;
+        bottom: 16px;
+      }
+    }
+
+    .additionally-item {
+      display: flex;
+      flex-direction: column;
+
+      .additionally-item__value {
+        display: flex;
+      }
+    }
+
+    .color-block {
+      flex-direction: row;
+
+      label {
+        margin-right: 16px;
+      }
+    }
+
+    .date-block {
+      width: 100%;
+
+      label {
+        display: flex;
+        justify-content: flex-end;
+        width: 205px;
+        align-items: baseline;
+
+        span {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}

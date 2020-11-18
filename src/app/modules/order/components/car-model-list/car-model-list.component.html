@@ -1,17 +1,17 @@
 <form [formGroup]="carModelForm">
   <div class="car-type">
-    <label>
-      <input type="radio" value="Все" formControlName="carCategory" />
-      Все модели
-    </label>
-    <label>
-      <input type="radio" value="Эконом" formControlName="carCategory" />
-      Эконом
-    </label>
-    <label>
-      <input type="radio" value="Премиум" formControlName="carCategory" />
-      Премиум
-    </label>
+    <div class="car-type__item">
+      <input type="radio" id="all" value="Все" formControlName="carCategory" />
+      <label for="all"> Все модели </label>
+    </div>
+    <div class="car-type__item">
+      <input type="radio" id="economy" value="Эконом" formControlName="carCategory" />
+      <label for="economy"> Эконом </label>
+    </div>
+    <div class="car-type__item">
+      <input type="radio" id="premium" value="Премиум" formControlName="carCategory" />
+      <label for="premium"> Премиум </label>
+    </div>
   </div>
   <div class="car-models">
     <ng-container *ngFor="let car of cars | async | filterCar: category; let i = index">
