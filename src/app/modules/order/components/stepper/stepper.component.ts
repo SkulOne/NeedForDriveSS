@@ -19,8 +19,8 @@ export class StepperComponent implements OnInit {
   private initForms(): void {
     this.orderForm = this.formBuilder.group({
       locationFormGroup: this.formBuilder.group({
-        city: ['t', Validators.required],
-        pickupPoint: ['t', Validators.required],
+        city: ['', Validators.required],
+        pickupPoint: ['', Validators.required],
       }),
       carModelFormGroup: this.formBuilder.group({
         carCategory: ['Все', Validators.required],
