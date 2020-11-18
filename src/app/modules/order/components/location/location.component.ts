@@ -74,15 +74,17 @@ export class LocationComponent implements OnInit, OnDestroy {
       });
   }
 
-  addressSelect(point: Point): void {
-    this.orderService.point.next(point);
-    this.coords$ = of(point.coords);
+  onAddressSelect(point: Point, event?: MatOptionSelectionChange): void {
+    if (event.isUserInput) {
+      this.orderService.point.next(point);
+      this.coords$ = of(point.coords);
+    }
   }
 
   markerClick(point: Point): void {
     this.locationForm.get('city').setValue(point.cityId.name);
     this.locationForm.get('pickupPoint').setValue(point.address);
-    this.addressSelect(point);
+    this.setPoint(point);
   }
 
   clearValue(formControlName: string): void {
@@ -90,4 +92,9 @@ export class LocationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  private setPoint(point: Point): void {
+    this.orderService.point.next(point);
+    this.coords$ = of(point.coords);
+  }
 }

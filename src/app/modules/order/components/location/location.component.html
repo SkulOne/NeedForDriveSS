@@ -49,7 +49,7 @@
         <mat-option
           *ngFor="let point of points$ | async | autocomplete: pointInput.value:'address'"
           [value]="point.address"
-          (onSelectionChange)="addressSelect(point)"
+          (onSelectionChange)="onAddressSelect(point, $event)"
         >
           {{ point.address }}
         </mat-option>
