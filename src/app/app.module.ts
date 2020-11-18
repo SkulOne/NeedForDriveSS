@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SharedModule } from './modules/shared-module/shared.module';
 import { OrderModule } from './modules/order/order.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CarSharingInterceptor } from './shared/interceptors/car-sharing.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,13 @@ import { OrderModule } from './modules/order/order.module';
     SharedModule,
     OrderModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CarSharingInterceptor,
+      multi: true,
+    },
+  ],
   exports: [],
   bootstrap: [AppComponent],
 })
