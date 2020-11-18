@@ -3,37 +3,31 @@
     <li>
       <p class="service-header">Цвет</p>
       <div class="additionally-item color-block">
-        <input type="radio" value="Любой" formControlName="color" id="color" />
-        <label for="color"> Любой </label>
-        <input type="radio" value="Красный" formControlName="color" id="color1" />
-        <label for="color1"> Красный </label>
-        <input type="radio" value="Голубой" formControlName="color" id="color2" />
-        <label for="color2"> Синий </label>
+        <ng-container *ngFor="let input of colorInputs">
+          <input type="radio" [value]="input.value" formControlName="color" [id]="input.id" />
+          <label [for]="input.id"> {{ input.labelValue }} </label>
+        </ng-container>
       </div>
     </li>
 
     <li>
       <p class="service-header">Дата аренды</p>
       <div class="additionally-item date-block">
-        <label>
-          <span>C</span>
+        <label *ngFor="let input of dateInput">
+          <span>{{ input.label }}</span>
           <mat-form-field>
+            <mat-label> {{ input.matLabel }} </mat-label>
             <input
               matInput
-              type="datetime-local"
-              formControlName="startDate"
-              placeholder="Введите дату начала"
-            />
-          </mat-form-field>
-        </label>
-        <label>
-          <span>По</span>
-          <mat-form-field>
-            <input
-              matInput
-              type="datetime-local"
-              formControlName="endDate"
-              placeholder="Введите дату конца"
+              [formControlName]="input.controlName"
+              type="text"
+              [showMaskTyped]="maskedVisible"
+              (focus)="maskedVisible = true"
+              (focusout)="maskedVisible = false"
+              [validation]="true"
+              mask="d0.M0.00, Hh:m0"
+              placeholder="Выберите дату"
+              autocomplete="none"
             />
           </mat-form-field>
         </label>
@@ -43,13 +37,9 @@
     <li>
       <p class="service-header">Тариф</p>
       <div class="additionally-item">
-        <div class="additionally-item__value">
-          <input type="radio" id="minute" value="поминутно" formControlName="rate" />
-          <label for="minute"> Поминутно, 7Р/мин </label>
-        </div>
-        <div class="additionally-item__value">
-          <input type="radio" id="day" value="суточно" formControlName="rate" />
-          <label for="day"> На стуки, 1999Р/сутки </label>
+        <div class="additionally-item__value" *ngFor="let input of serviceInputs">
+          <input type="radio" [id]="input.id" [value]="input.value" formControlName="rate" />
+          <label [for]="input.id"> {{ input.labelValue }} </label>
         </div>
       </div>
     </li>
@@ -57,17 +47,14 @@
     <li>
       <p class="service-header">Доп услуги</p>
       <div class="additionally-item">
-        <div class="additionally-item__value">
-          <input type="checkbox" id="tank" value="бак" formControlName="additionally" />
-          <label for="tank"> Полный бак, 500р </label>
-        </div>
-        <div class="additionally-item__value">
-          <input type="checkbox" id="armchair" value="кресло" formControlName="additionally" />
-          <label for="armchair"> Детское кресло, 200р </label>
-        </div>
-        <div class="additionally-item__value">
-          <input type="checkbox" id="right" value="праворульный" formControlName="additionally" />
-          <label for="right"> Правый руль, 1600р </label>
+        <div class="additionally-item__value" *ngFor="let input of additionalInputs">
+          <input
+            type="checkbox"
+            [id]="input.id"
+            [value]="input.value"
+            formControlName="additionally"
+          />
+          <label [for]="input.id">{{ input.labelValue }} </label>
         </div>
       </div>
     </li>

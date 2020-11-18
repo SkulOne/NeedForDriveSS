@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { LocationService } from '../../../../shared/services/location.service';
 import { mapStyle } from './mapStyle';
 import { Observable, of } from 'rxjs';
@@ -12,6 +12,7 @@ import LatLngLiteral = google.maps.LatLngLiteral;
 import LatLng = google.maps.LatLng;
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { autocompleteValidator } from './validators';
 
 @Component({
   selector: 'app-location',
@@ -26,7 +27,6 @@ export class LocationComponent implements OnInit, OnDestroy {
   coords$: Observable<LatLng | LatLngLiteral>;
   cities$: Observable<City[]>;
   points$: Observable<Point[]>;
-
   zoom = 11;
 
   constructor(
@@ -45,6 +45,10 @@ export class LocationComponent implements OnInit, OnDestroy {
     });
 
     this.clear();
+  }
+
+  formError(formControlName: string): ValidationErrors | null {
+    return this.locationForm.get(formControlName).errors;
   }
 
   citySelected(city: City, event: MatOptionSelectionChange): void {
@@ -86,13 +90,4 @@ export class LocationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
-}
-
-function autocompleteValidator(validOptions: string[]): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    if (validOptions.indexOf(control.value) !== -1) {
-      return null;
-    }
-    return { invalidAutocomplete: true };
-  };
 }

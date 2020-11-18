@@ -4,7 +4,7 @@
     <app-location [locationForm]="orderForm.get('locationFormGroup')"></app-location>
   </mat-step>
 
-  <mat-step [stepControl]="orderForm.get('carModelFormGroup')">
+  <mat-step>
     <ng-template matStepLabel>Модель</ng-template>
     <app-car-model-list [carModelForm]="orderForm.get('carModelFormGroup')"></app-car-model-list>
   </mat-step>

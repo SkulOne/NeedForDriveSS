@@ -1,16 +1,8 @@
 <form [formGroup]="carModelForm">
   <div class="car-type">
-    <div class="car-type__item">
-      <input type="radio" id="all" value="Все" formControlName="carCategory" />
-      <label for="all"> Все модели </label>
-    </div>
-    <div class="car-type__item">
-      <input type="radio" id="economy" value="Эконом" formControlName="carCategory" />
-      <label for="economy"> Эконом </label>
-    </div>
-    <div class="car-type__item">
-      <input type="radio" id="premium" value="Премиум" formControlName="carCategory" />
-      <label for="premium"> Премиум </label>
+    <div class="car-type__item" *ngFor="let input of carTypeInputs">
+      <input type="radio" [id]="input.id" [value]="input.value" formControlName="carCategory" />
+      <label [for]="input.id"> {{ input.labelValue }} </label>
     </div>
   </div>
   <div class="car-models">
