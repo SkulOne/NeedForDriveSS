@@ -24,6 +24,9 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.orderService.point.pipe(untilDestroyed(this)).subscribe((value) => {
       this.point = value;
     });
+    this.orderService.car.pipe(untilDestroyed(this)).subscribe((value) => {
+      this.car = value;
+    });
   }
 
   ngOnDestroy(): void {}

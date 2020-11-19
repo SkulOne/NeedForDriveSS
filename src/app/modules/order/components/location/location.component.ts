@@ -24,10 +24,10 @@ export class LocationComponent implements OnInit, OnDestroy {
   @Input() locationForm: AbstractControl;
   mapStyle: MapTypeStyle[] = mapStyle;
 
-  coords$: Observable<LatLng | LatLngLiteral>;
-  cities$: Observable<City[]>;
-  points$: Observable<Point[]>;
   zoom = 11;
+  cities$: City[];
+  coords$: Observable<LatLng | LatLngLiteral>;
+  points$: Observable<Point[]>;
 
   constructor(
     private locationService: LocationService,
@@ -38,11 +38,14 @@ export class LocationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.coords$ = this.locationService.getUserCoords();
 
-    this.cities$ = this.locationService.getAllCity();
-    this.cities$.pipe(untilDestroyed(this)).subscribe((cities) => {
-      const citiesName = cities.map((city) => city.name);
-      this.locationForm.get('city').setValidators(autocompleteValidator(citiesName));
-    });
+    this.locationService
+      .getAllCity()
+      .pipe(untilDestroyed(this))
+      .subscribe((cities) => {
+        this.cities$ = cities;
+        const citiesName = cities.map((city) => city.name);
+        this.locationForm.get('city').setValidators(autocompleteValidator(citiesName));
+      });
 
     this.clear();
   }

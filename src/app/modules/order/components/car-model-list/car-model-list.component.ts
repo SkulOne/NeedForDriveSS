@@ -4,7 +4,8 @@ import { CarService } from '../../../../shared/services/car.service';
 import { Observable } from 'rxjs';
 import { Car, CarCategory } from '../../../../shared/interfaces/car';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { InputCheckedElement } from '../../../../shared/interfaces/input';
+import { carTypeInputs } from './modelTypeInputs';
+import { OrderService } from '../../../../shared/services/order.service';
 
 @Component({
   selector: 'app-car-model-list',
@@ -16,13 +17,8 @@ export class CarModelListComponent implements OnInit, OnDestroy {
   @Input() carModelForm: AbstractControl;
   cars: Observable<Car[]>;
   category: CarCategory = 'Все';
-  carTypeInputs: InputCheckedElement[] = [
-    { id: 'all', value: 'Все', labelValue: 'Все модели' },
-    { id: 'economy', value: 'Эконом', labelValue: 'Эконом' },
-    { id: 'premium', value: 'Премиум', labelValue: 'Премиум' },
-  ];
-
-  constructor(private carService: CarService) {}
+  carTypeInputs = carTypeInputs;
+  constructor(private carService: CarService, private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.cars = this.carService.getCars();
@@ -35,4 +31,8 @@ export class CarModelListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  setCar(car: Car): void {
+    this.orderService.car.next(car);
+  }
 }

@@ -2,10 +2,21 @@
 <ul class="order-properties">
   <li class="order-properties_item" *ngIf="point">
     <span class="item-title"> Пункт выдачи </span>
-
+    <div class="dotted-spacer"></div>
     <span class="item_sub">{{ point.address }}</span>
+  </li>
+
+  <li class="order-properties_item" *ngIf="car">
+    <span class="item-title"> Модель </span>
+    <div class="dotted-spacer"></div>
+    <span class="item_sub">{{ car.name }}</span>
   </li>
 </ul>
 
-<span class="order-price"> <span class="price-title">Цена:</span>от 8000 до 12 000Р </span>
-<button mat-raised-button *ngIf="point" class="accent-button">Выбрать модель</button>
+<span class="order-price" *ngIf="car">
+  <span class="price-title">Цена:</span>
+  <span class="price-value"> от {{ car.priceMin }} до {{ car.priceMax }}</span>
+</span>
+<button (click)="nextStep()" class="accent-button" [disabled]="!point" [class.disabled]="!point">
+  {{ buttonContent }}
+</button>

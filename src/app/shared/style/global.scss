@@ -37,7 +37,17 @@
 button {
   background: none;
   border: none;
+  cursor: pointer;
   &:focus {
     outline: none;
+  }
+}
+
+.disabled {
+  background: $light-gray-color;
+  &:hover {
+    background: $light-gray-color;
+    outline: none;
+    cursor: not-allowed;
   }
 }
