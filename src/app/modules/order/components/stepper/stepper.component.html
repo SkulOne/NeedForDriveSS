@@ -1,10 +1,10 @@
-<mat-horizontal-stepper linear>
-  <mat-step [stepControl]="orderForm.controls.locationFormGroup" [editable]="true">
+<mat-horizontal-stepper linear #stepper>
+  <mat-step [stepControl]="orderForm.get('locationFormGroup')" [editable]="true">
     <ng-template matStepLabel>Местоположение</ng-template>
     <app-location [locationForm]="orderForm.get('locationFormGroup')"></app-location>
   </mat-step>
 
-  <mat-step>
+  <mat-step [stepControl]="orderForm.get('carModelFormGroup')">
     <ng-template matStepLabel>Модель</ng-template>
     <app-car-model-list [carModelForm]="orderForm.get('carModelFormGroup')"></app-car-model-list>
   </mat-step>

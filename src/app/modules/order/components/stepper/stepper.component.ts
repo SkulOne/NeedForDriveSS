@@ -1,20 +1,29 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
+import { OrderService } from '../../../../shared/services/order.service';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-stepper',
   templateUrl: './stepper.component.html',
   styleUrls: ['./stepper.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StepperComponent implements OnInit {
+export class StepperComponent implements OnInit, OnDestroy {
+  @ViewChild('stepper') private stepper: MatStepper;
   orderForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private orderService: OrderService) {}
 
   ngOnInit(): void {
     this.initForms();
+
+    this.orderService.stepperIndex
+      .pipe(untilDestroyed(this))
+      .subscribe((index) => this.goToStep(index));
   }
+
+  ngOnDestroy(): void {}
 
   private initForms(): void {
     this.orderForm = this.formBuilder.group({
@@ -34,5 +43,11 @@ export class StepperComponent implements OnInit {
         additionally: [false],
       }),
     });
+  }
+
+  private goToStep(index: number): void {
+    console.log('goto' + index);
+    this.stepper.selectedIndex = index;
+    console.log(this.stepper.selectedIndex);
   }
 }
