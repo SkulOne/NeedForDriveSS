@@ -12,7 +12,7 @@ import LatLngLiteral = google.maps.LatLngLiteral;
 import LatLng = google.maps.LatLng;
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { autocompleteValidator } from './validators';
+import { autocompleteValidator } from '../../../../shared/validators';
 
 @Component({
   selector: 'app-location',
@@ -79,8 +79,7 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   onAddressSelect(point: Point, event?: MatOptionSelectionChange): void {
     if (event.isUserInput) {
-      this.orderService.point.next(point);
-      this.coords$ = of(point.coords);
+      this.setPoint(point);
     }
   }
 
@@ -97,7 +96,7 @@ export class LocationComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private setPoint(point: Point): void {
-    this.orderService.point.next(point);
+    this.orderService.setOrderProperty('pointId', point);
     this.coords$ = of(point.coords);
   }
 }

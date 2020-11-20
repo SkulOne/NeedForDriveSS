@@ -3,6 +3,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { OrderService } from '../../shared/services/order.service';
 import { Point } from '../../shared/interfaces/point';
 import { Car } from '../../shared/interfaces/car';
+import { Order } from '../../shared/interfaces/order';
 
 @Component({
   selector: 'app-order',
@@ -14,6 +15,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   breakpoint = 4;
   point: Point;
   car: Car;
+  order: Order;
   constructor(private orderService: OrderService) {}
 
   @HostListener('window:resize') onResize(): void {
@@ -21,11 +23,8 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.orderService.point.pipe(untilDestroyed(this)).subscribe((value) => {
-      this.point = value;
-    });
-    this.orderService.car.pipe(untilDestroyed(this)).subscribe((value) => {
-      this.car = value;
+    this.orderService.order.pipe(untilDestroyed(this)).subscribe((value) => {
+      this.order = value;
     });
   }
 

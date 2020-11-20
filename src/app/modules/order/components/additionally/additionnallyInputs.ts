@@ -6,8 +6,8 @@ export const colorInputs: InputCheckedElement[] = [
   { id: 'Blue', value: 'Синий', labelValue: 'Синий' },
 ];
 export const serviceInputs: InputCheckedElement[] = [
-  { id: 'minute', value: 'поминутно', labelValue: 'Поминутно, 7Р/мин' },
-  { id: 'day', value: 'суточно', labelValue: 'На стуки, 1999Р/сутки' },
+  { id: 'minute', value: 'мин', labelValue: 'Поминутно, 7Р/мин' },
+  { id: 'day', value: 'сутки', labelValue: 'На сутки, 1999Р/сутки' },
 ];
 export const additionalInputs: InputCheckedElement[] = [
   { id: 'tank', value: 'бак', labelValue: 'Полный бак, 500р' },

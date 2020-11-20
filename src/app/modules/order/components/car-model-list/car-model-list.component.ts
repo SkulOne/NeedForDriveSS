@@ -33,6 +33,6 @@ export class CarModelListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   setCar(car: Car): void {
-    this.orderService.car.next(car);
+    this.orderService.setOrderProperty('carId', car);
   }
 }

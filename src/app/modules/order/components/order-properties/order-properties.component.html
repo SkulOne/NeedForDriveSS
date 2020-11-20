@@ -1,15 +1,21 @@
 <span class="order-title">Ваш заказ:</span>
-<ul class="order-properties">
-  <li class="order-properties_item" *ngIf="point">
+<ul class="order-properties" *ngIf="order">
+  <li class="order-properties_item" *ngIf="order.pointId">
     <span class="item-title"> Пункт выдачи </span>
     <div class="dotted-spacer"></div>
-    <span class="item_sub">{{ point.address }}</span>
+    <span class="item_sub">{{ order.pointId.address }}</span>
   </li>
 
-  <li class="order-properties_item" *ngIf="car">
+  <li class="order-properties_item" *ngIf="order.carId">
     <span class="item-title"> Модель </span>
     <div class="dotted-spacer"></div>
-    <span class="item_sub">{{ car.name }}</span>
+    <span class="item_sub">{{ order.carId.name }}</span>
+  </li>
+
+  <li class="order-properties_item" *ngIf="order.carId">
+    <span class="item-title"> Цвет </span>
+    <div class="dotted-spacer"></div>
+    <span class="item_sub">{{ order.color }}</span>
   </li>
 </ul>
 

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { OrderService } from '../../../../shared/services/order.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { dateValidator } from '../../../../shared/validators';
+// import { dateValidator } from '../../../../shared/validators';
 
 @Component({
   selector: 'app-stepper',
@@ -28,17 +30,17 @@ export class StepperComponent implements OnInit, OnDestroy {
   private initForms(): void {
     this.orderForm = this.formBuilder.group({
       locationFormGroup: this.formBuilder.group({
-        city: ['', Validators.required],
-        pickupPoint: ['', Validators.required],
+        city: ['test', Validators.required],
+        pickupPoint: ['test', Validators.required],
       }),
       carModelFormGroup: this.formBuilder.group({
         carCategory: ['Все', Validators.required],
-        carModel: ['', Validators.required],
+        carModel: ['test', Validators.required],
       }),
       additionallyFormGroup: this.formBuilder.group({
         color: ['Любой', Validators.required],
-        startDate: ['', Validators.required],
-        endDate: ['', Validators.required],
+        startDate: ['', [Validators.required, dateValidator()]],
+        endDate: ['', [Validators.required, dateValidator()]],
         rate: ['', Validators.required],
         additionally: [false],
       }),
@@ -46,8 +48,6 @@ export class StepperComponent implements OnInit, OnDestroy {
   }
 
   private goToStep(index: number): void {
-    console.log('goto' + index);
     this.stepper.selectedIndex = index;
-    console.log(this.stepper.selectedIndex);
   }
 }
