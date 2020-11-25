@@ -6,6 +6,8 @@ import { Car, CarCategory } from '../../../../shared/interfaces/car';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { carTypeInputs } from './modelTypeInputs';
 import { OrderService } from '../../../../shared/services/order.service';
+import { take } from 'rxjs/operators';
+import { Order } from '../../../../shared/interfaces/order';
 
 @Component({
   selector: 'app-car-model-list',
@@ -33,6 +35,12 @@ export class CarModelListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   setCar(car: Car): void {
-    this.orderService.setOrderProperty('carId', car);
+    this.orderService.orderBehavior
+      .asObservable()
+      .pipe(take(1))
+      .subscribe((value: Order) => {
+        value.carId = car;
+        this.orderService.orderBehavior.next(value);
+      });
   }
 }

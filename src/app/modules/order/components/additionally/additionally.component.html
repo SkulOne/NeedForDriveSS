@@ -2,10 +2,10 @@
   <ul>
     <li>
       <p class="service-header">Цвет</p>
-      <div class="additionally-item color-block" *ngIf="car">
+      <div class="additionally-item color-block" *ngIf="carColors | async">
         <input type="radio" value="Любой" formControlName="color" id="any" />
         <label for="any"> Любой </label>
-        <ng-container *ngFor="let carColor of car.colors">
+        <ng-container *ngFor="let carColor of carColors | async">
           <input type="radio" [value]="carColor" formControlName="color" [id]="carColor" />
           <label [for]="carColor"> {{ carColor }} </label>
         </ng-container>
@@ -31,23 +31,8 @@
               placeholder="Выберите дату"
               autocomplete="none"
             />
-            <!--            todo: Сделай сеттер-->
-            <mat-error
-              *ngIf="
-                additionallyForm.get(input.controlName)?.errors?.mask ||
-                additionallyForm.get(input.controlName)?.errors?.invalidDate
-              "
-            >
-              Введите корректную дату.
-            </mat-error>
-            <mat-error *ngIf="additionallyForm.get(input.controlName)?.errors?.irrelevantDate">
-              Введите дату не раньше сегодняшей.
-            </mat-error>
-            <mat-error *ngIf="additionallyForm.get(input.controlName)?.errors?.afterDate">
-              Дата начала аренды превышает дату конца аренды.
-            </mat-error>
-            <mat-error *ngIf="additionallyForm.get(input.controlName)?.errors?.enterStartDate">
-              Сначала дату аренды.
+            <mat-error *ngFor="let error of errors">
+              <span *ngIf="formError(input.controlName, error.condition)">{{ error.value }}</span>
             </mat-error>
           </mat-form-field>
         </label>
@@ -55,10 +40,20 @@
     </li>
     <li>
       <p class="service-header">Тариф</p>
-      <div class="additionally-item">
-        <div class="additionally-item__value" *ngFor="let input of serviceInputs">
-          <input type="radio" [id]="input.id" [value]="input.value" formControlName="rate" />
-          <label [for]="input.id"> {{ input.labelValue }} </label>
+      <div class="additionally-item" *ngIf="rateIdArray | async">
+        <div class="additionally-item__value" *ngFor="let input of rateIdArray | async">
+          <input
+            type="radio"
+            [id]="input.rateTypeId.unit"
+            [value]="input"
+            formControlName="rateId"
+          />
+          <label [for]="input.rateTypeId.unit">
+            {{ input.rateTypeId.name }}, {{ input.price }}₽/{{ input.rateTypeId.unit }}</label
+          >
+        </div>
+        <div class="mat-error">
+          <span *ngIf="rateIdControl.errors">Выберите дату, кратную дню.</span>
         </div>
       </div>
     </li>
@@ -70,7 +65,7 @@
             type="checkbox"
             [id]="input.id"
             [value]="input.value"
-            formControlName="additionally"
+            [formControl]="additionallyForm.get(input.id)"
           />
           <label [for]="input.id">{{ input.labelValue }} </label>
         </div>

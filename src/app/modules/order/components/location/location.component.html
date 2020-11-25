@@ -54,6 +54,7 @@
           {{ point.address }}
         </mat-option>
       </mat-autocomplete>
+      <!--      todo: выведи formError из additionally.comp в utils и заюзай тут ngFor-->
       <mat-error *ngIf="formError('pickupPoint')?.required">Поле обязательно!</mat-error>
       <mat-error *ngIf="formError('pickupPoint')?.invalidAutocomplete"
         >Выберите пункт из выпадающего списка</mat-error

@@ -11,14 +11,14 @@ export interface Order {
   dateFrom?: number;
   dateTo?: number;
   rateId?: RateId;
-  price?: number;
+  price: number;
   isFullTank: boolean;
   isNeedChildChair: boolean;
   isRightWheel: boolean;
 }
 
 export interface RateId {
-  rateTypeID: RateTypeID;
+  rateTypeId: RateTypeID;
   price: number;
 }
 

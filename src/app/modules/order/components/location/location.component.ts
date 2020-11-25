@@ -13,6 +13,8 @@ import LatLng = google.maps.LatLng;
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { autocompleteValidator } from '../../../../shared/validators';
+import { Order } from '../../../../shared/interfaces/order';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-location',
@@ -96,7 +98,13 @@ export class LocationComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private setPoint(point: Point): void {
-    this.orderService.setOrderProperty('pointId', point);
+    this.orderService.orderBehavior
+      .asObservable()
+      .pipe(take(1))
+      .subscribe((value: Order) => {
+        value.pointId = point;
+        this.orderService.orderBehavior.next(value);
+      });
     this.coords$ = of(point.coords);
   }
 }

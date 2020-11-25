@@ -32,6 +32,11 @@
       .dotted-spacer {
         flex: 1 0;
         border-bottom: 1px dotted $gray-color;
+        margin: {
+          bottom: 2px;
+          left: 5px;
+          right: 5px;
+        }
         align-self: flex-end;
       }
     }

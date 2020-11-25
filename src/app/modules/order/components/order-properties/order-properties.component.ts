@@ -1,43 +1,34 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Point } from '../../../../shared/interfaces/point';
-import { Car } from '../../../../shared/interfaces/car';
 import { OrderService } from '../../../../shared/services/order.service';
+import { LeaseDuration } from '../../../../shared/interfaces/lease-duration';
 import { Order } from '../../../../shared/interfaces/order';
+import { getDifferenceDays } from '../../../../shared/utils';
 
 @Component({
   selector: 'app-order-properties',
   templateUrl: './order-properties.component.html',
   styleUrls: ['./order-properties.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderPropertiesComponent {
-  private nextStepIndex = 0;
-  get point(): Point {
-    return this._point;
-  }
-
-  @Input() set point(value: Point) {
-    this._point = value;
-    this.buttonContent = 'Выбрать модель';
-    this.nextStepIndex = 1;
-  }
-
-  get car(): Car {
-    return this._car;
-  }
-
-  @Input() set car(value: Car) {
-    this._car = value;
-    this.buttonContent = 'Дополнительно';
-    this.nextStepIndex = 2;
-  }
-
-  @Input() order: Order;
-
-  private _point: Point;
-  private _car: Car;
   buttonContent = 'Выбрать модель';
+  leaseDuration: LeaseDuration;
+
+  private _order: Order;
+  private nextStepIndex = 0;
 
   constructor(private orderService: OrderService) {}
+
+  get order(): Order {
+    return this._order;
+  }
+
+  @Input() set order(value: Order) {
+    this._order = value;
+    if (this.order != null && this.order.dateFrom) {
+      this.leaseDuration = getDifferenceDays(this.order.dateFrom, this.order.dateTo);
+    }
+  }
 
   nextStep(): void {
     this.orderService.stepperIndex.next(this.nextStepIndex);

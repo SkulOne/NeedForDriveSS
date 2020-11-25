@@ -1,4 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { createDate, getDifferenceDays } from './utils';
+import { RateId } from './interfaces/order';
 
 export function autocompleteValidator(validOptions: string[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -25,6 +27,15 @@ export function dateValidator(): ValidatorFn {
   };
 }
 
+export function rateControlTrigger(rateControl: AbstractControl): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (rateControl.value && control.valid) {
+      rateControl.updateValueAndValidity();
+    }
+    return null;
+  };
+}
+
 export function isAfterDate(controlStartDate: AbstractControl): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (controlStartDate.valid) {
@@ -42,16 +53,17 @@ export function isAfterDate(controlStartDate: AbstractControl): ValidatorFn {
   };
 }
 
-function createDate(dateString: string): Date {
-  const dayAndTime = dateString.split(' ');
-  dayAndTime[0] = swap(dayAndTime[0]);
-  return new Date(dayAndTime.join(' '));
-
-  function swap(date: string): string {
-    const dayArray = date.split('.');
-    const dayBuffer = dayArray[0];
-    dayArray[0] = dayArray[1];
-    dayArray[1] = dayBuffer;
-    return dayArray.join('.');
-  }
+export function validPrice(
+  dateFromControl: AbstractControl,
+  dateToControl: AbstractControl
+): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const dateForm = createDate(dateFromControl.value);
+    const dateTo = createDate(dateToControl.value);
+    const lease = getDifferenceDays(+dateForm, +dateTo);
+    if (control.value && (control.value as RateId).rateTypeId.name === 'На сутки') {
+      return lease.hour || lease.min ? { multiple: true } : null;
+    }
+    return null;
+  };
 }

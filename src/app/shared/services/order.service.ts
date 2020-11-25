@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Point } from '../interfaces/point';
-import { Car } from '../interfaces/car';
-import { Order } from '../interfaces/order';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { RateId } from '../interfaces/order';
+import { HttpClient } from '@angular/common/http';
+import { ResponseResult } from '../interfaces/response-result';
+import { httpOptions } from '../const';
+import { catchError, map } from 'rxjs/operators';
+import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   stepperIndex = new Subject<number>();
-  order = new Subject<Order>();
 
-  orderEntity: Order = {
-    orderStatusId: 'new',
-    color: 'Любой',
-    isFullTank: false,
-    isNeedChildChair: false,
-    isRightWheel: false,
-  };
+  orderBehavior = new BehaviorSubject(null);
 
-  constructor() {}
+  constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
 
-  setOrderProperty(property: string, value: Point | Car | string): void {
-    this.orderEntity[property] = value;
-    this.order.next(this.orderEntity);
+  getRates(): Observable<RateId[]> {
+    return this.httpClient.get<ResponseResult<RateId>>('api/db/rate', httpOptions).pipe(
+      catchError((err) => this.errorHandler.handleError(err)),
+      map((value) => value.data)
+    );
   }
 }

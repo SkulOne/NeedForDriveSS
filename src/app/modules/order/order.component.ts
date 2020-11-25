@@ -4,6 +4,7 @@ import { OrderService } from '../../shared/services/order.service';
 import { Point } from '../../shared/interfaces/point';
 import { Car } from '../../shared/interfaces/car';
 import { Order } from '../../shared/interfaces/order';
+import { LeaseDuration } from '../../shared/interfaces/lease-duration';
 
 @Component({
   selector: 'app-order',
@@ -16,6 +17,8 @@ export class OrderComponent implements OnInit, OnDestroy {
   point: Point;
   car: Car;
   order: Order;
+  leaseDuration: LeaseDuration;
+
   constructor(private orderService: OrderService) {}
 
   @HostListener('window:resize') onResize(): void {
@@ -23,8 +26,17 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.orderService.order.pipe(untilDestroyed(this)).subscribe((value) => {
-      this.order = value;
+    this.orderService.orderBehavior.next({
+      orderStatusId: 'new',
+      color: 'Любой',
+      isFullTank: false,
+      isNeedChildChair: false,
+      isRightWheel: false,
+      price: 0,
+    });
+
+    this.orderService.orderBehavior.pipe(untilDestroyed(this)).subscribe((value) => {
+      this.order = { ...value };
     });
   }
 

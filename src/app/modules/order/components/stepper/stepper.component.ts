@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { OrderService } from '../../../../shared/services/order.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { dateValidator } from '../../../../shared/validators';
-// import { dateValidator } from '../../../../shared/validators';
+import { dateValidator, rateControlTrigger, validPrice } from '../../../../shared/validators';
 
 @Component({
   selector: 'app-stepper',
@@ -12,8 +11,8 @@ import { dateValidator } from '../../../../shared/validators';
   styleUrls: ['./stepper.component.scss'],
 })
 export class StepperComponent implements OnInit, OnDestroy {
-  @ViewChild('stepper') private stepper: MatStepper;
   orderForm: FormGroup;
+  @ViewChild('stepper') private stepper: MatStepper;
 
   constructor(private formBuilder: FormBuilder, private orderService: OrderService) {}
 
@@ -39,15 +38,34 @@ export class StepperComponent implements OnInit, OnDestroy {
       }),
       additionallyFormGroup: this.formBuilder.group({
         color: ['Любой', Validators.required],
-        startDate: ['', [Validators.required, dateValidator()]],
-        endDate: ['', [Validators.required, dateValidator()]],
-        rate: ['', Validators.required],
-        additionally: [false],
+        dateFrom: ['12.12.2020 12:12', [Validators.required, dateValidator()]],
+        dateTo: ['13.12.2020 12:12', [Validators.required, dateValidator()]],
+        rateId: ['', Validators.required],
+        isFullTank: null,
+        isNeedChildChair: false,
+        isRightWheel: false,
       }),
     });
+    this.setValidators();
   }
 
   private goToStep(index: number): void {
     this.stepper.selectedIndex = index;
+  }
+
+  private setValidators(): void {
+    this.orderForm
+      .get('additionallyFormGroup')
+      .get('dateFrom')
+      .setValidators(rateControlTrigger(this.orderForm.get('additionallyFormGroup').get('rateId')));
+    this.orderForm
+      .get('additionallyFormGroup')
+      .get('rateId')
+      .setValidators(
+        validPrice(
+          this.orderForm.get('additionallyFormGroup').get('dateFrom'),
+          this.orderForm.get('additionallyFormGroup').get('dateTo')
+        )
+      );
   }
 }
