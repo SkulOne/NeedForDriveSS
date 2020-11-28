@@ -1,9 +1,11 @@
 import { LeaseDuration } from './interfaces/lease-duration';
 
 export function createDate(dateString: string): Date {
-  const dayAndTime = dateString.split(' ');
-  dayAndTime[0] = swap(dayAndTime[0]);
-  return new Date(dayAndTime.join(' '));
+  if (dateString) {
+    const dayAndTime = dateString.split(' ');
+    dayAndTime[0] = swap(dayAndTime[0]);
+    return new Date(dayAndTime.join(' '));
+  }
 
   function swap(date: string): string {
     const dayArray = date.split('.');

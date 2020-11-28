@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { additionalInputs, dateInput } from './additionnallyInputs';
 import { OrderService } from '../../../../shared/services/order.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -9,6 +17,7 @@ import { createDate, getDifferenceDays } from '../../../../shared/utils';
 import { Order, RateId } from '../../../../shared/interfaces/order';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AbstractOrderStepperChild } from '../../../../shared/abstract-order-stepper-child';
 
 @Component({
   selector: 'app-additionally',
@@ -16,7 +25,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./additionally.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdditionallyComponent implements OnInit, OnDestroy {
+export class AdditionallyComponent extends AbstractOrderStepperChild implements OnInit, OnDestroy {
   additionalInputs = additionalInputs;
   additionalServices: AbstractControl;
   carColors: Observable<string[]>;
@@ -27,13 +36,14 @@ export class AdditionallyComponent implements OnInit, OnDestroy {
   dateFromControl: AbstractControl;
   rateIdArray: Observable<RateId[]>;
   rateIdControl: AbstractControl;
-
+  @Output() formChanged = new EventEmitter<string>();
   private _additionallyForm: AbstractControl;
-
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService) {
+    super(orderService);
+  }
 
   get additionallyForm(): AbstractControl {
-    return this._additionallyForm as FormControl;
+    return this._additionallyForm as FormGroup;
   }
 
   @Input() set additionallyForm(form: AbstractControl) {

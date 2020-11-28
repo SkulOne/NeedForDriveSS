@@ -6,9 +6,12 @@ import { Car, CarCategory } from '../interfaces/car';
 })
 export class FilterCarPipe implements PipeTransform {
   transform(cars: Car[], category: CarCategory): Car[] {
-    if (category !== 'Все') {
-      return cars.filter((car) => car.categoryId.name === category);
+    if (category !== null) {
+      if (category !== 'Все') {
+        return cars.filter((car) => car.categoryId.name === category);
+      }
+    } else {
+      return cars;
     }
-    return cars;
   }
 }

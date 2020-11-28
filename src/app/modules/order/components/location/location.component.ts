@@ -15,6 +15,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { autocompleteValidator } from '../../../../shared/validators';
 import { Order } from '../../../../shared/interfaces/order';
 import { take } from 'rxjs/operators';
+import { AbstractOrderStepperChild } from '../../../../shared/abstract-order-stepper-child';
 
 @Component({
   selector: 'app-location',
@@ -22,7 +23,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./location.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationComponent implements OnInit, OnDestroy {
+export class LocationComponent extends AbstractOrderStepperChild implements OnInit, OnDestroy {
   @Input() locationForm: AbstractControl;
   mapStyle: MapTypeStyle[] = mapStyle;
 
@@ -35,7 +36,9 @@ export class LocationComponent implements OnInit, OnDestroy {
     private locationService: LocationService,
     private pointService: PointService,
     private orderService: OrderService
-  ) {}
+  ) {
+    super(orderService);
+  }
 
   ngOnInit(): void {
     this.coords$ = this.locationService.getUserCoords();
@@ -60,7 +63,6 @@ export class LocationComponent implements OnInit, OnDestroy {
     if (event.isUserInput) {
       this.coords$ = this.locationService.getCoordsByAddress(city.name);
       this.points$ = this.pointService.getPointsFormCity(city.id);
-
       this.points$.pipe(untilDestroyed(this)).subscribe((points) => {
         const pointsName = points.map((point) => point.address);
         this.locationForm.get('pickupPoint').setValidators(autocompleteValidator(pointsName));
@@ -73,7 +75,7 @@ export class LocationComponent implements OnInit, OnDestroy {
       .get('city')
       .valueChanges.pipe(untilDestroyed(this))
       .subscribe((value) => {
-        if (value.length) {
+        if (value && value.length) {
           this.locationForm.get('pickupPoint').setValue('');
         }
       });
@@ -104,6 +106,7 @@ export class LocationComponent implements OnInit, OnDestroy {
       .subscribe((value: Order) => {
         value.pointId = point;
         this.orderService.orderBehavior.next(value);
+        this.reset(this.locationForm, ['pointId']);
       });
     this.coords$ = of(point.coords);
   }

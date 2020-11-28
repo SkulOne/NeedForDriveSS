@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
 import { OrderService } from '../../../../shared/services/order.service';
 import { LeaseDuration } from '../../../../shared/interfaces/lease-duration';
 import { Order } from '../../../../shared/interfaces/order';

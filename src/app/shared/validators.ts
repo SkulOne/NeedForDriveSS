@@ -41,7 +41,7 @@ export function isAfterDate(controlStartDate: AbstractControl): ValidatorFn {
     if (controlStartDate.valid) {
       const day = createDate(control.value);
       const startDate = createDate(controlStartDate.value);
-      if (day.toString() === 'Invalid Date') {
+      if (day && day.toString() === 'Invalid Date') {
         return { invalidDate: true };
       }
       if (startDate > day) {

@@ -8,6 +8,7 @@ import { carTypeInputs } from './modelTypeInputs';
 import { OrderService } from '../../../../shared/services/order.service';
 import { take } from 'rxjs/operators';
 import { Order } from '../../../../shared/interfaces/order';
+import { AbstractOrderStepperChild } from '../../../../shared/abstract-order-stepper-child';
 
 @Component({
   selector: 'app-car-model-list',
@@ -15,21 +16,18 @@ import { Order } from '../../../../shared/interfaces/order';
   styleUrls: ['./car-model-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarModelListComponent implements OnInit, OnDestroy {
+export class CarModelListComponent extends AbstractOrderStepperChild implements OnInit, OnDestroy {
   @Input() carModelForm: AbstractControl;
   cars: Observable<Car[]>;
-  category: CarCategory = 'Все';
+  category: Observable<CarCategory>;
   carTypeInputs = carTypeInputs;
-  constructor(private carService: CarService, private orderService: OrderService) {}
+  constructor(private carService: CarService, private orderService: OrderService) {
+    super(orderService);
+  }
 
   ngOnInit(): void {
     this.cars = this.carService.getCars();
-    this.carModelForm
-      .get('carCategory')
-      .valueChanges.pipe(untilDestroyed(this))
-      .subscribe((value) => {
-        this.category = value;
-      });
+    this.category = this.carModelForm.get('carCategory').valueChanges;
   }
 
   ngOnDestroy(): void {}
@@ -37,9 +35,11 @@ export class CarModelListComponent implements OnInit, OnDestroy {
   setCar(car: Car): void {
     this.orderService.orderBehavior
       .asObservable()
-      .pipe(take(1))
+      .pipe(take(1), untilDestroyed(this))
       .subscribe((value: Order) => {
+        this.reset(this.carModelForm, ['pointId', 'carId', 'color']);
         value.carId = car;
+        value.color = 'Любой';
         this.orderService.orderBehavior.next(value);
       });
   }
