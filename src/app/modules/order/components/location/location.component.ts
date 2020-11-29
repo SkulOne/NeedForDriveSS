@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { LocationService } from '../../../../shared/services/location.service';
 import { mapStyle } from './mapStyle';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { PointService } from '../../../../shared/services/point.service';
 import { City } from '../../../../shared/interfaces/city';
 import { Point } from '../../../../shared/interfaces/point';
@@ -15,7 +15,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { autocompleteValidator } from '../../../../shared/validators';
 import { Order } from '../../../../shared/interfaces/order';
 import { take } from 'rxjs/operators';
-import { AbstractOrderStepperChild } from '../../../../shared/abstract-order-stepper-child';
+import { OrderStepperChild } from '../../../../shared/order-stepper-child.component';
 
 @Component({
   selector: 'app-location',
@@ -23,7 +23,7 @@ import { AbstractOrderStepperChild } from '../../../../shared/abstract-order-ste
   styleUrls: ['./location.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationComponent extends AbstractOrderStepperChild implements OnInit, OnDestroy {
+export class LocationComponent extends OrderStepperChild implements OnInit, OnDestroy {
   @Input() locationForm: AbstractControl;
   mapStyle: MapTypeStyle[] = mapStyle;
 
@@ -31,6 +31,7 @@ export class LocationComponent extends AbstractOrderStepperChild implements OnIn
   cities$: City[];
   coords$: Observable<LatLng | LatLngLiteral>;
   points$: Observable<Point[]>;
+  private _subscription: Subscription;
 
   constructor(
     private locationService: LocationService,
@@ -97,7 +98,9 @@ export class LocationComponent extends AbstractOrderStepperChild implements OnIn
     this.locationForm.get(formControlName).setValue('');
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
 
   private setPoint(point: Point): void {
     this.orderService.orderBehavior
@@ -106,7 +109,7 @@ export class LocationComponent extends AbstractOrderStepperChild implements OnIn
       .subscribe((value: Order) => {
         value.pointId = point;
         this.orderService.orderBehavior.next(value);
-        this.reset(this.locationForm, ['pointId']);
+        this._subscription = this.reset(this.locationForm, ['pointId']);
       });
     this.coords$ = of(point.coords);
   }

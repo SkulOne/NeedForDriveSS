@@ -16,8 +16,8 @@ import { errors } from './additionallyErrors';
 import { createDate, getDifferenceDays } from '../../../../shared/utils';
 import { Order, RateId } from '../../../../shared/interfaces/order';
 import { map, switchMap, take } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { AbstractOrderStepperChild } from '../../../../shared/abstract-order-stepper-child';
+import { Observable, Subscription } from 'rxjs';
+import { OrderStepperChild } from '../../../../shared/order-stepper-child.component';
 
 @Component({
   selector: 'app-additionally',
@@ -25,7 +25,7 @@ import { AbstractOrderStepperChild } from '../../../../shared/abstract-order-ste
   styleUrls: ['./additionally.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdditionallyComponent extends AbstractOrderStepperChild implements OnInit, OnDestroy {
+export class AdditionallyComponent extends OrderStepperChild implements OnInit, OnDestroy {
   additionalInputs = additionalInputs;
   additionalServices: AbstractControl;
   carColors: Observable<string[]>;
@@ -38,6 +38,7 @@ export class AdditionallyComponent extends AbstractOrderStepperChild implements 
   rateIdControl: AbstractControl;
   @Output() formChanged = new EventEmitter<string>();
   private _additionallyForm: AbstractControl;
+  private _subscription: Subscription;
   constructor(private orderService: OrderService) {
     super(orderService);
   }
@@ -69,7 +70,9 @@ export class AdditionallyComponent extends AbstractOrderStepperChild implements 
     this.onFormChange();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
 
   private onFormChange(): void {
     this.additionallyForm.valueChanges
@@ -107,6 +110,9 @@ export class AdditionallyComponent extends AbstractOrderStepperChild implements 
         order.price = (this.rateIdControl.value as RateId).price * leaseMin;
       }
     }
+    // this.setAdditionallyService(order.isFullTank, order.price, 500);
+    // this.setAdditionallyService(order.isRightWheel, order.price, 1600);
+    // this.setAdditionallyService(order.isNeedChildChair, order.price, 200);
     if (order.isFullTank) {
       order.price += 500;
     } else if (order.price !== 0) {

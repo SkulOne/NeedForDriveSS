@@ -2,21 +2,19 @@ import { AbstractControl } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { Order } from './interfaces/order';
 import { OrderService } from './services/order.service';
-import { OnDestroy } from '@angular/core';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Subscription } from 'rxjs';
 
-export abstract class AbstractOrderStepperChild implements OnDestroy {
+export abstract class OrderStepperChild {
   protected constructor(private service: OrderService) {}
 
-  reset(formGroup: AbstractControl, orderProperties: string[]): void {
+  reset(formGroup: AbstractControl, orderProperties: string[]): Subscription {
     this.resetNextFormGroups(formGroup);
-    this.resetExcept(orderProperties);
+    return this.resetExcept(orderProperties);
   }
 
-  ngOnDestroy(): void {}
-
-  private resetExcept(except: string[]): void {
-    this.service.orderBehavior
+  private resetExcept(except: string[]): Subscription {
+    return this.service.orderBehavior
       .asObservable()
       .pipe(take(1), untilDestroyed(this))
       .subscribe((order: Order) => {
