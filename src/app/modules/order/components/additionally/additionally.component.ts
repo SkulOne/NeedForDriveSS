@@ -11,11 +11,10 @@ import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { additionalInputs, dateInput } from './additionnallyInputs';
 import { OrderService } from '../../../../shared/services/order.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { isAfterDate } from '../../../../shared/validators';
 import { errors } from './additionallyErrors';
 import { createDate, getDifferenceDays } from '../../../../shared/utils';
 import { Order, RateId } from '../../../../shared/interfaces/order';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { OrderStepperChild } from '../../../../shared/order-stepper-child.component';
 
@@ -38,7 +37,7 @@ export class AdditionallyComponent extends OrderStepperChild implements OnInit, 
   rateIdControl: AbstractControl;
   @Output() formChanged = new EventEmitter<string>();
   private _additionallyForm: AbstractControl;
-  private _subscription: Subscription;
+  private subscription: Subscription;
   constructor(private orderService: OrderService) {
     super(orderService);
   }
@@ -51,6 +50,7 @@ export class AdditionallyComponent extends OrderStepperChild implements OnInit, 
     this.dateFromControl = form.get('dateFrom');
     this.dateToControl = form.get('dateTo');
     this.rateIdControl = form.get('rateId');
+    this.additionalServices = form.get('additionallyServices');
     this._additionallyForm = form;
   }
 
@@ -61,72 +61,62 @@ export class AdditionallyComponent extends OrderStepperChild implements OnInit, 
   ngOnInit(): void {
     this.rateIdArray = this.orderService.getRates();
 
-    this.dateToControl.setValidators(isAfterDate(this.dateFromControl));
-
     this.carColors = this.orderService.orderBehavior
       .asObservable()
-      .pipe(map((order: Order) => (order.carId ? order.carId.colors : null)));
-
-    this.onFormChange();
+      .pipe(map((order) => (order.carId ? order.carId.colors : null)));
   }
 
   ngOnDestroy(): void {
-    this._subscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
-  private onFormChange(): void {
-    this.additionallyForm.valueChanges
-      .pipe(
-        switchMap(() => this.orderService.orderBehavior.asObservable().pipe(take(1))),
-        untilDestroyed(this)
-      )
-      .subscribe((order: Order) => {
-        order.isNeedChildChair = this.additionallyForm.get('isNeedChildChair').value;
-        order.isRightWheel = this.additionallyForm.get('isRightWheel').value;
-        order.isFullTank = this.additionallyForm.get('isFullTank').value;
-        order.rateId = this.rateIdControl.value;
-        order.color = this.additionallyForm.get('color').value;
-        this.setDate(order);
-        this.setPrice(order);
+  setAdditionallyService(id: string, price: number): void {
+    this.getOrderEntity().subscribe((order) => {
+      if (this.additionalServices.get(id).value) {
+        order[id] = true;
+        order.price += price;
+      } else {
+        order[id] = false;
+        order.price -= price;
+      }
+      this.orderService.orderBehavior.next(order);
+    });
+  }
 
+  setPrice(): void {
+    if (this.rateIdControl.valid && this.dateToControl.valid && this.rateIdControl.value) {
+      this.getOrderEntity().subscribe((order) => {
+        order.price = 0;
+        this.additionalServices.reset();
+        if ((this.rateIdControl.value as RateId).rateTypeId.name === 'На сутки') {
+          const lease = getDifferenceDays(order.dateFrom, order.dateTo);
+          order.price = (this.rateIdControl.value as RateId).price * lease.day;
+        } else {
+          const leaseMin = (order.dateTo - order.dateFrom) / (1000 * 60);
+          order.price = (this.rateIdControl.value as RateId).price * leaseMin;
+        }
         this.orderService.orderBehavior.next(order);
       });
+    }
   }
 
-  private setDate(order: Order): void {
+  setDate(value: string, controlName: string): void {
     if (this.additionallyForm.get('dateTo').valid) {
-      order.dateFrom = +createDate(this.dateFromControl.value);
-      order.dateTo = +createDate(this.dateToControl.value);
+      this.getOrderEntity().subscribe((order: Order) => {
+        order[controlName] = +createDate(value);
+        this.orderService.orderBehavior.next(order);
+      });
     }
   }
 
-  private setPrice(order: Order): void {
-    if (this.rateIdControl.valid && this.dateToControl.valid && this.rateIdControl.value) {
-      if ((this.rateIdControl.value as RateId).rateTypeId.name === 'На сутки') {
-        const lease = getDifferenceDays(order.dateFrom, order.dateTo);
-        order.price = (this.rateIdControl.value as RateId).price * lease.day;
-      } else {
-        const leaseMin = (order.dateTo - order.dateFrom) / (1000 * 60);
-        order.price = (this.rateIdControl.value as RateId).price * leaseMin;
-      }
-    }
-    // this.setAdditionallyService(order.isFullTank, order.price, 500);
-    // this.setAdditionallyService(order.isRightWheel, order.price, 1600);
-    // this.setAdditionallyService(order.isNeedChildChair, order.price, 200);
-    if (order.isFullTank) {
-      order.price += 500;
-    } else if (order.price !== 0) {
-      order.price -= 500;
-    }
-    if (order.isRightWheel) {
-      order.price += 1600;
-    } else if (order.price !== 0) {
-      order.price -= 1600;
-    }
-    if (order.isNeedChildChair) {
-      order.price += 200;
-    } else if (order.price !== 0) {
-      order.price -= 200;
-    }
+  setColor(value: string): void {
+    this.getOrderEntity().subscribe((order) => {
+      order.color = value;
+      this.orderService.orderBehavior.next(order);
+    });
+  }
+
+  private getOrderEntity(): Observable<Order> {
+    return this.orderService.orderBehavior.asObservable().pipe(take(1), untilDestroyed(this));
   }
 }

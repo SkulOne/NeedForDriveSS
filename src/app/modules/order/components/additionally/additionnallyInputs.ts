@@ -1,9 +1,34 @@
 import { InputCheckedElement, TextInput } from '../../../../shared/interfaces/input';
+import { AdditionallyService } from './additionally-service';
 
 export const additionalInputs: InputCheckedElement[] = [
-  { id: 'isFullTank', value: '500', labelValue: 'Полный бак, 500р' },
-  { id: 'isNeedChildChair', value: '200', labelValue: 'Детское кресло, 200р' },
-  { id: 'isRightWheel', value: '1600', labelValue: 'Правый руль, 1600р' },
+  {
+    id: 'isFullTank',
+    value: {
+      name: 'Полный бак',
+      price: 500,
+      unit: 'Р',
+    } as AdditionallyService,
+    labelValue: 'Полный бак, 500р',
+  },
+  {
+    id: 'isNeedChildChair',
+    value: {
+      name: 'Детское кресло',
+      price: 200,
+      unit: 'Р',
+    } as AdditionallyService,
+    labelValue: 'Детское кресло, 200р',
+  },
+  {
+    id: 'isRightWheel',
+    value: {
+      name: 'Првый руль',
+      price: 1600,
+      unit: 'Р',
+    } as AdditionallyService,
+    labelValue: 'Правый руль, 1600р',
+  },
 ];
 export const dateInput: TextInput[] = [
   { label: 'C', controlName: 'dateFrom', matLabel: 'Дата начала аренды' },

@@ -13,9 +13,10 @@ export function autocompleteValidator(validOptions: string[]): ValidatorFn {
 
 export function dateValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    if (!control.errors?.mask) {
+    if (!control.errors?.mask && control.value) {
       const day = createDate(control.value);
       const currentDat = new Date();
+
       if (day < currentDat) {
         return { irrelevantDate: true };
       }

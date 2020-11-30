@@ -33,6 +33,7 @@ export abstract class OrderStepperChild {
             order[value] = null;
           }
         });
+        this.service.orderBehavior.next(order);
       });
   }
 
@@ -40,7 +41,9 @@ export abstract class OrderStepperChild {
     const parentControlsKeyValueArray = Object.entries(formGroup.parent.controls);
     const parentControlsArray = parentControlsKeyValueArray.map((value) => value[1]);
     const startIndex = parentControlsArray.indexOf(formGroup) + 1;
-    const controlsNeedReset = parentControlsArray.slice(startIndex + 1);
-    controlsNeedReset.forEach((control) => control.reset());
+    const controlsNeedReset = parentControlsArray.slice(startIndex);
+    controlsNeedReset.forEach((control) => {
+      control.reset();
+    });
   }
 }

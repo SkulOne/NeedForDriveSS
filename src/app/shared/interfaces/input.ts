@@ -1,6 +1,6 @@
 export interface InputCheckedElement {
   id: string;
-  value: string;
+  value: unknown;
   labelValue: string;
 }
 export interface TextInput {

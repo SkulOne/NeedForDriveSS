@@ -6,8 +6,14 @@
         <input type="radio" value="Любой" formControlName="color" id="any" />
         <label for="any"> Любой </label>
         <ng-container *ngFor="let carColor of carColors | async">
-          <input type="radio" [value]="carColor" formControlName="color" [id]="carColor" />
-          <label [for]="carColor"> {{ carColor }} </label>
+          <input
+            type="radio"
+            [value]="carColor"
+            formControlName="color"
+            id="{{ carColor }}"
+            (ngModelChange)="setColor($event)"
+          />
+          <label for="{{ carColor }}"> {{ carColor }} </label>
         </ng-container>
       </div>
     </li>
@@ -30,6 +36,7 @@
               mask="d0.m0.0000 Hh:m0"
               placeholder="Выберите дату"
               autocomplete="none"
+              (ngModelChange)="setDate($event, input.controlName)"
             />
             <mat-error *ngFor="let error of errors">
               <span *ngIf="formError(input.controlName, error.condition)">{{ error.value }}</span>
@@ -44,11 +51,12 @@
         <div class="additionally-item__value" *ngFor="let input of rateIdArray | async">
           <input
             type="radio"
-            [id]="input.rateTypeId.unit"
+            id="{{ input.rateTypeId.unit }}"
             [value]="input"
             formControlName="rateId"
+            (ngModelChange)="setPrice()"
           />
-          <label [for]="input.rateTypeId.unit">
+          <label for="{{ input.rateTypeId.unit }}">
             {{ input.rateTypeId.name }}, {{ input.price }}₽/{{ input.rateTypeId.unit }}</label
           >
         </div>
@@ -63,11 +71,12 @@
         <div class="additionally-item__value" *ngFor="let input of additionalInputs">
           <input
             type="checkbox"
-            [id]="input.id"
+            id="{{ input.id }}"
             [value]="input.value"
-            [formControl]="additionallyForm.get(input.id)"
+            [formControl]="additionalServices.get(input.id)"
+            (ngModelChange)="setAdditionallyService(input.id, input.value.price)"
           />
-          <label [for]="input.id">{{ input.labelValue }} </label>
+          <label for="{{ input.id }}">{{ input.labelValue }} </label>
         </div>
       </div>
     </li>
