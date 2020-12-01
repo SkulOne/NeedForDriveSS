@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrderService } from '../../../../shared/services/order.service';
 import { LeaseDuration } from '../../../../shared/interfaces/lease-duration';
 import { Order } from '../../../../shared/interfaces/order';
@@ -11,11 +11,10 @@ import { getDifferenceDays } from '../../../../shared/utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderPropertiesComponent {
-  buttonContent = 'Выбрать модель';
   leaseDuration: LeaseDuration;
+  buttonContent = 'Выбрать модель';
 
   private _order: Order;
-  private nextStepIndex = 0;
 
   constructor(private orderService: OrderService) {}
 
@@ -25,12 +24,20 @@ export class OrderPropertiesComponent {
 
   @Input() set order(value: Order) {
     this._order = value;
-    if (this.order != null && this.order.dateFrom) {
-      this.leaseDuration = getDifferenceDays(this.order.dateFrom, this.order.dateTo);
+    if (this.order) {
+      if (this.order.carId) {
+        this.buttonContent = 'Дополнительно';
+      }
+      if (this.order.dateFrom) {
+        this.leaseDuration = getDifferenceDays(this.order.dateFrom, this.order.dateTo);
+      }
+      if (this.order.price) {
+        this.buttonContent = 'Итого';
+      }
     }
   }
 
   nextStep(): void {
-    this.orderService.stepperIndex.next(this.nextStepIndex);
+    this.orderService.nextStepBtnTrigger.next();
   }
 }

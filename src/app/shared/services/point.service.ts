@@ -6,14 +6,11 @@ import { Observable } from 'rxjs';
 import { Point } from '../interfaces/point';
 import { LocationService } from './location.service';
 import { ErrorHandlerService } from './error-handler.service';
-import { httpOptions } from '../const';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PointService {
-  private readonly httpOptions = httpOptions;
-
   constructor(
     private httpClient: HttpClient,
     private locationService: LocationService,
@@ -21,23 +18,21 @@ export class PointService {
   ) {}
 
   getPointsFormCity(cityId: string): Observable<Point[]> {
-    return this.httpClient
-      .get<ResponseResult<Point>>(`api/db/point?cityId=${cityId}`, this.httpOptions)
-      .pipe(
-        catchError((err) => this.errorHandler.handleError(err)),
-        mergeMap((result) => {
-          return result.data.map((point: Point) => {
-            return this.locationService
-              .getCoordsByAddress(`${point.cityId.name}, ${point.address}`)
-              .pipe(
-                map((coords) => {
-                  point.coords = coords;
-                  return point;
-                })
-              );
-          });
-        }),
-        combineAll()
-      );
+    return this.httpClient.get<ResponseResult<Point>>(`api/db/point?cityId=${cityId}`).pipe(
+      catchError((err) => this.errorHandler.handleHttpError(err)),
+      mergeMap((result) => {
+        return result.data.map((point: Point) => {
+          return this.locationService
+            .getCoordsByAddress(`${point.cityId.name}, ${point.address}`)
+            .pipe(
+              map((coords) => {
+                point.coords = coords;
+                return point;
+              })
+            );
+        });
+      }),
+      combineAll()
+    );
   }
 }

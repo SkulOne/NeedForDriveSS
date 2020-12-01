@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class CarSharingInterceptor implements HttpInterceptor {
+export class CoorsInterceptor implements HttpInterceptor {
   private readonly redirectURL = 'https://cors-anywhere.herokuapp.com';
   private readonly backendURL = 'http://api-factory.simbirsoft1.com';
   constructor() {}

@@ -1,12 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { CarService } from '../../../../shared/services/car.service';
 import { Observable, Subscription } from 'rxjs';
 import { Car, CarCategory } from '../../../../shared/interfaces/car';
-import { untilDestroyed } from 'ngx-take-until-destroy';
 import { carTypeInputs } from './modelTypeInputs';
 import { OrderService } from '../../../../shared/services/order.service';
-import { take } from 'rxjs/operators';
 import { Order } from '../../../../shared/interfaces/order';
 import { OrderStepperChild } from '../../../../shared/order-stepper-child.component';
 
@@ -17,10 +15,11 @@ import { OrderStepperChild } from '../../../../shared/order-stepper-child.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarModelListComponent extends OrderStepperChild implements OnInit, OnDestroy {
-  @Input() carModelForm: AbstractControl;
+  @Input() carModelForm: AbstractControl | FormGroup;
   cars: Observable<Car[]>;
   category: Observable<CarCategory>;
   carTypeInputs = carTypeInputs;
+  carCategory: FormControl;
   private _subscription: Subscription;
   constructor(private carService: CarService, private orderService: OrderService) {
     super(orderService);
@@ -28,7 +27,8 @@ export class CarModelListComponent extends OrderStepperChild implements OnInit, 
 
   ngOnInit(): void {
     this.cars = this.carService.getCars();
-    this.category = this.carModelForm.get('carCategory').valueChanges;
+    this.carCategory = new FormControl('Все');
+    this.category = this.carCategory.valueChanges;
   }
 
   ngOnDestroy(): void {
@@ -36,14 +36,11 @@ export class CarModelListComponent extends OrderStepperChild implements OnInit, 
   }
 
   setCar(car: Car): void {
-    this.orderService.orderBehavior
-      .asObservable()
-      .pipe(take(1), untilDestroyed(this))
-      .subscribe((value: Order) => {
-        this._subscription = this.reset(this.carModelForm, ['pointId', 'carId', 'color']);
-        value.carId = car;
-        value.color = 'Любой';
-        this.orderService.orderBehavior.next(value);
-      });
+    this.getOrderObservable().subscribe((value: Order) => {
+      this._subscription = this.reset(this.carModelForm, ['pointId', 'carId', 'color']);
+      value.carId = car;
+      value.color = 'Любой';
+      this.orderService.orderTrigger(value);
+    });
   }
 }

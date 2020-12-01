@@ -1,6 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { createDate, getDifferenceDays } from './utils';
 import { RateId } from './interfaces/order';
+import { ErrorHandlerService } from './services/error-handler.service';
 
 export function autocompleteValidator(validOptions: string[]): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -56,14 +57,18 @@ export function isAfterDate(controlStartDate: AbstractControl): ValidatorFn {
 
 export function validPrice(
   dateFromControl: AbstractControl,
-  dateToControl: AbstractControl
+  dateToControl: AbstractControl,
+  errorService: ErrorHandlerService
 ): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const dateForm = createDate(dateFromControl.value);
     const dateTo = createDate(dateToControl.value);
     const lease = getDifferenceDays(+dateForm, +dateTo);
     if (control.value && (control.value as RateId).rateTypeId.name === 'На сутки') {
-      return lease.hour || lease.min ? { multiple: true } : null;
+      if (lease.hour || lease.min) {
+        errorService.userError('Выберите дату кратную дню, либо смените тариф.');
+        control.reset();
+      }
     }
     return null;
   };

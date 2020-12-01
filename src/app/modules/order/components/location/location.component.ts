@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { LocationService } from '../../../../shared/services/location.service';
 import { mapStyle } from './mapStyle';
 import { Observable, of, Subscription } from 'rxjs';
@@ -14,7 +14,6 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { autocompleteValidator } from '../../../../shared/validators';
 import { Order } from '../../../../shared/interfaces/order';
-import { take } from 'rxjs/operators';
 import { OrderStepperChild } from '../../../../shared/order-stepper-child.component';
 
 @Component({
@@ -24,7 +23,7 @@ import { OrderStepperChild } from '../../../../shared/order-stepper-child.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationComponent extends OrderStepperChild implements OnInit, OnDestroy {
-  @Input() locationForm: AbstractControl;
+  @Input() locationForm: AbstractControl | FormGroup;
   mapStyle: MapTypeStyle[] = mapStyle;
 
   zoom = 11;
@@ -103,14 +102,11 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
   }
 
   private setPoint(point: Point): void {
-    this.orderService.orderBehavior
-      .asObservable()
-      .pipe(take(1))
-      .subscribe((value: Order) => {
-        value.pointId = point;
-        this.orderService.orderBehavior.next(value);
-        this._subscription = this.reset(this.locationForm, ['pointId']);
-      });
+    this.getOrderObservable().subscribe((value: Order) => {
+      value.pointId = point;
+      this.orderService.orderTrigger(value);
+      this._subscription = this.reset(this.locationForm, ['pointId']);
+    });
     this.coords$ = of(point.coords);
   }
 }

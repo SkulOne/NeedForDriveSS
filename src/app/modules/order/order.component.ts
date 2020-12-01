@@ -26,7 +26,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.orderService.orderBehavior.next({
+    this.orderService.orderTrigger({
       orderStatusId: 'new',
       color: 'Любой',
       isFullTank: false,
@@ -35,7 +35,7 @@ export class OrderComponent implements OnInit, OnDestroy {
       price: 0,
     });
 
-    this.orderService.orderBehavior.pipe(untilDestroyed(this)).subscribe((value) => {
+    this.orderService.order.pipe(untilDestroyed(this)).subscribe((value) => {
       this.order = { ...value };
     });
   }

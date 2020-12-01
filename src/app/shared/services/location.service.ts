@@ -8,7 +8,6 @@ import LatLngLiteral = google.maps.LatLngLiteral;
 import GeocoderResult = google.maps.GeocoderResult;
 import LatLng = google.maps.LatLng;
 import { ErrorHandlerService } from './error-handler.service';
-import { httpOptions } from '../const';
 
 interface GeocoderResponseArray {
   results: GeocoderResult[];
@@ -20,7 +19,6 @@ interface GeocoderResponseArray {
 export class LocationService {
   private readonly googleMapKey = 'key=AIzaSyDLs3CudxoCs9C43iKaJqQ31Xg3w89_8G8';
   private readonly url = 'https://maps.googleapis.com/maps/api/';
-  private readonly httpOptions = httpOptions;
 
   constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
 
@@ -56,8 +54,8 @@ export class LocationService {
   }
 
   getAllCity(): Observable<City[]> {
-    return this.httpClient.get<ResponseResult<City>>('api/db/city', this.httpOptions).pipe(
-      catchError((err) => this.errorHandler.handleError(err)),
+    return this.httpClient.get<ResponseResult<City>>('api/db/city').pipe(
+      catchError((err) => this.errorHandler.handleHttpError(err)),
       map((result) => {
         return result.data;
       })
@@ -68,7 +66,7 @@ export class LocationService {
     return this.httpClient
       .get<GeocoderResponseArray>(`${this.url}geocode/json?address=${address}&${this.googleMapKey}`)
       .pipe(
-        catchError((err) => this.errorHandler.handleError(err)),
+        catchError((err) => this.errorHandler.handleHttpError(err)),
         map((result) => result.results[0].geometry.location)
       );
   }
@@ -79,7 +77,7 @@ export class LocationService {
         `${this.url}geocode/json?${this.googleMapKey}&latlng=${coords.lat},${coords.lng}&result_type=locality`
       )
       .pipe(
-        catchError((err) => this.errorHandler.handleError(err)),
+        catchError((err) => this.errorHandler.handleHttpError(err)),
         map((result) => result.results[0])
       );
   }

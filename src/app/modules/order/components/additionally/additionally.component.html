@@ -1,22 +1,22 @@
+<div>
+  <p class="service-header">Цвет</p>
+  <div class="additionally-item color-block" *ngIf="carColors">
+    <input type="radio" value="Любой" [formControl]="colorControl" id="any" />
+    <label for="any"> Любой </label>
+    <ng-container *ngFor="let carColor of carColors">
+      <input
+        type="radio"
+        [value]="carColor"
+        [formControl]="colorControl"
+        id="{{ carColor }}"
+        (click)="setColor(carColor)"
+      />
+      <label for="{{ carColor }}"> {{ carColor }} </label>
+    </ng-container>
+  </div>
+</div>
 <form [formGroup]="additionallyForm">
   <ul>
-    <li>
-      <p class="service-header">Цвет</p>
-      <div class="additionally-item color-block" *ngIf="carColors | async">
-        <input type="radio" value="Любой" formControlName="color" id="any" />
-        <label for="any"> Любой </label>
-        <ng-container *ngFor="let carColor of carColors | async">
-          <input
-            type="radio"
-            [value]="carColor"
-            formControlName="color"
-            id="{{ carColor }}"
-            (ngModelChange)="setColor($event)"
-          />
-          <label for="{{ carColor }}"> {{ carColor }} </label>
-        </ng-container>
-      </div>
-    </li>
     <li>
       <p class="service-header">Дата аренды</p>
       <div class="additionally-item date-block">
@@ -54,14 +54,11 @@
             id="{{ input.rateTypeId.unit }}"
             [value]="input"
             formControlName="rateId"
-            (ngModelChange)="setPrice()"
+            (ngModelChange)="setRate(input)"
           />
           <label for="{{ input.rateTypeId.unit }}">
             {{ input.rateTypeId.name }}, {{ input.price }}₽/{{ input.rateTypeId.unit }}</label
           >
-        </div>
-        <div class="mat-error">
-          <span *ngIf="rateIdControl.errors">Выберите дату, кратную дню.</span>
         </div>
       </div>
     </li>

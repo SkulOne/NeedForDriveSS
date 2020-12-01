@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { httpOptions } from '../const';
 import { ResponseResult } from '../interfaces/response-result';
 import { Car } from '../interfaces/car';
 import { map } from 'rxjs/operators';
@@ -13,7 +12,7 @@ export class CarService {
   constructor(private httpClient: HttpClient) {}
 
   getCars(): Observable<Car[]> {
-    return this.httpClient.get<ResponseResult<Car>>('api/db/car', httpOptions).pipe(
+    return this.httpClient.get<ResponseResult<Car>>('api/db/car').pipe(
       map((result) => {
         result.data.forEach((car) => {
           car.thumbnail.path = car.thumbnail.path.search('data:image/png;base64,')

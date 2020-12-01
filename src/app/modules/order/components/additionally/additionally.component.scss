@@ -6,6 +6,17 @@
   input[type='checkbox'] {
     margin-right: 8px;
   }
+
+  .color-block {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    label {
+      margin-right: 16px;
+    }
+  }
+
   ul {
     list-style: none;
     padding: 0;
@@ -27,14 +38,6 @@
         &:not(:last-child) {
           margin-bottom: 8px;
         }
-      }
-    }
-
-    .color-block {
-      flex-direction: row;
-
-      label {
-        margin-right: 16px;
       }
     }
 

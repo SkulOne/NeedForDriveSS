@@ -1,10 +1,10 @@
-<form [formGroup]="carModelForm">
-  <div class="car-type">
-    <div class="car-type__item" *ngFor="let input of carTypeInputs">
-      <input type="radio" id="{{ input.id }}" [value]="input.value" formControlName="carCategory" />
-      <label for="{{ input.id }}"> {{ input.labelValue }} </label>
-    </div>
+<div class="car-type">
+  <div class="car-type__item" *ngFor="let input of carTypeInputs">
+    <input type="radio" id="{{ input.id }}" [value]="input.value" [formControl]="carCategory" />
+    <label for="{{ input.id }}"> {{ input.labelValue }} </label>
   </div>
+</div>
+<form [formGroup]="carModelForm">
   <div class="car-models">
     <ng-container *ngFor="let car of cars | async | filterCar: (category | async)">
       <input id="{{ car.name }}" type="radio" formControlName="carModel" [value]="car" />
