@@ -24,6 +24,7 @@ import { CarModelComponent } from './components/car-model-list/car-model/car-mod
 import { MatCardModule } from '@angular/material/card';
 import { AdditionallyComponent } from './components/additionally/additionally.component';
 import { NgxMaskModule } from 'ngx-mask';
+import { OrderInfoComponent } from './components/order-info/order-info.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NgxMaskModule } from 'ngx-mask';
     CarModelListComponent,
     CarModelComponent,
     AdditionallyComponent,
+    OrderInfoComponent,
   ],
   imports: [
     CommonModule,

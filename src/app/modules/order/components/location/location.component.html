@@ -1,4 +1,4 @@
-<form [formGroup]="locationForm">
+<form [formGroup]="form">
   <label class="form__item">
     <span class="form-label"> Город: </span>
     <mat-form-field>
@@ -23,8 +23,8 @@
           {{ city.name }}
         </mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="formError('city')?.required">Поле обязательно!</mat-error>
-      <mat-error *ngIf="formError('city')?.invalidAutocomplete"
+      <mat-error *ngIf="formError('city', 'required')">Поле обязательно!</mat-error>
+      <mat-error *ngIf="formError('city', 'invalidAutocomplete')"
         >Выберите город из выпадающего списка</mat-error
       >
     </mat-form-field>
@@ -54,8 +54,8 @@
           {{ point.address }}
         </mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="formError('pickupPoint')?.required">Поле обязательно!</mat-error>
-      <mat-error *ngIf="formError('pickupPoint')?.invalidAutocomplete"
+      <mat-error *ngIf="formError('pickupPoint', 'required')">Поле обязательно!</mat-error>
+      <mat-error *ngIf="formError('pickupPoint', 'invalidAutocomplete')"
         >Выберите пункт из выпадающего списка</mat-error
       >
     </mat-form-field>

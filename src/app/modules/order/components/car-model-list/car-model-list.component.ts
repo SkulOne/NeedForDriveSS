@@ -6,7 +6,7 @@ import { Car, CarCategory } from '../../../../shared/interfaces/car';
 import { carTypeInputs } from './modelTypeInputs';
 import { OrderService } from '../../../../shared/services/order.service';
 import { Order } from '../../../../shared/interfaces/order';
-import { OrderStepperChild } from '../../../../shared/order-stepper-child.component';
+import { OrderStepperChild } from '../../../../shared/order-stepper-child';
 
 @Component({
   selector: 'app-car-model-list',
@@ -15,7 +15,6 @@ import { OrderStepperChild } from '../../../../shared/order-stepper-child.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarModelListComponent extends OrderStepperChild implements OnInit, OnDestroy {
-  @Input() carModelForm: AbstractControl | FormGroup;
   cars: Observable<Car[]>;
   category: Observable<CarCategory>;
   carTypeInputs = carTypeInputs;
@@ -23,6 +22,9 @@ export class CarModelListComponent extends OrderStepperChild implements OnInit, 
   private _subscription: Subscription;
   constructor(private carService: CarService, private orderService: OrderService) {
     super(orderService);
+  }
+  @Input() set carModelForm(value: AbstractControl | FormGroup) {
+    this.form = value;
   }
 
   ngOnInit(): void {
@@ -37,9 +39,10 @@ export class CarModelListComponent extends OrderStepperChild implements OnInit, 
 
   setCar(car: Car): void {
     this.getOrderObservable().subscribe((value: Order) => {
-      this._subscription = this.reset(this.carModelForm, ['pointId', 'carId', 'color']);
+      this._subscription = this.reset(['pointId', 'carId', 'color']);
       value.carId = car;
       value.color = 'Любой';
+      this.orderService.stepperIndex = this.currentIndex;
       this.orderService.orderTrigger(value);
     });
   }

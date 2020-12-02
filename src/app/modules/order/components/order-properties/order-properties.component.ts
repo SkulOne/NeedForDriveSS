@@ -25,13 +25,16 @@ export class OrderPropertiesComponent {
   @Input() set order(value: Order) {
     this._order = value;
     if (this.order) {
-      if (this.order.carId) {
+      if (!this.order.carId && !this.order.price) {
+        this.buttonContent = 'Выбрать модель';
+      }
+      if (this.order.carId && !this.order.price) {
         this.buttonContent = 'Дополнительно';
       }
       if (this.order.dateFrom) {
         this.leaseDuration = getDifferenceDays(this.order.dateFrom, this.order.dateTo);
       }
-      if (this.order.price) {
+      if (this.order.carId && this.order.price) {
         this.buttonContent = 'Итого';
       }
     }

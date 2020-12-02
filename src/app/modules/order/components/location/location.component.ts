@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { LocationService } from '../../../../shared/services/location.service';
 import { mapStyle } from './mapStyle';
 import { Observable, of, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { autocompleteValidator } from '../../../../shared/validators';
 import { Order } from '../../../../shared/interfaces/order';
-import { OrderStepperChild } from '../../../../shared/order-stepper-child.component';
+import { OrderStepperChild } from '../../../../shared/order-stepper-child';
 
 @Component({
   selector: 'app-location',
@@ -23,7 +23,6 @@ import { OrderStepperChild } from '../../../../shared/order-stepper-child.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationComponent extends OrderStepperChild implements OnInit, OnDestroy {
-  @Input() locationForm: AbstractControl | FormGroup;
   mapStyle: MapTypeStyle[] = mapStyle;
 
   zoom = 11;
@@ -31,6 +30,8 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
   coords$: Observable<LatLng | LatLngLiteral>;
   points$: Observable<Point[]>;
   private _subscription: Subscription;
+  private pickupPointControl: FormControl;
+  private cityControl: FormControl;
 
   constructor(
     private locationService: LocationService,
@@ -38,6 +39,11 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
     private orderService: OrderService
   ) {
     super(orderService);
+  }
+  @Input() set locationForm(value: AbstractControl | FormGroup) {
+    this.form = value;
+    this.cityControl = value.get('city') as FormControl;
+    this.pickupPointControl = value.get('pickupPoint') as FormControl;
   }
 
   ngOnInit(): void {
@@ -49,14 +55,10 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
       .subscribe((cities) => {
         this.cities$ = cities;
         const citiesName = cities.map((city) => city.name);
-        this.locationForm.get('city').setValidators(autocompleteValidator(citiesName));
+        this.cityControl.setValidators(autocompleteValidator(citiesName));
       });
 
     this.clear();
-  }
-
-  formError(formControlName: string): ValidationErrors | null {
-    return this.locationForm.get(formControlName).errors;
   }
 
   citySelected(city: City, event: MatOptionSelectionChange): void {
@@ -65,20 +67,17 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
       this.points$ = this.pointService.getPointsFormCity(city.id);
       this.points$.pipe(untilDestroyed(this)).subscribe((points) => {
         const pointsName = points.map((point) => point.address);
-        this.locationForm.get('pickupPoint').setValidators(autocompleteValidator(pointsName));
+        this.pickupPointControl.setValidators(autocompleteValidator(pointsName));
       });
     }
   }
 
   clear(): void {
-    this.locationForm
-      .get('city')
-      .valueChanges.pipe(untilDestroyed(this))
-      .subscribe((value) => {
-        if (value && value.length) {
-          this.locationForm.get('pickupPoint').setValue('');
-        }
-      });
+    this.cityControl.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
+      if (value && value.length) {
+        this.pickupPointControl.setValue('');
+      }
+    });
   }
 
   onAddressSelect(point: Point, event?: MatOptionSelectionChange): void {
@@ -88,13 +87,13 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
   }
 
   markerClick(point: Point): void {
-    this.locationForm.get('city').setValue(point.cityId.name);
-    this.locationForm.get('pickupPoint').setValue(point.address);
+    this.cityControl.setValue(point.cityId.name);
+    this.pickupPointControl.setValue(point.address);
     this.setPoint(point);
   }
 
   clearValue(formControlName: string): void {
-    this.locationForm.get(formControlName).setValue('');
+    this.form.get(formControlName).setValue('');
   }
 
   ngOnDestroy(): void {
@@ -105,8 +104,9 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
     this.getOrderObservable().subscribe((value: Order) => {
       value.pointId = point;
       this.orderService.orderTrigger(value);
-      this._subscription = this.reset(this.locationForm, ['pointId']);
+      this._subscription = this.reset(['pointId']);
     });
+    this.orderService.stepperIndex = this.currentIndex;
     this.coords$ = of(point.coords);
   }
 }

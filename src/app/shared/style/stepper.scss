@@ -35,3 +35,16 @@ mat-step-header.mat-horizontal-stepper-header {
   padding: 0 16px;
   margin: 0 7px;
 }
+div.mat-step-label.mat-step-label-active.mat-step-label-selected {
+  color: $accent-color;
+}
+div.mat-step-label.mat-step-label-active {
+  color: $main-black-color;
+  font-weight: 700;
+}
+
+mat-step-header.mat-step-header div.mat-step-label {
+  color: $gray-color;
+  font-weight: 500;
+  font-size: 14px;
+}

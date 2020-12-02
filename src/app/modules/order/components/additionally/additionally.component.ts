@@ -1,13 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { additionalInputs, dateInput } from './additionnallyInputs';
 import { OrderService } from '../../../../shared/services/order.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -15,7 +7,7 @@ import { errors } from './additionallyErrors';
 import { createDate, getDifferenceDays } from '../../../../shared/utils';
 import { Order, RateId } from '../../../../shared/interfaces/order';
 import { Observable, Subscription } from 'rxjs';
-import { OrderStepperChild } from '../../../../shared/order-stepper-child.component';
+import { OrderStepperChild } from '../../../../shared/order-stepper-child';
 import { ErrorHandlerService } from '../../../../shared/services/error-handler.service';
 
 @Component({
@@ -36,27 +28,17 @@ export class AdditionallyComponent extends OrderStepperChild implements OnInit, 
   dateFromControl: AbstractControl | FormControl;
   rateIdArray: Observable<RateId[]>;
   rateIdControl: AbstractControl | FormControl;
-  @Output() formChanged = new EventEmitter<string>();
-  private _additionallyForm: AbstractControl | FormGroup;
   private subscription: Subscription;
   constructor(private orderService: OrderService, private errorService: ErrorHandlerService) {
     super(orderService);
   }
 
-  get additionallyForm(): FormGroup {
-    return this._additionallyForm as FormGroup;
-  }
-
-  @Input() set additionallyForm(form: FormGroup) {
+  @Input() set additionallyForm(form: FormGroup | AbstractControl) {
     this.dateFromControl = form.get('dateFrom');
     this.dateToControl = form.get('dateTo');
     this.rateIdControl = form.get('rateId');
     this.additionalServices = form.get('additionallyServices');
-    this._additionallyForm = form;
-  }
-
-  formError(formControlName: string, error: string): ValidationErrors | null {
-    return this.additionallyForm.get(formControlName).errors?.[error];
+    this.form = form;
   }
 
   ngOnInit(): void {
@@ -103,7 +85,7 @@ export class AdditionallyComponent extends OrderStepperChild implements OnInit, 
   }
 
   setDate(value: string, controlName: string): void {
-    if (this.additionallyForm.get('dateTo').valid) {
+    if (this.form.get('dateTo').valid) {
       this.getOrderObservable().subscribe((order: Order) => {
         order[controlName] = +createDate(value);
         this.rateIdControl.reset();
@@ -122,11 +104,13 @@ export class AdditionallyComponent extends OrderStepperChild implements OnInit, 
   checkRange(order: Order): void {
     if (order.carId) {
       if (order.carId.priceMin > order.price || order.price > order.carId.priceMax) {
+        this.errorService.userError(
+          `Стоимость аренды должна быть больше ${order.carId.priceMin}₽ и меньше ${order.carId.priceMax}₽.
+          Измените дату, тариф или выберите дополнительные услуги.
+          Текущая стоимость - ${order.price}₽`
+        );
         this.rateIdControl.reset();
         order.price = 0;
-        this.errorService.userError(
-          `Стоимость аренды должна быть больше ${order.carId.priceMin}₽ и меньше ${order.carId.priceMax}₽. Измените дату, тариф или выберите дополнительные услуги.`
-        );
       }
     }
   }
@@ -141,6 +125,7 @@ export class AdditionallyComponent extends OrderStepperChild implements OnInit, 
         const leaseMin = (order.dateTo - order.dateFrom) / (1000 * 60);
         order.price = (this.rateIdControl.value as RateId).price * leaseMin;
       }
+      this.orderService.stepperIndex = this.currentIndex;
       this.checkRange(order);
     }
   }

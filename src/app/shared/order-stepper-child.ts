@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { Order } from './interfaces/order';
 import { OrderService } from './services/order.service';
@@ -7,22 +7,41 @@ import { Observable, Subscription } from 'rxjs';
 
 export abstract class OrderStepperChild {
   private _currentIndex: number;
+  private _form: AbstractControl | FormGroup;
+  private _parentControllers: AbstractControl[];
+
   protected constructor(private service: OrderService) {}
+
+  get form(): AbstractControl | FormGroup {
+    return this._form;
+  }
+
+  set form(value: AbstractControl | FormGroup) {
+    this._form = value;
+    this._parentControllers = this.getParentControllers(value);
+    this._currentIndex = this._parentControllers.indexOf(value);
+  }
+
   get currentIndex(): number {
     return this._currentIndex;
   }
-  setIndex(value: number): void {
-    this._currentIndex = value;
-    this.service.stepperIndex = value;
+
+  reset(orderProperties: string[]): Subscription {
+    this.resetNextFormGroups();
+    return this.resetExcept(orderProperties);
   }
 
-  reset(formGroup: AbstractControl, orderProperties: string[]): Subscription {
-    this.resetNextFormGroups(formGroup);
-    return this.resetExcept(orderProperties);
+  formError(formControlName: string, error: string): ValidationErrors | null {
+    return this.form.get(formControlName).errors?.[error];
   }
 
   protected getOrderObservable(): Observable<Order> {
     return this.service.order.pipe(take(1), untilDestroyed(this));
+  }
+
+  private getParentControllers(formGroup: AbstractControl): AbstractControl[] {
+    const parentControlsKeyValueArray = Object.entries(formGroup.parent.controls);
+    return parentControlsKeyValueArray.map((value) => value[1]);
   }
 
   private resetExcept(except: string[]): Subscription {
@@ -46,11 +65,8 @@ export abstract class OrderStepperChild {
     });
   }
 
-  private resetNextFormGroups(formGroup: AbstractControl): void {
-    const parentControlsKeyValueArray = Object.entries(formGroup.parent.controls);
-    const parentControlsArray = parentControlsKeyValueArray.map((value) => value[1]);
-    this.setIndex(parentControlsArray.indexOf(formGroup));
-    const controlsNeedReset = parentControlsArray.slice(this.currentIndex + 1);
+  private resetNextFormGroups(): void {
+    const controlsNeedReset = this._parentControllers.slice(this.currentIndex + 1);
     controlsNeedReset.forEach((control) => {
       control.reset();
     });

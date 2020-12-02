@@ -4,7 +4,7 @@
     <label for="{{ input.id }}"> {{ input.labelValue }} </label>
   </div>
 </div>
-<form [formGroup]="carModelForm">
+<form [formGroup]="form">
   <div class="car-models">
     <ng-container *ngFor="let car of cars | async | filterCar: (category | async)">
       <input id="{{ car.name }}" type="radio" formControlName="carModel" [value]="car" />
