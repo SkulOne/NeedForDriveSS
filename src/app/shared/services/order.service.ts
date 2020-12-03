@@ -32,9 +32,17 @@ export class OrderService {
   }
 
   getRates(): Observable<RateId[]> {
+    // todo В костанту
     return this.httpClient.get<ResponseResult<RateId>>('api/db/rate').pipe(
       catchError((err) => this.errorHandler.handleHttpError(err)),
       map((value) => value.data)
     );
+  }
+
+  postOrder(order: Order): void {
+    console.log(order);
+    this.httpClient.post('api/db/order', order).subscribe((value) => {
+      console.log(value);
+    });
   }
 }

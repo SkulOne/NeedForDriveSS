@@ -1,0 +1,14 @@
+<ng-container *ngIf="order$ | async; let order">
+  <ng-container *ngIf="order.carId && order.dateFrom">
+    <ul>
+      <li class="car-name">{{ order.carId.name }}</li>
+      <li class="car-number">{{ order.carId.number | uppercase }}</li>
+      <li><span class="property-title">Топливо </span>{{ order.carId.tank }}%</li>
+      <li>
+        <span class="property-title">Доступна с </span
+        >{{ order.dateFrom | date: 'dd.mm.yyyy hh:mm' }}
+      </li>
+    </ul>
+    <img src="{{ order.carId.thumbnail.path }}" alt="" />
+  </ng-container>
+</ng-container>

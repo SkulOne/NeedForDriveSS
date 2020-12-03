@@ -22,8 +22,7 @@ export class DefaultHeaderBackendInterceptor implements HttpInterceptor {
       });
 
       return next.handle(request);
-    } else {
-      return next.handle(request);
     }
+    return next.handle(request);
   }
 }

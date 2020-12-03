@@ -1,4 +1,4 @@
-export interface AdditionallyService {
+export interface Additions {
   name: string;
   price: number;
   unit: string;

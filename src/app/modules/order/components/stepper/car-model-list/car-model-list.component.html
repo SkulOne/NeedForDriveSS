@@ -9,7 +9,7 @@
     <ng-container *ngFor="let car of cars | async | filterCar: (category | async)">
       <input id="{{ car.name }}" type="radio" formControlName="carModel" [value]="car" />
       <label for="{{ car.name }}" class="car-radio">
-        <app-car-model [carModel]="car" (click)="setCar(car)"></app-car-model>
+        <app-car-model [carModel]="car"></app-car-model>
       </label>
     </ng-container>
   </div>

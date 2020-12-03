@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { LocationService } from '../../../../shared/services/location.service';
-import { mapStyle } from './mapStyle';
-import { Observable, of, Subscription } from 'rxjs';
-import { PointService } from '../../../../shared/services/point.service';
-import { City } from '../../../../shared/interfaces/city';
-import { Point } from '../../../../shared/interfaces/point';
-import { OrderService } from '../../../../shared/services/order.service';
+import { LocationService } from '../../../../../shared/services/location.service';
+import { mapStyle } from './map-style';
+import { Observable, of } from 'rxjs';
+import { PointService } from '../../../../../shared/services/point.service';
+import { City } from '../../../../../shared/interfaces/city';
+import { Point } from '../../../../../shared/interfaces/point';
+import { OrderService } from '../../../../../shared/services/order.service';
 import MapTypeStyle = google.maps.MapTypeStyle;
 import LatLngLiteral = google.maps.LatLngLiteral;
 import LatLng = google.maps.LatLng;
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { autocompleteValidator } from '../../../../shared/validators';
-import { Order } from '../../../../shared/interfaces/order';
-import { OrderStepperChild } from '../../../../shared/order-stepper-child';
+import { autocompleteValidator } from '../../../../../shared/validators';
+import { OrderStepperChildDirective } from '../../../../../shared/order-stepper-child';
+import { Order } from '../../../../../shared/interfaces/order';
 
 @Component({
   selector: 'app-location',
@@ -22,14 +22,15 @@ import { OrderStepperChild } from '../../../../shared/order-stepper-child';
   styleUrls: ['./location.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LocationComponent extends OrderStepperChild implements OnInit, OnDestroy {
+export class LocationComponent extends OrderStepperChildDirective implements OnInit, OnDestroy {
   mapStyle: MapTypeStyle[] = mapStyle;
 
   zoom = 11;
   cities$: City[];
   coords$: Observable<LatLng | LatLngLiteral>;
   points$: Observable<Point[]>;
-  private _subscription: Subscription;
+
+  @Input() order: Order;
   private pickupPointControl: FormControl;
   private cityControl: FormControl;
 
@@ -40,6 +41,7 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
   ) {
     super(orderService);
   }
+
   @Input() set locationForm(value: AbstractControl | FormGroup) {
     this.form = value;
     this.cityControl = value.get('city') as FormControl;
@@ -61,6 +63,8 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
     this.clear();
   }
 
+  ngOnDestroy(): void {}
+
   citySelected(city: City, event: MatOptionSelectionChange): void {
     if (event.isUserInput) {
       this.coords$ = this.locationService.getCoordsByAddress(city.name);
@@ -69,6 +73,8 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
         const pointsName = points.map((point) => point.address);
         this.pickupPointControl.setValidators(autocompleteValidator(pointsName));
       });
+      this.order.cityId = city;
+      this.orderService.orderTrigger(this.order);
     }
   }
 
@@ -96,17 +102,13 @@ export class LocationComponent extends OrderStepperChild implements OnInit, OnDe
     this.form.get(formControlName).setValue('');
   }
 
-  ngOnDestroy(): void {
-    this._subscription.unsubscribe();
-  }
-
   private setPoint(point: Point): void {
-    this.getOrderObservable().subscribe((value: Order) => {
-      value.pointId = point;
-      this.orderService.orderTrigger(value);
-      this._subscription = this.reset(['pointId']);
-    });
-    this.orderService.stepperIndex = this.currentIndex;
-    this.coords$ = of(point.coords);
+    if (point) {
+      this.order.pointId = point;
+      this.orderService.orderTrigger(this.order);
+      this.reset(this.order, ['pointId', 'cityId']);
+      this.orderService.stepperIndex = this.currentIndex;
+      this.coords$ = of(point.coords);
+    }
   }
 }

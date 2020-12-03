@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OrderService } from '../../../../shared/services/order.service';
-import { LeaseDuration } from '../../../../shared/interfaces/lease-duration';
-import { Order } from '../../../../shared/interfaces/order';
-import { getDifferenceDays } from '../../../../shared/utils';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import { LeaseDuration } from '../../../../../shared/interfaces/lease-duration';
+import { Order } from '../../../../../shared/interfaces/order';
+import { getDifferenceDays } from '../../../../../shared/utils';
 
 @Component({
   selector: 'app-order-properties',
@@ -13,10 +12,13 @@ import { getDifferenceDays } from '../../../../shared/utils';
 export class OrderPropertiesComponent {
   leaseDuration: LeaseDuration;
   buttonContent = 'Выбрать модель';
-
+  @Input() isReady: boolean;
+  @Input() isSent: boolean;
+  @Output() orderField = new EventEmitter();
+  @Output() nextStepTrigger = new EventEmitter();
   private _order: Order;
 
-  constructor(private orderService: OrderService) {}
+  constructor() {}
 
   get order(): Order {
     return this._order;
@@ -31,16 +33,12 @@ export class OrderPropertiesComponent {
       if (this.order.carId && !this.order.price) {
         this.buttonContent = 'Дополнительно';
       }
-      if (this.order.dateFrom) {
+      if (this.order.dateTo && this.order.dateFrom) {
         this.leaseDuration = getDifferenceDays(this.order.dateFrom, this.order.dateTo);
       }
       if (this.order.carId && this.order.price) {
         this.buttonContent = 'Итого';
       }
     }
-  }
-
-  nextStep(): void {
-    this.orderService.nextStepBtnTrigger.next();
   }
 }

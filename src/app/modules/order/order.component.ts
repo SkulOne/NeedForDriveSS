@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { OrderService } from '../../shared/services/order.service';
-import { Point } from '../../shared/interfaces/point';
-import { Car } from '../../shared/interfaces/car';
 import { Order } from '../../shared/interfaces/order';
-import { LeaseDuration } from '../../shared/interfaces/lease-duration';
 
 @Component({
   selector: 'app-order',
@@ -14,10 +11,8 @@ import { LeaseDuration } from '../../shared/interfaces/lease-duration';
 })
 export class OrderComponent implements OnInit, OnDestroy {
   breakpoint = 4;
-  point: Point;
-  car: Car;
   order: Order;
-  leaseDuration: LeaseDuration;
+  isReady: boolean;
 
   constructor(private orderService: OrderService) {}
 
@@ -41,4 +36,12 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  postOrder(): void {
+    this.orderService.postOrder(this.order);
+  }
+
+  nextStep(): void {
+    this.orderService.nextStepBtnTrigger.next();
+  }
 }

@@ -4,13 +4,7 @@
     <input type="radio" value="Любой" [formControl]="colorControl" id="any" />
     <label for="any"> Любой </label>
     <ng-container *ngFor="let carColor of carColors">
-      <input
-        type="radio"
-        [value]="carColor"
-        [formControl]="colorControl"
-        id="{{ carColor }}"
-        (click)="setColor(carColor)"
-      />
+      <input type="radio" [value]="carColor" [formControl]="colorControl" id="{{ carColor }}" />
       <label for="{{ carColor }}"> {{ carColor }} </label>
     </ng-container>
   </div>
@@ -36,7 +30,6 @@
               mask="d0.m0.0000 Hh:m0"
               placeholder="Выберите дату"
               autocomplete="none"
-              (ngModelChange)="setDate($event, input.controlName)"
             />
             <mat-error *ngFor="let error of errors">
               <span *ngIf="formError(input.controlName, error.condition)">{{ error.value }}</span>
@@ -54,7 +47,6 @@
             id="{{ input.rateTypeId.unit }}"
             [value]="input"
             formControlName="rateId"
-            (ngModelChange)="setRate(input)"
           />
           <label for="{{ input.rateTypeId.unit }}">
             {{ input.rateTypeId.name }}, {{ input.price }}₽/{{ input.rateTypeId.unit }}</label
@@ -69,9 +61,7 @@
           <input
             type="checkbox"
             id="{{ input.id }}"
-            [value]="input.value"
             [formControl]="additionalServices.get(input.id)"
-            (ngModelChange)="setAdditionallyService(input.id, input.value.price)"
           />
           <label for="{{ input.id }}">{{ input.labelValue }} </label>
         </div>

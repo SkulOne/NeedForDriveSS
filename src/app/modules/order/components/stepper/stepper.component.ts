@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { OrderService } from '../../../../shared/services/order.service';
@@ -9,6 +9,9 @@ import {
   validPrice,
 } from '../../../../shared/validators';
 import { ErrorHandlerService } from '../../../../shared/services/error-handler.service';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Order } from '../../../../shared/interfaces/order';
 
 @Component({
   selector: 'app-stepper',
@@ -17,6 +20,8 @@ import { ErrorHandlerService } from '../../../../shared/services/error-handler.s
 })
 export class StepperComponent implements OnInit, OnDestroy {
   orderForm: FormGroup;
+  @Output() isReady = new EventEmitter<boolean>();
+  order: Order;
   @ViewChild('stepper') private stepper: MatStepper;
 
   constructor(
@@ -31,6 +36,18 @@ export class StepperComponent implements OnInit, OnDestroy {
     this.orderService.nextStepBtnTrigger.subscribe(() => {
       this.goToStep(this.orderService.stepperIndex + 1);
     });
+
+    this.orderService.order.pipe(untilDestroyed(this)).subscribe((value) => {
+      this.order = { ...value };
+    });
+  }
+
+  isPrevLast(event: StepperSelectionEvent): void {
+    if (this.stepper.steps.length === event.selectedIndex + 1) {
+      this.isReady.emit(true);
+    } else {
+      this.isReady.emit(false);
+    }
   }
 
   ngOnDestroy(): void {}

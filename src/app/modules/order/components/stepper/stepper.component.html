@@ -1,20 +1,24 @@
-<mat-horizontal-stepper linear #stepper>
-  <!--  <mat-step [editable]="true">-->
+<mat-horizontal-stepper linear #stepper (selectionChange)="isPrevLast($event)">
   <mat-step [stepControl]="orderForm.get('locationFormGroup')" [editable]="true">
     <ng-template matStepLabel>Местоположение</ng-template>
-    <app-location [locationForm]="orderForm.get('locationFormGroup')"></app-location>
+    <app-location
+      [order]="order"
+      [locationForm]="orderForm.get('locationFormGroup')"
+    ></app-location>
   </mat-step>
 
-  <!--  <mat-step>-->
   <mat-step [stepControl]="orderForm.get('carModelFormGroup')">
     <ng-template matStepLabel>Модель</ng-template>
-    <app-car-model-list [carModelForm]="orderForm.get('carModelFormGroup')"></app-car-model-list>
+    <app-car-model-list
+      [order]="order"
+      [carModelForm]="orderForm.get('carModelFormGroup')"
+    ></app-car-model-list>
   </mat-step>
 
-  <!--  <mat-step>-->
   <mat-step [stepControl]="orderForm.get('additionallyFormGroup')">
     <ng-template matStepLabel>Дополнительно</ng-template>
     <app-additionally
+      [order]="order"
       [additionallyForm]="orderForm.get('additionallyFormGroup')"
     ></app-additionally>
   </mat-step>
