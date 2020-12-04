@@ -32,17 +32,29 @@ export class OrderService {
   }
 
   getRates(): Observable<RateId[]> {
-    // todo В костанту
-    return this.httpClient.get<ResponseResult<RateId>>('api/db/rate').pipe(
+    return this.httpClient.get<ResponseResult<RateId[]>>('api/db/rate').pipe(
       catchError((err) => this.errorHandler.handleHttpError(err)),
       map((value) => value.data)
     );
   }
 
-  postOrder(order: Order): void {
-    console.log(order);
-    this.httpClient.post('api/db/order', order).subscribe((value) => {
-      console.log(value);
-    });
+  postOrder(order: Order): Observable<string> {
+    return this.httpClient.post<ResponseResult<Order>>('api/db/order', order).pipe(
+      map((value) => {
+        return value.data.id;
+      })
+    );
+  }
+
+  getOrderById(id: string): Observable<Order> {
+    return this.httpClient.get<ResponseResult<Order>>(`api/db/order/${id}`).pipe(
+      map((result) => {
+        const car = result.data.carId;
+        car.thumbnail.path = car.thumbnail.path.search('data:image/png;base64,')
+          ? `http://api-factory.simbirsoft1.com${car.thumbnail.path}`
+          : car.thumbnail.path;
+        return result.data;
+      })
+    );
   }
 }

@@ -6,7 +6,7 @@ import { LocationComponent } from './components/stepper/location/location.compon
 import { SharedModule } from '../shared-module/shared.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import { OrderPropertiesComponent } from './components/stepper/order-properties/order-properties.component';
+import { OrderPropertiesComponent } from './components/order-properties/order-properties.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,8 +24,11 @@ import { CarModelComponent } from './components/stepper/car-model-list/car-model
 import { MatCardModule } from '@angular/material/card';
 import { AdditionallyComponent } from './components/stepper/additionally/additionally.component';
 import { NgxMaskModule } from 'ngx-mask';
-import { OrderInfoComponent } from './components/order-info/order-info.component';
-import { OrderListItemComponent } from './components/stepper/order-properties/order-list-item/order-list-item.component';
+import { OrderInfoComponent } from './components/stepper/order-info/order-info.component';
+import { OrderListItemComponent } from './components/order-properties/order-list-item/order-list-item.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { OrderSharingComponent } from './components/order-sharing/order-sharing.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +41,8 @@ import { OrderListItemComponent } from './components/stepper/order-properties/or
     AdditionallyComponent,
     OrderInfoComponent,
     OrderListItemComponent,
+    ConfirmDialogComponent,
+    OrderSharingComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +63,7 @@ import { OrderListItemComponent } from './components/stepper/order-properties/or
     MatSnackBarModule,
     MatCardModule,
     NgxMaskModule.forRoot(),
+    MatDialogModule,
   ],
   providers: [LocationService, ErrorHandlerService],
 })

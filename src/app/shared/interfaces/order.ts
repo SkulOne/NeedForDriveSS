@@ -3,6 +3,7 @@ import { Car } from './car';
 import { Point } from './point';
 
 export interface Order {
+  id?: string;
   orderStatusId: OrderStatus;
   cityId?: City;
   pointId?: Point;

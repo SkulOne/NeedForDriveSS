@@ -18,7 +18,7 @@ export class PointService {
   ) {}
 
   getPointsFormCity(cityId: string): Observable<Point[]> {
-    return this.httpClient.get<ResponseResult<Point>>(`api/db/point?cityId=${cityId}`).pipe(
+    return this.httpClient.get<ResponseResult<Point[]>>(`api/db/point?cityId=${cityId}`).pipe(
       catchError((err) => this.errorHandler.handleHttpError(err)),
       mergeMap((result) => {
         return result.data.map((point: Point) => {

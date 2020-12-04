@@ -6,8 +6,7 @@
   border: none;
   padding: 15px 48px 11px;
   background: linear-gradient(90deg, darken($color, 0%), darken($secondColor, 0%));
-  &:hover,
-  &:focus {
+  &:hover {
     outline: none;
     background: linear-gradient(90deg, darken($color, 10%), darken($secondColor, 10%));
   }
@@ -55,4 +54,13 @@ button {
 ul {
   list-style: none;
   padding: 0;
+}
+
+div.cdk-global-overlay-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+mat-dialog-container.mat-dialog-container {
+  box-shadow: none;
+  background: none;
 }

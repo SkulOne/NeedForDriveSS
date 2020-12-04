@@ -1,4 +1,4 @@
-<ng-container *ngIf="order$ | async; let order">
+<ng-container *ngIf="order">
   <ng-container *ngIf="order.carId && order.dateFrom">
     <ul>
       <li class="car-name">{{ order.carId.name }}</li>

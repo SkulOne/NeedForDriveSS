@@ -54,7 +54,7 @@ export class LocationService {
   }
 
   getAllCity(): Observable<City[]> {
-    return this.httpClient.get<ResponseResult<City>>('api/db/city').pipe(
+    return this.httpClient.get<ResponseResult<City[]>>('api/db/city').pipe(
       catchError((err) => this.errorHandler.handleHttpError(err)),
       map((result) => {
         return result.data;

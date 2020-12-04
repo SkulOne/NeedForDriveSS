@@ -48,7 +48,7 @@
       </ng-template>
     </span>
   </span>
-  <button class="accent-button" (click)="orderField.emit()" *ngIf="isReady; else nextBtn">
+  <button class="accent-button" (click)="showConfirmDialog()" *ngIf="isReady; else nextBtn">
     Отправить
   </button>
   <ng-template #nextBtn>

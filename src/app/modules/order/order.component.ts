@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } f
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { OrderService } from '../../shared/services/order.service';
 import { Order } from '../../shared/interfaces/order';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -14,7 +15,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   order: Order;
   isReady: boolean;
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private router: Router) {}
 
   @HostListener('window:resize') onResize(): void {
     this.breakpoint = window.innerWidth <= 767 ? 3 : 4;
@@ -38,7 +39,12 @@ export class OrderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   postOrder(): void {
-    this.orderService.postOrder(this.order);
+    this.orderService
+      .postOrder(this.order)
+      .pipe(untilDestroyed(this))
+      .subscribe((value) => {
+        this.router.navigate(['/order-info', value]);
+      });
   }
 
   nextStep(): void {

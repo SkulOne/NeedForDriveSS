@@ -1,0 +1,48 @@
+:host {
+  width: 100%;
+  padding: 2rem 4rem;
+  background: white;
+
+  .mat-grid-list {
+    margin-top: 16px;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .order-id {
+      height: 32px;
+      border-top: 1px solid #eeeeee;
+      border-bottom: 1px solid #eeeeee;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 0 24px;
+    }
+    app-order-info {
+      padding: 0 24px 24px 24px;
+    }
+  }
+  .order-properties {
+    border-left: 1px solid #eeeeee;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :host {
+    padding: 0;
+
+    mat-grid-list {
+      overflow-y: scroll;
+      height: 100% !important;
+    }
+    mat-grid-tile {
+      width: 100% !important;
+    }
+    .order-properties {
+      border: none;
+    }
+  }
+}

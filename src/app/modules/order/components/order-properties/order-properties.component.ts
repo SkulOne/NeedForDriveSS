@@ -1,7 +1,18 @@
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
-import { LeaseDuration } from '../../../../../shared/interfaces/lease-duration';
-import { Order } from '../../../../../shared/interfaces/order';
-import { getDifferenceDays } from '../../../../../shared/utils';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
+import { LeaseDuration } from '../../../../shared/interfaces/lease-duration';
+import { Order } from '../../../../shared/interfaces/order';
+import { getDifferenceDays } from '../../../../shared/utils';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-order-properties',
@@ -9,16 +20,16 @@ import { getDifferenceDays } from '../../../../../shared/utils';
   styleUrls: ['./order-properties.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderPropertiesComponent {
+export class OrderPropertiesComponent implements OnInit, OnDestroy {
   leaseDuration: LeaseDuration;
   buttonContent = 'Выбрать модель';
   @Input() isReady: boolean;
   @Input() isSent: boolean;
-  @Output() orderField = new EventEmitter();
+  @Output() sendOrder = new EventEmitter();
   @Output() nextStepTrigger = new EventEmitter();
   private _order: Order;
 
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   get order(): Order {
     return this._order;
@@ -41,4 +52,16 @@ export class OrderPropertiesComponent {
       }
     }
   }
+
+  showConfirmDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+    dialogRef
+      .afterClosed()
+      .pipe(untilDestroyed(this))
+      .subscribe((value) => (value ? this.sendOrder.emit() : null));
+  }
+
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {}
 }

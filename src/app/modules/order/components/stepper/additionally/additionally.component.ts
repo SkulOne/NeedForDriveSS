@@ -5,10 +5,11 @@ import { OrderService } from '../../../../../shared/services/order.service';
 import { errors } from './additionally-errors';
 import { createDate, getDifferenceDays } from '../../../../../shared/utils';
 import { Order, RateId } from '../../../../../shared/interfaces/order';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { OrderStepperChildDirective } from '../../../../../shared/order-stepper-child';
 import { ErrorHandlerService } from '../../../../../shared/services/error-handler.service';
 import { map, pairwise } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-additionally',
@@ -29,7 +30,6 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
   rateIdArray: Observable<RateId[]>;
   rateIdControl: AbstractControl | FormControl;
 
-  private subscription: Subscription;
   private _order: Order;
   constructor(private orderService: OrderService, private errorService: ErrorHandlerService) {
     super(orderService);
@@ -59,29 +59,30 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
 
     this.colorControl = new FormControl('Любой');
 
-    this.colorControl.valueChanges.subscribe((value) => {
+    this.colorControl.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
       if (value) {
         this.order.color = value;
         this.orderService.orderTrigger(this.order);
       }
     });
 
-    this.dateToControl.valueChanges.subscribe((value) => {
+    this.dateToControl.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
       this.setDate(value, 'dateTo');
     });
 
-    this.dateFromControl.valueChanges.subscribe((value) => {
+    this.dateFromControl.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
       this.setDate(value, 'dateFrom');
     });
 
-    this.rateIdControl.valueChanges.subscribe((value) => {
+    this.rateIdControl.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
       this.setRate(value);
     });
 
     this.additionalServices.valueChanges
       .pipe(
         pairwise(),
-        map(([prev, curr]) => Object.keys(curr).find((key) => prev[key] !== curr[key]))
+        map(([prev, curr]) => Object.keys(curr).find((key) => prev[key] !== curr[key])),
+        untilDestroyed(this)
       )
       .subscribe((value) => {
         switch (value) {
@@ -98,9 +99,7 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
       });
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   checkRange(order: Order): void {
     if (order.carId) {

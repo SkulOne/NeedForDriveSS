@@ -1,6 +1,6 @@
 export interface ResponseResult<T> {
   count: number;
-  data: T[];
+  data: T;
   fields: Fields;
 }
 

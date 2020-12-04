@@ -12,7 +12,7 @@ export class CarService {
   constructor(private httpClient: HttpClient) {}
 
   getCars(): Observable<Car[]> {
-    return this.httpClient.get<ResponseResult<Car>>('api/db/car').pipe(
+    return this.httpClient.get<ResponseResult<Car[]>>('api/db/car').pipe(
       map((result) => {
         result.data.forEach((car) => {
           car.thumbnail.path = car.thumbnail.path.search('data:image/png;base64,')
