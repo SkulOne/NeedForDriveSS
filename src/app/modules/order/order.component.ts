@@ -3,6 +3,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { OrderService } from '../../shared/services/order.service';
 import { Order } from '../../shared/interfaces/order';
 import { Router } from '@angular/router';
+import { StepperComponent } from './components/stepper/stepper.component';
 
 @Component({
   selector: 'app-order',
@@ -43,11 +44,19 @@ export class OrderComponent implements OnInit, OnDestroy {
       .postOrder(this.order)
       .pipe(untilDestroyed(this))
       .subscribe((value) => {
-        this.router.navigate(['/order-info', value]);
+        this.router.navigate(['/order', value]);
       });
   }
 
   nextStep(): void {
     this.orderService.nextStepBtnTrigger.next();
+  }
+
+  log($event: any): void {
+    if (($event as StepperComponent).isReady) {
+      ($event as StepperComponent).isReady.subscribe((value) => {
+        this.isReady = value;
+      });
+    }
   }
 }

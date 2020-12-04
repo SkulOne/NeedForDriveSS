@@ -1,11 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  Output,
   EventEmitter,
-  OnInit,
+  Input,
   OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { LeaseDuration } from '../../../../shared/interfaces/lease-duration';
 import { Order } from '../../../../shared/interfaces/order';
@@ -22,7 +22,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 })
 export class OrderPropertiesComponent implements OnInit, OnDestroy {
   leaseDuration: LeaseDuration;
-  buttonContent = 'Выбрать модель';
+  buttonContent: string;
   @Input() isReady: boolean;
   @Input() isSent: boolean;
   @Output() sendOrder = new EventEmitter();

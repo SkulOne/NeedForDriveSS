@@ -29,6 +29,7 @@ import { OrderListItemComponent } from './components/order-properties/order-list
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { OrderSharingComponent } from './components/order-sharing/order-sharing.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { OrderSharingComponent } from './components/order-sharing/order-sharing.
     MatCardModule,
     NgxMaskModule.forRoot(),
     MatDialogModule,
+    RouterModule,
   ],
   providers: [LocationService, ErrorHandlerService],
 })

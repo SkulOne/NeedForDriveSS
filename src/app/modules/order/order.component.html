@@ -2,7 +2,7 @@
 
 <mat-grid-list [cols]="breakpoint" rowHeight="32px">
   <mat-grid-tile colspan="3" rowspan="17" class="order-list">
-    <app-stepper (isReady)="isReady = $event"></app-stepper>
+    <router-outlet (activate)="log($event)"></router-outlet>
   </mat-grid-tile>
 
   <mat-grid-tile
