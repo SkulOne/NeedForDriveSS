@@ -73,11 +73,17 @@
         }
 
         .enter {
-          background: rgba(0, 123, 255, 1);
+          background: #007bff;
           width: 110px;
           height: 29px;
           border-radius: 4px;
           color: white;
+          &:hover {
+            background: darken(#007bff, 10%);
+          }
+          &:active {
+            background: darken(#007bff, 20%);
+          }
         }
       }
     }
