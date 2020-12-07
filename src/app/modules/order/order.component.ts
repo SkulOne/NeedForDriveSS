@@ -4,6 +4,7 @@ import { OrderService } from '../../shared/services/order.service';
 import { Order } from '../../shared/interfaces/order';
 import { Router } from '@angular/router';
 import { StepperComponent } from './components/stepper/stepper.component';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order',
@@ -23,14 +24,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.orderService.orderTrigger({
-      orderStatusId: 'new',
-      color: 'Любой',
-      isFullTank: false,
-      isNeedChildChair: false,
-      isRightWheel: false,
-      price: 0,
-    });
+    this.orderService.orderTrigger(null);
 
     this.orderService.order.pipe(untilDestroyed(this)).subscribe((value) => {
       this.order = { ...value };
@@ -41,10 +35,16 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   postOrder(): void {
     this.orderService
-      .postOrder(this.order)
-      .pipe(untilDestroyed(this))
-      .subscribe((value) => {
-        this.router.navigate(['/order', value]);
+      .getOrderStatus()
+      .pipe(
+        switchMap((orderStatus) => {
+          this.order.orderStatusId = orderStatus;
+          return this.orderService.postOrder(this.order);
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe((orderId) => {
+        this.router.navigate(['/order', orderId]);
       });
   }
 
@@ -52,11 +52,16 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.orderService.nextStepBtnTrigger.next();
   }
 
-  log($event: any): void {
-    if (($event as StepperComponent).isReady) {
+  routerComponentEvents($event: any): void {
+    if ($event instanceof StepperComponent) {
       ($event as StepperComponent).isReady.subscribe((value) => {
         this.isReady = value;
       });
     }
+  }
+
+  cancelOrder(): void {
+    this.orderService.cancelOrder(this.order).pipe(untilDestroyed(this)).subscribe();
+    this.router.navigate(['/order']);
   }
 }

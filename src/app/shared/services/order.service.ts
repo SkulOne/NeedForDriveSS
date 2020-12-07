@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { Order, RateId } from '../interfaces/order';
+import { Order, OrderStatus, RateId } from '../interfaces/order';
 import { HttpClient } from '@angular/common/http';
 import { ResponseResult } from '../interfaces/response-result';
 import { catchError, map } from 'rxjs/operators';
@@ -14,6 +14,7 @@ export class OrderService {
 
   private _orderBehavior = new BehaviorSubject(null);
   private _stepperIndex: number;
+  private readonly cancelledId = '5e26a1f5099b810b946c5d8c';
 
   constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
   get order(): Observable<Order> {
@@ -38,8 +39,15 @@ export class OrderService {
     );
   }
 
+  getOrderStatus(): Observable<OrderStatus> {
+    return this.httpClient
+      .get<ResponseResult<OrderStatus[]>>('api/db/orderStatus')
+      .pipe(map((result) => result.data[0]));
+  }
+
   postOrder(order: Order): Observable<string> {
     return this.httpClient.post<ResponseResult<Order>>('api/db/order', order).pipe(
+      catchError((err) => this.errorHandler.handleHttpError(err)),
       map((value) => {
         return value.data.id;
       })
@@ -48,6 +56,7 @@ export class OrderService {
 
   getOrderById(id: string): Observable<Order> {
     return this.httpClient.get<ResponseResult<Order>>(`api/db/order/${id}`).pipe(
+      catchError((err) => this.errorHandler.handleHttpError(err)),
       map((result) => {
         const car = result.data.carId;
         car.thumbnail.path = car.thumbnail.path.search('data:image/png;base64,')
@@ -56,5 +65,10 @@ export class OrderService {
         return result.data;
       })
     );
+  }
+
+  cancelOrder(order: Order): Observable<Order> {
+    order.orderStatusId.id = this.cancelledId;
+    return this.httpClient.put<Order>(`api/db/order/${order.id}`, order);
   }
 }

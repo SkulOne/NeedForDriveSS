@@ -24,6 +24,7 @@ export class LocationService {
 
   getUserCity(): Observable<string> {
     return this.getUserCoords().pipe(
+      catchError((err) => this.errorHandler.handleHttpError(err)),
       mergeMap((coords) => {
         return this.requestCity(coords).pipe(
           map((locationUser) => locationUser.address_components[0].long_name)

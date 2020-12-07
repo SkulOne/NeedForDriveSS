@@ -1,5 +1,6 @@
 <ng-container *ngIf="order">
   <span class="order-title">Ваш заказ:</span>
+
   <ul class="order-properties">
     <app-order-list-item
       *ngIf="order.pointId"
@@ -17,7 +18,7 @@
       [subtitle]="order.color"
     ></app-order-list-item>
     <app-order-list-item
-      *ngIf="leaseDuration"
+      *ngIf="leaseDuration && order.dateFrom"
       [title]="'Длительность аренды'"
       [subtitle]="leaseDuration.day + ' д ' + leaseDuration.hour + ' ч ' + leaseDuration.min + ' м'"
     ></app-order-list-item>
@@ -48,17 +49,23 @@
       </ng-template>
     </span>
   </span>
-  <button class="accent-button" (click)="showConfirmDialog()" *ngIf="isReady; else nextBtn">
+
+  <button
+    *ngIf="isReady && !order.orderStatusId"
+    class="accent-button"
+    (click)="showConfirmDialog()"
+  >
     Отправить
   </button>
-  <ng-template #nextBtn>
-    <button
-      class="accent-button"
-      (click)="nextStepTrigger.emit()"
-      [disabled]="!order.pointId"
-      [class.disabled]="!order.pointId"
-    >
-      {{ buttonContent }}
-    </button>
-  </ng-template>
+  <button *ngIf="order.orderStatusId" class="red-background" (click)="cancelBtn()">Отменить</button>
+
+  <button
+    *ngIf="!isReady && !order.orderStatusId"
+    class="accent-button"
+    (click)="nextStepTrigger.emit()"
+    [disabled]="!order.pointId"
+    [class.disabled]="!order.pointId"
+  >
+    {{ buttonContent }}
+  </button>
 </ng-container>

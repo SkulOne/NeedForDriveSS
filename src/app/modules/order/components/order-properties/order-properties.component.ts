@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
 } from '@angular/core';
 import { LeaseDuration } from '../../../../shared/interfaces/lease-duration';
@@ -20,13 +19,13 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   styleUrls: ['./order-properties.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderPropertiesComponent implements OnInit, OnDestroy {
+export class OrderPropertiesComponent implements OnDestroy {
   leaseDuration: LeaseDuration;
   buttonContent: string;
   @Input() isReady: boolean;
-  @Input() isSent: boolean;
   @Output() sendOrder = new EventEmitter();
   @Output() nextStepTrigger = new EventEmitter();
+  @Output() cancelBtnTrigger = new EventEmitter();
   private _order: Order;
 
   constructor(public dialog: MatDialog) {}
@@ -36,6 +35,9 @@ export class OrderPropertiesComponent implements OnInit, OnDestroy {
   }
 
   @Input() set order(value: Order) {
+    if (!this.order) {
+      this.isReady = false;
+    }
     this._order = value;
     if (this.order) {
       if (!this.order.carId && !this.order.price) {
@@ -50,6 +52,8 @@ export class OrderPropertiesComponent implements OnInit, OnDestroy {
       if (this.order.carId && this.order.price) {
         this.buttonContent = 'Итого';
       }
+    } else {
+      this.buttonContent = 'Выбрать модель';
     }
   }
 
@@ -58,10 +62,16 @@ export class OrderPropertiesComponent implements OnInit, OnDestroy {
     dialogRef
       .afterClosed()
       .pipe(untilDestroyed(this))
-      .subscribe((value) => (value ? this.sendOrder.emit() : null));
+      .subscribe((value) => {
+        if (value) {
+          this.sendOrder.emit();
+          this.isReady = false;
+        }
+      });
   }
-
-  ngOnInit(): void {}
-
   ngOnDestroy(): void {}
+
+  cancelBtn(): void {
+    this.cancelBtnTrigger.emit();
+  }
 }

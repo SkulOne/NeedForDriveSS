@@ -4,7 +4,7 @@ import { Point } from './point';
 
 export interface Order {
   id?: string;
-  orderStatusId: OrderStatus;
+  orderStatusId?: OrderStatus;
   cityId?: City;
   pointId?: Point;
   carId?: Car;
@@ -25,4 +25,8 @@ export interface RateId {
 
 export type RateTypeID = { unit: 'мин'; name: 'Поминутно' } | { unit: 'сутки'; name: 'На сутки' };
 
-export type OrderStatus = 'new' | 'issued' | 'confirmed' | 'cancelled';
+export interface OrderStatus {
+  name: OrderStatusName;
+  id: string;
+}
+export type OrderStatusName = 'new' | 'issued' | 'confirmed' | 'cancelled';

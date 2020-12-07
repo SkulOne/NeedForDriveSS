@@ -2,7 +2,7 @@
 
 <mat-grid-list [cols]="breakpoint" rowHeight="32px">
   <mat-grid-tile colspan="3" rowspan="17" class="order-list">
-    <router-outlet (activate)="log($event)"></router-outlet>
+    <router-outlet (activate)="routerComponentEvents($event)"></router-outlet>
   </mat-grid-tile>
 
   <mat-grid-tile
@@ -17,6 +17,7 @@
       [isReady]="isReady"
       (nextStepTrigger)="nextStep()"
       (sendOrder)="postOrder()"
+      (cancelBtnTrigger)="cancelOrder()"
     ></app-order-properties>
   </mat-grid-tile>
 </mat-grid-list>

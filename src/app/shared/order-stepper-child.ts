@@ -43,13 +43,14 @@ export abstract class OrderStepperChildDirective {
     });
 
     const indexes = except.map((value) => {
-      if (orderKeys.indexOf(value)) {
+      if (orderKeys.indexOf(value) > -1) {
         return orderKeys.indexOf(value);
       }
     });
 
     orderKeys.forEach((value, index) => {
       if (indexes.indexOf(index) === -1) {
+        console.log(value);
         order[value] = null;
       }
     });
