@@ -1,0 +1,55 @@
+@import '../../../../../../shared/style/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 430px;
+    padding: {
+      top: 16px;
+    }
+
+    .form__item {
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      //color: $main-black-color;
+      mat-form-field {
+        margin-left: 10px;
+        width: 300px;
+        mat-icon {
+          font-size: 14px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  agm-map {
+    width: 100%;
+    height: 375px;
+    align-self: center;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  :host form .form__item {
+    justify-content: flex-start;
+    .form-label {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 599px) {
+  :host form {
+    width: 100%;
+    .form__item {
+      width: 100%;
+    }
+  }
+}
