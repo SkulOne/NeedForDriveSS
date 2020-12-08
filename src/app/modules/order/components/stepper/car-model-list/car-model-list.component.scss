@@ -2,19 +2,21 @@
 
 :host {
   overflow-y: auto;
+  font-size: 14px;
 
   .car-type {
-    padding: 48px 0;
+    display: flex;
+    margin-bottom: 48px;
     .car-type__item {
       display: flex;
+      margin-left: 16px;
+      align-items: center;
     }
   }
 
   .car-models {
     display: flex;
     flex-wrap: wrap;
-    height: 350px;
-    overflow: auto;
 
     input {
       display: none;
@@ -29,9 +31,7 @@
 
 @media screen and (max-width: 599px) {
   .car-type {
-    display: flex;
     flex-direction: column;
-    padding: 0 16px;
   }
 
   .car-radio {

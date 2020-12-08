@@ -32,7 +32,7 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
 
   private _order: Order;
   constructor(private orderService: OrderService, private errorService: ErrorHandlerService) {
-    super(orderService);
+    super();
   }
   get order(): Order {
     return this._order;
@@ -147,12 +147,27 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
     if (this.form.get(controlName).valid && value) {
       this.order[controlName] = +createDate(value);
       this.rateIdControl.reset();
+      this.order = this.reset(this.order, [
+        'pointId',
+        'carId',
+        'color',
+        'cityId',
+        'dateTo',
+        'dateFrom',
+      ]);
       this.orderService.orderTrigger(this.order);
+    } else {
+      this.form.get(controlName).setErrors(null);
     }
   }
 
   private setPrice(): void {
-    if (this.rateIdControl.valid && this.dateToControl.valid && this.rateIdControl.value) {
+    if (
+      this.rateIdControl.valid &&
+      this.dateToControl.valid &&
+      this.dateToControl.value &&
+      this.rateIdControl.value
+    ) {
       this.additionalServices.reset();
       if ((this.rateIdControl.value as RateId).rateTypeId.name === 'На сутки') {
         const lease = getDifferenceDays(this.order.dateFrom, this.order.dateTo);

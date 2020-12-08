@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ResponseResult } from '../interfaces/response-result';
 import { catchError, map } from 'rxjs/operators';
 import { ErrorHandlerService } from './error-handler.service';
+import { LocationService } from './location.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,11 @@ export class OrderService {
   private _stepperIndex: number;
   private readonly cancelledId = '5e26a1f5099b810b946c5d8c';
 
-  constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private errorHandler: ErrorHandlerService,
+    private locationService: LocationService
+  ) {}
   get order(): Observable<Order> {
     return this._orderBehavior.asObservable();
   }
@@ -29,6 +34,7 @@ export class OrderService {
   }
 
   orderTrigger(value: Order): void {
+    this.locationService.setCity$.next(value && value.cityId ? value.cityId : null);
     this._orderBehavior.next(value);
   }
 

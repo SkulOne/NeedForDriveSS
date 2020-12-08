@@ -3,6 +3,15 @@
 :host {
   font-size: 14px;
 
+  .service-header {
+    color: $main-black-color;
+    margin: {
+      top: 32px;
+      bottom: 16px;
+    }
+    display: block;
+  }
+
   input[type='checkbox'] {
     margin-right: 8px;
   }
@@ -20,14 +29,6 @@
   ul {
     list-style: none;
     padding: 0;
-
-    .service-header {
-      color: $main-black-color;
-      margin: {
-        top: 32px;
-        bottom: 16px;
-      }
-    }
 
     .additionally-item {
       display: flex;
@@ -54,5 +55,10 @@
         }
       }
     }
+  }
+}
+div {
+  .service-header {
+    margin-top: 0;
   }
 }

@@ -1,6 +1,6 @@
 <form [formGroup]="form">
   <label class="form__item">
-    <span class="form-label"> Город: </span>
+    <span class="form-label"> Город </span>
     <mat-form-field>
       <mat-label>Поле города</mat-label>
       <input
@@ -31,7 +31,7 @@
   </label>
 
   <label class="form__item">
-    <span class="form-label">Пункт выдачи: </span>
+    <span class="form-label">Пункт выдачи </span>
     <mat-form-field>
       <mat-label>Поле пункта выдачи</mat-label>
       <input
@@ -61,6 +61,8 @@
     </mat-form-field>
   </label>
 </form>
+
+<span class="select-on-map">Выбрать на карте:</span>
 
 <agm-map
   *ngIf="coords$ | async; let coords"

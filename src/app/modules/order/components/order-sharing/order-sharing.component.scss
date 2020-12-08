@@ -1,6 +1,17 @@
+@import 'src/app/shared/style/variables';
+
 :host {
   width: 100%;
   background: white;
+
+  .order-sharing-title {
+    font-size: 24px;
+    color: $main-black-color;
+    margin: {
+      top: 32px;
+      bottom: 8px;
+    }
+  }
 
   .order-sharing-wrapper {
     display: flex;
@@ -14,10 +25,6 @@
       align-items: center;
       font-size: 14px;
       font-weight: 700;
-      padding: 0 24px;
-    }
-    app-order-info {
-      padding: 0 24px 24px 24px;
     }
   }
 }

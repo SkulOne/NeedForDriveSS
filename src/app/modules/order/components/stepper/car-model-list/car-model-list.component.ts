@@ -22,7 +22,7 @@ export class CarModelListComponent extends OrderStepperChildDirective implements
   @Input() order: Order;
 
   constructor(private carService: CarService, private orderService: OrderService) {
-    super(orderService);
+    super();
   }
   @Input() set carModelForm(value: AbstractControl | FormGroup) {
     this.form = value;
@@ -39,7 +39,7 @@ export class CarModelListComponent extends OrderStepperChildDirective implements
 
   private setCar(car: Car): void {
     if (car) {
-      this.reset(this.order, ['pointId', 'carId', 'color', 'cityId']);
+      this.order = this.reset(this.order, ['pointId', 'carId', 'color', 'cityId']);
       this.order.carId = car;
       this.order.color = 'Любой';
       this.orderService.stepperIndex = this.currentIndex;

@@ -39,7 +39,7 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
     private pointService: PointService,
     private orderService: OrderService
   ) {
-    super(orderService);
+    super();
   }
 
   @Input() set locationForm(value: AbstractControl | FormGroup) {
@@ -104,9 +104,9 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
 
   private setPoint(point: Point): void {
     if (point) {
+      this.order = this.reset(this.order, ['pointId', 'cityId']);
       this.order.pointId = point;
       this.orderService.orderTrigger(this.order);
-      this.reset(this.order, ['pointId', 'cityId']);
       this.orderService.stepperIndex = this.currentIndex;
       this.coords$ = of(point.coords);
     }

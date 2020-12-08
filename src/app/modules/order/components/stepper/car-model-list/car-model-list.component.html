@@ -4,13 +4,11 @@
     <label for="{{ input.id }}"> {{ input.labelValue }} </label>
   </div>
 </div>
-<form [formGroup]="form">
-  <div class="car-models">
-    <ng-container *ngFor="let car of cars | async | filterCar: (category | async)">
-      <input id="{{ car.name }}" type="radio" formControlName="carModel" [value]="car" />
-      <label for="{{ car.name }}" class="car-radio">
-        <app-car-model [carModel]="car"></app-car-model>
-      </label>
-    </ng-container>
-  </div>
+<form [formGroup]="form" class="car-models">
+  <ng-container *ngFor="let car of cars | async | filterCar: (category | async)">
+    <input id="{{ car.name }}" type="radio" formControlName="carModel" [value]="car" />
+    <label for="{{ car.name }}" class="car-radio">
+      <app-car-model [carModel]="car"></app-car-model>
+    </label>
+  </ng-container>
 </form>

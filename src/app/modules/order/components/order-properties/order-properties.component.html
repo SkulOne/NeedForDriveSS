@@ -23,6 +23,11 @@
       [subtitle]="leaseDuration.day + ' д ' + leaseDuration.hour + ' ч ' + leaseDuration.min + ' м'"
     ></app-order-list-item>
     <app-order-list-item
+      *ngIf="order.rateId"
+      [title]="'Тариф'"
+      [subtitle]="order.rateId.rateTypeId.name"
+    ></app-order-list-item
+    ><app-order-list-item
       *ngIf="order.isFullTank"
       [title]="'Полный бак'"
       [subtitle]="'Да'"

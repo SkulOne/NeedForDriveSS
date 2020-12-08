@@ -2,11 +2,11 @@
 
 :host {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   ul {
     font-weight: 400;
     font-size: 14px;
+    margin: 0;
     li {
       margin: 4px 0;
     }

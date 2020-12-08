@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ResponseResult } from '../interfaces/response-result';
@@ -17,6 +17,7 @@ interface GeocoderResponseArray {
   providedIn: 'root',
 })
 export class LocationService {
+  setCity$ = new Subject<City>();
   private readonly googleMapKey = 'key=AIzaSyDLs3CudxoCs9C43iKaJqQ31Xg3w89_8G8';
   private readonly url = 'https://maps.googleapis.com/maps/api/';
 
