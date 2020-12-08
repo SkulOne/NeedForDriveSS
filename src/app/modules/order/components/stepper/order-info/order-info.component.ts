@@ -7,7 +7,7 @@ import { Order } from '../../../../../shared/interfaces/order';
   styleUrls: ['./order-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderInfoComponent implements OnInit {
+export class OrderInfoComponent {
   private _order: Order;
   constructor() {}
   get order(): Order {
@@ -16,6 +16,4 @@ export class OrderInfoComponent implements OnInit {
   @Input() set order(value: Order) {
     this._order = value;
   }
-
-  ngOnInit(): void {}
 }

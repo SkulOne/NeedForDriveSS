@@ -38,12 +38,10 @@ export class CarModelListComponent extends OrderStepperChildDirective implements
   }
 
   private setCar(car: Car): void {
-    if (car) {
-      this.order = this.reset(this.order, ['pointId', 'carId', 'color', 'cityId']);
-      this.order.carId = car;
-      this.order.color = 'Любой';
-      this.orderService.stepperIndex = this.currentIndex;
-      this.orderService.orderTrigger(this.order);
-    }
+    this.order = this.reset(this.order, ['pointId', 'carId', 'color', 'cityId']);
+    this.order.carId = car;
+    this.order.color = 'Любой';
+    this.orderService.stepperIndex = this.currentIndex;
+    this.orderService.orderTrigger(this.order);
   }
 }
