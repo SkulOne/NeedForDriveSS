@@ -6,9 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Order } from '../../../../shared/interfaces/order';
+import { Order } from '@shared/interfaces/order';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { OrderService } from '../../../../shared/services/order.service';
+import { OrderService } from '@shared/services/order.service';
 
 @Component({
   selector: 'app-order-sharing',

@@ -1,4 +1,4 @@
-import { InputCheckedElement } from '../../../../../shared/interfaces/input';
+import { InputCheckedElement } from '@shared/interfaces/input';
 
 export const carTypeInputsArray: InputCheckedElement[] = [
   { id: 'all', value: 'Все', labelValue: 'Все модели' },

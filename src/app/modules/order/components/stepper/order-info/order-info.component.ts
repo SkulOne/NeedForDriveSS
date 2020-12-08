@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Order } from '../../../../../shared/interfaces/order';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Order } from '@shared/interfaces/order';
 
 @Component({
   selector: 'app-order-info',

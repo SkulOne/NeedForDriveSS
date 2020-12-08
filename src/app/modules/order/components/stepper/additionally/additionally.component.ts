@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { additionalInputsArray, dateInput } from './additionnally-inputs';
-import { OrderService } from '../../../../../shared/services/order.service';
+import { OrderService } from '@shared/services/order.service';
 import { errors } from './additionally-errors';
-import { createDate, getDifferenceDays } from '../../../../../shared/utils';
-import { Order, RateId } from '../../../../../shared/interfaces/order';
+import { createDate, getDifferenceDays } from '@shared/utils';
+import { Order, RateId } from '@shared/interfaces/order';
 import { Observable } from 'rxjs';
-import { OrderStepperChildDirective } from '../../../../../shared/order-stepper-child';
-import { ErrorHandlerService } from '../../../../../shared/services/error-handler.service';
+import { OrderStepperChildDirective } from '@shared/order-stepper-child';
+import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { map, pairwise } from 'rxjs/operators';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 

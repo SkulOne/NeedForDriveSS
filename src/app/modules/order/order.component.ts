@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { OrderService } from '../../shared/services/order.service';
-import { Order } from '../../shared/interfaces/order';
+import { OrderService } from '@shared/services/order.service';
+import { Order } from '@shared/interfaces/order';
 import { Router } from '@angular/router';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { switchMap } from 'rxjs/operators';

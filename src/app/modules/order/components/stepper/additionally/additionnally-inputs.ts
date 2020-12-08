@@ -1,4 +1,4 @@
-import { InputCheckedElement, TextInput } from '../../../../../shared/interfaces/input';
+import { InputCheckedElement, TextInput } from '@shared/interfaces/input';
 
 export const additionalInputsArray: InputCheckedElement[] = [
   {

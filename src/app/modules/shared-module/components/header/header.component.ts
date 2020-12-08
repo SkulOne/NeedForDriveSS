@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { LocationService } from '../../../../shared/services/location.service';
+import { LocationService } from '@shared/services/location.service';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { untilDestroyed } from 'ngx-take-until-destroy';

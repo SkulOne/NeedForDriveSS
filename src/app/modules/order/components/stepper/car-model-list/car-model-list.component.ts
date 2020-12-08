@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { CarService } from '../../../../../shared/services/car.service';
+import { CarService } from '@shared/services/car.service';
 import { Observable } from 'rxjs';
-import { Car, CarCategory } from '../../../../../shared/interfaces/car';
+import { Car, CarCategory } from '@shared/interfaces/car';
 import { carTypeInputsArray } from './model-type-inputs';
-import { OrderService } from '../../../../../shared/services/order.service';
-import { Order } from '../../../../../shared/interfaces/order';
-import { OrderStepperChildDirective } from '../../../../../shared/order-stepper-child';
+import { OrderService } from '@shared/services/order.service';
+import { Order } from '@shared/interfaces/order';
+import { OrderStepperChildDirective } from '@shared/order-stepper-child';
 
 @Component({
   selector: 'app-car-model-list',

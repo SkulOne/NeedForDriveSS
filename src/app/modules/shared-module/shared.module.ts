@@ -5,8 +5,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { SideBarContentComponent } from './components/side-bar-content/side-bar-content.component';
 import { RouterModule } from '@angular/router';
-import { AutocompletePipe } from '../../shared/pipes/autocomplete.pipe';
-import { FilterCarPipe } from '../../shared/pipes/filter-car.pipe';
+import { AutocompletePipe } from '@shared/pipes/autocomplete.pipe';
+import { FilterCarPipe } from '@shared/pipes/filter-car.pipe';
 
 @NgModule({
   declarations: [

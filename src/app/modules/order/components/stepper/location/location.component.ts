@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { LocationService } from '../../../../../shared/services/location.service';
+import { LocationService } from '@shared/services/location.service';
 import { mapStyle } from './map-style';
 import { Observable, of } from 'rxjs';
-import { PointService } from '../../../../../shared/services/point.service';
-import { City } from '../../../../../shared/interfaces/city';
-import { Point } from '../../../../../shared/interfaces/point';
-import { OrderService } from '../../../../../shared/services/order.service';
+import { PointService } from '@shared/services/point.service';
+import { City } from '@shared/interfaces/city';
+import { Point } from '@shared/interfaces/point';
+import { OrderService } from '@shared/services/order.service';
 import MapTypeStyle = google.maps.MapTypeStyle;
 import LatLngLiteral = google.maps.LatLngLiteral;
 import LatLng = google.maps.LatLng;
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { autocompleteValidator } from '../../../../../shared/validators';
-import { OrderStepperChildDirective } from '../../../../../shared/order-stepper-child';
-import { Order } from '../../../../../shared/interfaces/order';
+import { autocompleteValidator } from '@shared/validators';
+import { OrderStepperChildDirective } from '@shared/order-stepper-child';
+import { Order } from '@shared/interfaces/order';
 
 @Component({
   selector: 'app-location',

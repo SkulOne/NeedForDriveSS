@@ -1,4 +1,4 @@
-import { ErrorElement } from '../../../../../shared/interfaces/error-element';
+import { ErrorElement } from '@shared/interfaces/error-element';
 
 export const errors: ErrorElement[] = [
   {

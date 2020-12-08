@@ -6,9 +6,9 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { LeaseDuration } from '../../../../shared/interfaces/lease-duration';
-import { Order } from '../../../../shared/interfaces/order';
-import { getDifferenceDays } from '../../../../shared/utils';
+import { LeaseDuration } from '@shared/interfaces/lease-duration';
+import { Order } from '@shared/interfaces/order';
+import { getDifferenceDays } from '@shared/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';

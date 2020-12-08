@@ -1,17 +1,12 @@
 import { Component, OnDestroy, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { OrderService } from '../../../../shared/services/order.service';
-import {
-  dateValidator,
-  isAfterDate,
-  rateControlTrigger,
-  validPrice,
-} from '../../../../shared/validators';
-import { ErrorHandlerService } from '../../../../shared/services/error-handler.service';
+import { OrderService } from '@shared/services/order.service';
+import { dateValidator, isAfterDate, rateControlTrigger, validPrice } from '@shared/validators';
+import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { Order } from '../../../../shared/interfaces/order';
+import { Order } from '@shared/interfaces/order';
 
 @Component({
   selector: 'app-stepper',
