@@ -8,15 +8,26 @@
   overflow: hidden;
 }
 
-mat-grid-list {
+.wrapper {
   margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
 }
 
 .order-list {
   height: 100%;
 }
 
-.order-properties {
+.wrapper-content {
+  display: flex;
+  flex-direction: column;
+}
+
+app-order-properties {
+  height: 100%;
+  width: 287px;
   border: {
     left: 1px solid $light-gray-color;
   }

@@ -20,7 +20,7 @@ div.mat-stepper-horizontal-line {
 }
 
 .mat-horizontal-stepper-header-container {
-  height: 32px !important;
+  height: 32px;
   border: {
     top: 1px solid $light-gray-color;
     bottom: 1px solid $light-gray-color;
@@ -58,7 +58,7 @@ mat-step-header.mat-step-header div.mat-step-label {
 }
 
 div.mat-horizontal-content-container {
-  height: 85%;
+  height: calc(100% - 90px);
   overflow-y: auto;
   overflow-x: hidden;
   padding: 32px 0 0 0;
