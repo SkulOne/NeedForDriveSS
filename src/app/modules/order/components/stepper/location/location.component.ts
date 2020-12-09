@@ -20,13 +20,12 @@ import { Order } from '@shared/interfaces/order';
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationComponent extends OrderStepperChildDirective implements OnInit, OnDestroy {
   mapStyle: MapTypeStyle[] = mapStyle;
 
   zoom = 11;
-  cities$: City[];
+  cities: City[];
   coords$: Observable<LatLng | LatLngLiteral>;
   points$: Observable<Point[]>;
 
@@ -50,12 +49,11 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
 
   ngOnInit(): void {
     this.coords$ = this.locationService.getUserCoords();
-
     this.locationService
       .getAllCity()
       .pipe(untilDestroyed(this))
       .subscribe((cities) => {
-        this.cities$ = cities;
+        this.cities = cities;
         const citiesName = cities.map((city) => city.name);
         this.cityControl.setValidators(autocompleteValidator(citiesName));
       });

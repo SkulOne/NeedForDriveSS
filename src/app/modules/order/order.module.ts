@@ -30,6 +30,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { MatDialogModule } from '@angular/material/dialog';
 import { OrderSharingComponent } from './components/order-sharing/order-sharing.component';
 import { RouterModule } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { RouterModule } from '@angular/router';
     NgxMaskModule.forRoot(),
     MatDialogModule,
     RouterModule,
+    MatProgressSpinnerModule,
   ],
   providers: [LocationService, ErrorHandlerService],
 })

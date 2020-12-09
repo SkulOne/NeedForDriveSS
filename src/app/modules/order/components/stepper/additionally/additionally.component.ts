@@ -112,10 +112,7 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
         this.rateIdControl.reset();
         this.additionalServices.reset();
         order.price = 0;
-        console.log(this.dateToControl.valid);
-        console.log(this.dateToControl.errors);
-        console.log(this.dateFromControl.valid);
-        console.log(this.dateFromControl.errors);
+        order.rateId = null;
       }
     }
   }
@@ -144,8 +141,8 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
       this.order[property] = false;
       this.order.price -= price;
     }
-    this.orderService.orderTrigger(this.order);
     this.checkRange(this.order);
+    this.orderService.orderTrigger(this.order);
   }
 
   private setDate(value: string, controlName: string): void {

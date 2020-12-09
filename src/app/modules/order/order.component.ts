@@ -16,6 +16,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   breakpoint = 4;
   order: Order;
   isReady: boolean;
+  showProcess: boolean;
 
   constructor(private orderService: OrderService, private router: Router) {}
 
@@ -34,6 +35,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   postOrder(): void {
+    this.showProcess = true;
     this.orderService
       .getOrderStatus()
       .pipe(
@@ -44,6 +46,7 @@ export class OrderComponent implements OnInit, OnDestroy {
         untilDestroyed(this)
       )
       .subscribe((orderId) => {
+        this.showProcess = false;
         this.router.navigate(['/order', orderId]);
       });
   }

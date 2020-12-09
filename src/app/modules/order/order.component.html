@@ -1,5 +1,9 @@
 <app-header class="order-header"></app-header>
 
+<div class="spinner-wrapper" *ngIf="showProcess">
+  <mat-spinner color="warn"></mat-spinner>
+</div>
+
 <div class="wrapper">
   <div class="wrapper-content">
     <router-outlet (activate)="routerComponentEvents($event)"></router-outlet>

@@ -16,13 +16,14 @@
       </button>
       <mat-autocomplete autoActiveFirstOption #cityAutocomplete>
         <mat-option
-          *ngFor="let city of cities$ | autocomplete: cityInput.value:'name'"
+          *ngFor="let city of cities | autocomplete: cityInput.value:'name'"
           [value]="city.name"
           (onSelectionChange)="citySelected(city, $event)"
         >
           {{ city.name }}
         </mat-option>
       </mat-autocomplete>
+      <mat-hint *ngIf="!cities">Загрузка городов...</mat-hint>
       <mat-error *ngIf="formError('city', 'required')">Поле обязательно!</mat-error>
       <mat-error *ngIf="formError('city', 'invalidAutocomplete')"
         >Выберите город из выпадающего списка</mat-error
@@ -54,6 +55,7 @@
           {{ point.address }}
         </mat-option>
       </mat-autocomplete>
+      <mat-hint *ngIf="(points$ | async) === false">Загрузка пукнтов выдачи...</mat-hint>
       <mat-error *ngIf="formError('pickupPoint', 'required')">Поле обязательно!</mat-error>
       <mat-error *ngIf="formError('pickupPoint', 'invalidAutocomplete')"
         >Выберите пункт из выпадающего списка</mat-error
