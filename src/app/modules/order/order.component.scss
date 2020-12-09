@@ -12,6 +12,7 @@
   margin-top: 1rem;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
 }
@@ -23,6 +24,7 @@
 .wrapper-content {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 app-order-properties {

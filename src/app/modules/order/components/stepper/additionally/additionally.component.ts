@@ -110,7 +110,12 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
           Текущая стоимость - ${order.price}₽`
         );
         this.rateIdControl.reset();
+        this.additionalServices.reset();
         order.price = 0;
+        console.log(this.dateToControl.valid);
+        console.log(this.dateToControl.errors);
+        console.log(this.dateFromControl.valid);
+        console.log(this.dateFromControl.errors);
       }
     }
   }
@@ -144,6 +149,9 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
   }
 
   private setDate(value: string, controlName: string): void {
+    if (value === null) {
+      this.form.get(controlName).setErrors(null);
+    }
     if (this.form.get(controlName).valid && value) {
       this.order[controlName] = +createDate(value);
       this.rateIdControl.reset();
@@ -156,8 +164,6 @@ export class AdditionallyComponent extends OrderStepperChildDirective implements
         'dateFrom',
       ]);
       this.orderService.orderTrigger(this.order);
-    } else {
-      this.form.get(controlName).setErrors(null);
     }
   }
 
