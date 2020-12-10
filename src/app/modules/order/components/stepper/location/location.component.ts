@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { LocationService } from '@shared/services/location.service';
 import { mapStyle } from './map-style';
@@ -7,19 +14,20 @@ import { PointService } from '@shared/services/point.service';
 import { City } from '@shared/interfaces/city';
 import { Point } from '@shared/interfaces/point';
 import { OrderService } from '@shared/services/order.service';
-import MapTypeStyle = google.maps.MapTypeStyle;
-import LatLngLiteral = google.maps.LatLngLiteral;
-import LatLng = google.maps.LatLng;
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { autocompleteValidator } from '@shared/validators';
 import { OrderStepperChildDirective } from '@shared/order-stepper-child';
 import { Order } from '@shared/interfaces/order';
+import MapTypeStyle = google.maps.MapTypeStyle;
+import LatLngLiteral = google.maps.LatLngLiteral;
+import LatLng = google.maps.LatLng;
 
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocationComponent extends OrderStepperChildDirective implements OnInit, OnDestroy {
   mapStyle: MapTypeStyle[] = mapStyle;
@@ -27,7 +35,7 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
   zoom = 11;
   cities: City[];
   coords$: Observable<LatLng | LatLngLiteral>;
-  points$: Observable<Point[]>;
+  points: Point[];
 
   @Input() order: Order;
   private pickupPointControl: FormControl;
@@ -36,7 +44,8 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
   constructor(
     private locationService: LocationService,
     private pointService: PointService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private detectorRef: ChangeDetectorRef
   ) {
     super();
   }
@@ -54,6 +63,7 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
       .pipe(untilDestroyed(this))
       .subscribe((cities) => {
         this.cities = cities;
+        this.detectorRef.markForCheck();
         const citiesName = cities.map((city) => city.name);
         this.cityControl.setValidators(autocompleteValidator(citiesName));
       });
@@ -66,11 +76,15 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
   citySelected(city: City, event: MatOptionSelectionChange): void {
     if (event.isUserInput) {
       this.coords$ = this.locationService.getCoordsByAddress(city.name);
-      this.points$ = this.pointService.getPointsFormCity(city.id);
-      this.points$.pipe(untilDestroyed(this)).subscribe((points) => {
-        const pointsName = points.map((point) => point.address);
-        this.pickupPointControl.setValidators(autocompleteValidator(pointsName));
-      });
+      this.pointService
+        .getPointsFormCity(city.id)
+        .pipe(untilDestroyed(this))
+        .subscribe((points) => {
+          this.points = points;
+          this.detectorRef.markForCheck();
+          const pointsName = points.map((point) => point.address);
+          this.pickupPointControl.setValidators(autocompleteValidator(pointsName));
+        });
       this.order.cityId = city;
       this.orderService.orderTrigger(this.order);
     }
@@ -98,6 +112,10 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
 
   clearValue(formControlName: string): void {
     this.form.get(formControlName).setValue('');
+  }
+
+  test(ev: any): void {
+    console.log(ev);
   }
 
   private setPoint(point: Point): void {
