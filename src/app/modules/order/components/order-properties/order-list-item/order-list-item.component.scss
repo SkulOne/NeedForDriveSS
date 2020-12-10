@@ -1,0 +1,24 @@
+@import '../../../../../shared/style/global';
+
+.order-properties_item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 16px;
+
+  .item_sub {
+    color: $gray-color;
+    word-break: break-all;
+  }
+
+  .dotted-spacer {
+    flex: 1 0;
+    border-bottom: 1px dotted $gray-color;
+    margin: {
+      bottom: 2px;
+      left: 5px;
+      right: 5px;
+    }
+    align-self: flex-end;
+  }
+}

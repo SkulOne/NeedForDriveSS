@@ -1,0 +1,49 @@
+@import 'variables';
+
+$arrows-hover-color: rgba(14, 194, 97, 0.2);
+
+.mat-drawer-inner-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media screen and (max-width: 767px) {
+  .mat-drawer-inner-container {
+    margin-top: 28px;
+    justify-content: flex-start;
+    padding: 0;
+  }
+}
+
+div.swiper-button-next,
+div.swiper-button-prev {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  padding: 0 10px;
+  &:hover {
+    background-color: $arrows-hover-color;
+  }
+  &:after {
+    font-size: 1.125rem;
+    color: $font-color;
+  }
+}
+
+div.swiper-button-next {
+  right: 0;
+}
+
+div.swiper-button-prev {
+  left: 0;
+}
+
+span.swiper-pagination-bullet {
+  background: $accent-color;
+}
+
+div.swiper-pagination.swiper-pagination-bullets {
+  bottom: 2rem;
+}

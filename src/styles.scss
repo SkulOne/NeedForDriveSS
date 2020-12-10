@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'app/shared/style/global';
+@import 'app/shared/style/stepper';
+@import 'app/shared/style/swiper';
+@import 'app/shared/style/input';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: #ffffff;
+}
+
+figure.mat-figure {
+  align-items: flex-start !important;
+}

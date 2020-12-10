@@ -1,0 +1,28 @@
+@import '../../../../../../shared/style/global';
+
+:host {
+  width: 368px;
+  height: 224px;
+  display: block;
+  overflow: hidden;
+  border: 1px solid $light-gray-color;
+  &:hover {
+    border-color: $gray-color;
+  }
+  mat-card {
+    height: 100%;
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 599px) {
+  :host {
+    width: 100%;
+    height: 100%;
+  }
+}

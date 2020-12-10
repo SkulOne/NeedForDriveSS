@@ -1,0 +1,76 @@
+<ng-container *ngIf="order">
+  <span class="order-title">Ваш заказ:</span>
+
+  <ul class="order-properties">
+    <app-order-list-item
+      *ngIf="order.pointId"
+      [title]="'Пункт выдачи'"
+      [subtitle]="order.pointId.address"
+    ></app-order-list-item>
+    <app-order-list-item
+      *ngIf="order.carId"
+      [title]="'Модель'"
+      [subtitle]="order.carId.name"
+    ></app-order-list-item>
+    <app-order-list-item
+      *ngIf="order.carId"
+      [title]="'Цвет'"
+      [subtitle]="order.color"
+    ></app-order-list-item>
+    <app-order-list-item
+      *ngIf="leaseDuration && order.dateFrom"
+      [title]="'Длительность аренды'"
+      [subtitle]="leaseDuration.day + ' д ' + leaseDuration.hour + ' ч ' + leaseDuration.min + ' м'"
+    ></app-order-list-item>
+    <app-order-list-item
+      *ngIf="order.rateId"
+      [title]="'Тариф'"
+      [subtitle]="order.rateId.rateTypeId.name"
+    ></app-order-list-item
+    ><app-order-list-item
+      *ngIf="order.isFullTank"
+      [title]="'Полный бак'"
+      [subtitle]="'Да'"
+    ></app-order-list-item>
+    <app-order-list-item
+      *ngIf="order.isNeedChildChair"
+      [title]="'Детское кресло'"
+      [subtitle]="'Да'"
+    ></app-order-list-item>
+    <app-order-list-item
+      *ngIf="order.isRightWheel"
+      [title]="'Парвый руль'"
+      [subtitle]="'Да'"
+    ></app-order-list-item>
+  </ul>
+
+  <span class="order-price" *ngIf="order.carId">
+    <span class="price-title">Цена: </span>
+    <span class="price-value">
+      <ng-container *ngIf="order.price; then price; else range"></ng-container>
+      <ng-template #price>{{ order.price }} руб.</ng-template>
+      <ng-template #range>
+        от {{ order.carId.priceMin }} до {{ order.carId.priceMax }}
+      </ng-template>
+    </span>
+  </span>
+
+  <button
+    *ngIf="isReady && !order.orderStatusId"
+    class="accent-button"
+    (click)="showConfirmDialog()"
+  >
+    Отправить
+  </button>
+  <button *ngIf="order.orderStatusId" class="red-background" (click)="cancelBtn()">Отменить</button>
+
+  <button
+    *ngIf="!isReady && !order.orderStatusId"
+    class="accent-button"
+    (click)="nextStepTrigger.emit()"
+    [disabled]="!order.pointId"
+    [class.disabled]="!order.pointId"
+  >
+    {{ buttonContent }}
+  </button>
+</ng-container>

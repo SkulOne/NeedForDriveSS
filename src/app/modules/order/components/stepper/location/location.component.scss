@@ -1,0 +1,70 @@
+@import '../../../../../shared/style/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 14px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 405px;
+
+    .form__item {
+      display: flex;
+      justify-content: flex-end;
+      align-items: baseline;
+      mat-form-field {
+        margin-left: 10px;
+        width: 300px;
+        mat-icon {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .select-on-map {
+    font-size: 14px;
+    margin: {
+      top: 25px;
+      bottom: 16px;
+    }
+  }
+
+  agm-map {
+    width: 736px;
+    height: 352px;
+  }
+}
+
+@media screen and (max-width: 1439px) {
+  :host {
+    agm-map {
+      width: 90%;
+    }
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  :host form .form__item {
+    justify-content: flex-start;
+    .form-label {
+      display: none;
+    }
+    agm-map {
+      width: 90%;
+      height: 352px;
+    }
+  }
+}
+
+@media screen and (max-width: 599px) {
+  :host form {
+    width: 100%;
+    .form__item {
+      width: 100%;
+    }
+  }
+}
