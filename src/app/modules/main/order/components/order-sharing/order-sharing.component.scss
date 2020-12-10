@@ -1,0 +1,30 @@
+@import '../../../../../shared/style/variables';
+
+:host {
+  width: 100%;
+  background: white;
+
+  .order-sharing-title {
+    font-size: 24px;
+    color: $main-black-color;
+    margin: {
+      top: 32px;
+      bottom: 8px;
+    }
+  }
+
+  .order-sharing-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .order-id {
+      height: 32px;
+      border-top: 1px solid #eeeeee;
+      border-bottom: 1px solid #eeeeee;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+}

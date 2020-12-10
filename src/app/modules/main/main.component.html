@@ -1,0 +1,9 @@
+<mat-sidenav-container>
+  <mat-sidenav #drawer mode="over">
+    <app-side-bar-content (sideNavClose)="drawer.toggle()"></app-side-bar-content>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-side-bar (sideNavOpen)="drawer.toggle()"></app-side-bar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

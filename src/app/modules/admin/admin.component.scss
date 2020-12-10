@@ -1,0 +1,94 @@
+@import 'src/app/shared/style/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Helvetica Neue', sans-serif;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  .admin-wrapper {
+    width: 376.5px;
+    height: 253.5px;
+    margin-top: 167px;
+    .title-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16.5px;
+      .title {
+        font-size: 24px;
+        color: rgba(61, 81, 112, 1);
+        margin-left: 11.5px;
+      }
+    }
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      border-radius: 9px;
+      background: #ffffff;
+      box-shadow: 0 1px 0 rgba(90, 97, 105, 0.11), 0 2px 4px rgba(90, 97, 105, 0.12),
+        0 5px 5px rgba(90, 97, 105, 0.06), 0 3.5px 35px rgba(90, 97, 105, 0.1);
+      padding: 17px;
+      align-items: center;
+
+      .auth-form__item {
+        width: 100%;
+        margin-bottom: 15px;
+        label {
+          display: flex;
+          flex-direction: column;
+          font-size: 10.5px;
+          input {
+            margin-top: 8.5px;
+            border: 0.5px solid #becad6;
+            border-radius: 3px;
+            font-size: 11px;
+            padding: 8px 11px;
+            &:focus {
+              outline: $accent-color auto 1px;
+            }
+          }
+        }
+      }
+
+      .auth-form__title {
+        font-size: 17.5px;
+        font-weight: 400;
+        color: rgba(61, 81, 112, 1);
+        margin-bottom: 16px;
+      }
+
+      .actions {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .access {
+          text-decoration: none;
+          font-weight: 400;
+          font-size: 10.5px;
+        }
+
+        .enter {
+          background: #007bff;
+          width: 110px;
+          height: 29px;
+          border-radius: 4px;
+          color: white;
+
+          &:hover {
+            background: darken(#007bff, 10%);
+          }
+
+          &:active {
+            background: darken(#007bff, 20%);
+          }
+        }
+      }
+    }
+  }
+}

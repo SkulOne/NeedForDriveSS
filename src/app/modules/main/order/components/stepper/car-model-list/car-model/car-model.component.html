@@ -1,0 +1,11 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ carModel.name }}
+    </mat-card-title>
+    <mat-card-subtitle> {{ carModel.priceMin }} - {{ carModel.priceMax }} </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <img [src]="carModel.thumbnail.path" alt="" crossorigin="anonymous" referrerpolicy="origin" />
+  </mat-card-content>
+</mat-card>
