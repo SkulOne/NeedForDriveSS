@@ -8,18 +8,38 @@
   overflow: hidden;
 }
 
-mat-grid-list {
+.wrapper {
   margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
 }
 
 .order-list {
   height: 100%;
 }
 
-.order-properties {
+.wrapper-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+app-order-properties {
+  height: 100%;
+  width: 287px;
   border: {
     left: 1px solid $light-gray-color;
   }
+}
+
+.spinner-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media screen and (max-width: 767px) {

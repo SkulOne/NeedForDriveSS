@@ -10,7 +10,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { SharedModule } from './modules/shared-module/shared.module';
 import { OrderModule } from './modules/order/order.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CarSharingInterceptor } from './shared/interceptors/car-sharing.interceptor';
+import { CoorsInterceptor } from './shared/interceptors/coors.interceptor';
+import { DefaultHeaderBackendInterceptor } from './shared/interceptors/default-header-backend.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,12 @@ import { CarSharingInterceptor } from './shared/interceptors/car-sharing.interce
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CarSharingInterceptor,
+      useClass: CoorsInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: DefaultHeaderBackendInterceptor,
       multi: true,
     },
   ],

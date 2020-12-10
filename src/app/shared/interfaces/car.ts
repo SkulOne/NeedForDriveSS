@@ -6,6 +6,8 @@ export interface Car {
   description: string;
   categoryId: CategoryId;
   colors: [string];
+  number: string;
+  tank: number;
 }
 
 interface CarPhoto {

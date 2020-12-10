@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Car } from '../../../../../shared/interfaces/car';
+import { Car } from '@shared/interfaces/car';
 
 @Component({
   selector: 'app-car-model',

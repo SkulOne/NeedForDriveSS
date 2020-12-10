@@ -9,10 +9,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ErrorHandlerService {
   constructor(private snackBar: MatSnackBar) {}
 
-  handleError(error: HttpErrorResponse): Observable<never> {
+  handleHttpError(error: HttpErrorResponse): Observable<never> {
     const message = error.error instanceof ErrorEvent ? error.error.message : error.error;
-    console.log(message);
+    console.warn(message);
     this.snackBar.open(message, 'Ok!', { duration: 5000 });
     return throwError('Something bad happened; please try again later.');
+  }
+
+  userError(message: string): void {
+    this.snackBar.open(message, 'Ok!', { duration: 5000 });
   }
 }
