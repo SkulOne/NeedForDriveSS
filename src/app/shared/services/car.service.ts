@@ -18,7 +18,7 @@ export class CarService {
       map((result) => {
         result.data.forEach((car) => {
           car.thumbnail.path = car.thumbnail.path.search('data:image/png;base64,')
-            ? `http://api-factory.simbirsoft1.com/http://api-factory.simbirsoft1.com${car.thumbnail.path}`
+            ? `https://cors-anywhere.herokuapp.com/http://api-factory.simbirsoft1.com${car.thumbnail.path}`
             : car.thumbnail.path;
         });
         return result.data;

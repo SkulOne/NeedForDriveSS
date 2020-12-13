@@ -25,3 +25,12 @@ export function getDifferenceDays(startDateMs: number, endDateMs: number): Lease
   const min = Math.floor(differenceDays * 24 * 60 - day * 24 * 60 - hour * 60);
   return { day, hour, min };
 }
+
+export function getHash(str: string): number {
+  return (
+    str
+      .split('')
+      // tslint:disable-next-line:no-bitwise
+      .reduce((prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0, 0)
+  );
+}

@@ -1,0 +1,32 @@
+<div class="admin-wrapper">
+  <div class="title-container">
+    <img src="assets/admin-logo.svg" alt="" />
+    <span class="title">NeedForDrive</span>
+  </div>
+
+  <form class="auth-form" [formGroup]="authorizationForm">
+    <div class="auth-form__title">Вход</div>
+
+    <div class="auth-form__item">
+      <label>
+        Почта
+        <input type="email" formControlName="username" email="true" />
+        <mat-error [hidden]="!authorizationForm.get('username').errors?.email"
+          >Введите почту.</mat-error
+        >
+      </label>
+    </div>
+
+    <div class="auth-form__item">
+      <label>
+        Пароль
+        <input type="password" formControlName="password" />
+      </label>
+    </div>
+
+    <div class="actions">
+      <a href="" class="access">Запросить доступ</a>
+      <button class="enter" type="button" (click)="login()">Войти</button>
+    </div>
+  </form>
+</div>

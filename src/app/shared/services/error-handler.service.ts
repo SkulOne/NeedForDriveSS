@@ -10,9 +10,12 @@ export class ErrorHandlerService {
   constructor(private snackBar: MatSnackBar) {}
 
   handleHttpError(error: HttpErrorResponse): Observable<never> {
-    const message = error.error instanceof ErrorEvent ? error.error.message : error.error;
-    console.warn(message);
-    this.snackBar.open(message, 'Ok!', { duration: 5000 });
+    console.log(error);
+    if (error.error instanceof ErrorEvent) {
+      this.userError(error.error.message);
+    } else {
+      console.warn(`Error Code: ${error.status}\nMessage:${error.message}`);
+    }
     return throwError('Something bad happened; please try again later.');
   }
 

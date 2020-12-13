@@ -13,10 +13,13 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoorsInterceptor } from '@shared/interceptors/coors.interceptor';
 import { DefaultHeaderBackendInterceptor } from '@shared/interceptors/default-header-backend.interceptor';
 import { MainComponent } from './modules/main/main.component';
+import { AdminModule } from './modules/admin/admin.module';
+import { AuthorizationInterceptor } from '@shared/interceptors/authorization-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
   imports: [
+    AdminModule,
     BrowserModule,
     AppRoutingModule,
     MainPageModule,
@@ -35,6 +38,11 @@ import { MainComponent } from './modules/main/main.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: DefaultHeaderBackendInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizationInterceptor,
       multi: true,
     },
   ],

@@ -6,9 +6,10 @@ import { OrderSharingComponent } from './modules/main/order/components/order-sha
 import { StepperComponent } from './modules/main/order/components/stepper/stepper.component';
 import { AdminComponent } from './modules/admin/admin.component';
 import { MainComponent } from './modules/main/main.component';
+import { AuthorizationComponent } from './modules/admin/auth/authorization.component';
+import { AuthorizationGuard } from '@shared/guard/authorization-guard.service';
 
 const mainModuleRoutes: Routes = [
-  { path: 'admin', component: AdminComponent },
   { path: 'main', component: MainPageComponent },
   {
     path: 'order',
@@ -22,7 +23,12 @@ const mainModuleRoutes: Routes = [
 ];
 
 const routes: Routes = [
-  { path: 'admin', component: AdminComponent },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthorizationGuard],
+  },
+  { path: 'auth', component: AuthorizationComponent },
   { path: '', component: MainComponent, children: mainModuleRoutes },
 ];
 

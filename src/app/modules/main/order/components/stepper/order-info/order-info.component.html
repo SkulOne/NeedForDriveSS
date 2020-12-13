@@ -7,5 +7,10 @@
       <span class="property-title">Доступна с </span>{{ order.dateFrom | date: 'dd.mm.yyyy hh:mm' }}
     </li>
   </ul>
-  <img src="{{ order.carId.thumbnail.path }}" alt="" />
+  <img
+    crossorigin="anonymous"
+    referrerpolicy="origin"
+    src="{{ order.carId.thumbnail.path }}"
+    alt=""
+  />
 </ng-container>
