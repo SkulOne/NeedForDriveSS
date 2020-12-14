@@ -1,0 +1,37 @@
+<form class="search">
+  <mat-icon>search</mat-icon>
+  <label>
+    <input type="text" placeholder="Поиск..." class="search-input" />
+  </label>
+</form>
+<div class="icon">
+  <mat-divider [vertical]="true"></mat-divider>
+  <mat-icon
+    class="notification"
+    matBadgeColor="warn"
+    matBadge="2"
+    matBadgeSize="small"
+    matBadgePosition="after"
+    >notifications</mat-icon
+  >
+  <mat-divider [vertical]="true"></mat-divider>
+</div>
+<div class="user-details">
+  <div class="user-info">
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJJtSRD1xIfsdN9pGP0sWjp9yojjBlniyqEA&usqp=CAU"
+      class="user-avatar"
+      alt=""
+    />
+    <span class="user-name">Admin</span>
+  </div>
+  <button mat-icon-button>
+    <mat-icon [matMenuTriggerFor]="menu">arrow_drop_down</mat-icon>
+  </button>
+</div>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Logout</span>
+  </button>
+</mat-menu>

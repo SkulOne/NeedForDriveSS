@@ -1,1 +1,21 @@
-<router-outlet></router-outlet> admin component
+<mat-drawer-container class="admin-sidenav-container">
+  <mat-drawer mode="side" opened class="admin-sidenav" position="start">
+    <div class="logo">
+      <img src="assets/admin-logo.svg" alt="" width="22" height="22" />
+      <span class="logo-text">Need for car</span>
+    </div>
+    <mat-list class="sidenav-items-list">
+      <mat-divider></mat-divider>
+      <!--      todo active style-->
+      <app-sidenav-list-item
+        routerLink="/admin"
+        *ngFor="let item of items"
+        [item]="item"
+      ></app-sidenav-list-item>
+    </mat-list>
+  </mat-drawer>
+  <mat-drawer-content class="admin-content">
+    <app-admin-header></app-admin-header>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

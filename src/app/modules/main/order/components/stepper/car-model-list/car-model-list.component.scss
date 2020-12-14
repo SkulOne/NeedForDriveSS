@@ -22,7 +22,7 @@
       display: none;
       &:checked + label {
         app-car-model {
-          border: 1px solid $accent-color;
+          border: 1px solid $accent-green;
         }
       }
     }

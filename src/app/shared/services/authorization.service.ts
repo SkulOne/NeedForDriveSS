@@ -7,7 +7,6 @@ import { LoginResponse } from '@shared/interfaces/login-response';
 import { catchError } from 'rxjs/operators';
 import { getHash } from '@shared/utils';
 import { Router } from '@angular/router';
-import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Injectable({
   providedIn: 'root',
@@ -43,10 +42,8 @@ export class AuthorizationService {
   }
 
   refreshToken(): void {
-    const refreshToken = this.getTokens().refresh_token;
     this.httpClient
-      .post<LoginResponse>('api/auth/refresh', refreshToken)
-      .pipe(untilDestroyed(this))
+      .post<LoginResponse>('api/auth/refresh', { refresh_token: this.getTokens().refresh_token })
       .subscribe(AuthorizationService.setToken);
   }
 

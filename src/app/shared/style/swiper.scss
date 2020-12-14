@@ -2,10 +2,12 @@
 
 $arrows-hover-color: rgba(14, 194, 97, 0.2);
 
-.mat-drawer-inner-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.main-sidenav {
+  .mat-drawer-inner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -41,7 +43,7 @@ div.swiper-button-prev {
 }
 
 span.swiper-pagination-bullet {
-  background: $accent-color;
+  background: $accent-green;
 }
 
 div.swiper-pagination.swiper-pagination-bullets {

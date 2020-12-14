@@ -6,14 +6,14 @@
 .side-bar__language-change-button {
   position: absolute;
   bottom: 27px;
-  color: $accent-color;
+  color: $accent-green;
 }
 
 mat-sidenav-container {
   height: 100%;
   width: 100%;
   background: white;
-  mat-sidenav {
+  .main-sidenav {
     background: #111518;
     min-width: 753px;
   }
@@ -26,7 +26,7 @@ mat-sidenav-container {
 
 @media screen and (max-width: 1439px) {
   mat-sidenav-container {
-    mat-sidenav {
+    .main-sidenav {
       min-width: 619px;
     }
   }
@@ -34,7 +34,7 @@ mat-sidenav-container {
 
 @media screen and (max-width: 1023px) {
   mat-sidenav-container {
-    mat-sidenav {
+    .main-sidenav {
       width: 100%;
     }
   }

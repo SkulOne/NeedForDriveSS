@@ -3,7 +3,7 @@
 .mat-stepper-horizontal-line:after {
   font-family: 'Material Icons', serif;
   content: 'arrow_right';
-  color: $accent-color;
+  color: $accent-green;
   font-size: 1.5rem;
 }
 
@@ -44,7 +44,7 @@ mat-step-header.mat-horizontal-stepper-header {
   }
 }
 div.mat-step-label.mat-step-label-active.mat-step-label-selected {
-  color: $accent-color;
+  color: $accent-green;
 }
 div.mat-step-label.mat-step-label-active {
   color: $main-black-color;

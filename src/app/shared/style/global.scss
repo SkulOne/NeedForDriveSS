@@ -30,7 +30,7 @@
 }
 
 .accent-button {
-  @include button($accent-color);
+  @include button($accent-green);
 }
 
 button {
@@ -67,4 +67,12 @@ mat-dialog-container.mat-dialog-container {
 
 div .mat-form-field-infix {
   border: 0;
+}
+
+.mat-drawer-side {
+  border: 0;
+}
+
+figure.mat-figure {
+  align-items: flex-start !important;
 }
