@@ -10,8 +10,8 @@ import { LeaseDuration } from '@shared/interfaces/lease-duration';
 import { Order } from '@shared/interfaces/order';
 import { getDifferenceDays } from '@shared/utils';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ConfirmDialogComponent } from '../../../../shared-module/components/confrim-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-order-properties',
@@ -58,7 +58,11 @@ export class OrderPropertiesComponent implements OnDestroy {
   }
 
   showConfirmDialog(): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Подтвердить заказ?',
+      },
+    });
     dialogRef
       .afterClosed()
       .pipe(untilDestroyed(this))

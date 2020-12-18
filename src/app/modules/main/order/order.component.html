@@ -4,6 +4,8 @@
   <mat-spinner color="warn"></mat-spinner>
 </div>
 
+<app-spinner *ngIf="showProcess" color="warn"></app-spinner>
+
 <div class="wrapper">
   <div class="wrapper-content">
     <router-outlet (activate)="routerComponentEvents($event)"></router-outlet>

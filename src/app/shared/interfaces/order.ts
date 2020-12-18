@@ -1,5 +1,5 @@
 import { City } from './city';
-import { Car } from './car';
+import { ICar } from './ICar';
 import { Point } from './point';
 
 export interface Order {
@@ -7,7 +7,7 @@ export interface Order {
   orderStatusId?: OrderStatus;
   cityId?: City;
   pointId?: Point;
-  carId?: Car;
+  carId?: ICar;
   color: string;
   dateFrom?: number;
   dateTo?: number;

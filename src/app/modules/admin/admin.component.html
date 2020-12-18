@@ -8,14 +8,17 @@
       <mat-divider></mat-divider>
       <!--      todo active style-->
       <app-sidenav-list-item
-        routerLink="/admin"
         *ngFor="let item of items"
+        [routerLink]="item.routerLink"
         [item]="item"
       ></app-sidenav-list-item>
     </mat-list>
   </mat-drawer>
   <mat-drawer-content class="admin-content">
     <app-admin-header></app-admin-header>
-    <router-outlet></router-outlet>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+    <app-admin-footer></app-admin-footer>
   </mat-drawer-content>
 </mat-drawer-container>

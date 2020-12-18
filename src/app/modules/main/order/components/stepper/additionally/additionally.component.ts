@@ -6,7 +6,7 @@ import { errors } from './additionally-errors';
 import { createDate, getDifferenceDays } from '@shared/utils';
 import { Order, RateId } from '@shared/interfaces/order';
 import { Observable } from 'rxjs';
-import { OrderStepperChildDirective } from '@shared/order-stepper-child';
+import { OrderStepperChildDirective } from '@shared/classes/order-stepper-child';
 import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { map, pairwise } from 'rxjs/operators';
 import { untilDestroyed } from 'ngx-take-until-destroy';

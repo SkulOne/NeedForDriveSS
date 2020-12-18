@@ -73,3 +73,20 @@ export function validPrice(
     return null;
   };
 }
+
+export function numericValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value?.toString().match(/\D/)) {
+      return { numeric: true };
+    }
+  };
+}
+
+export function oneValue(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.value?.toString().match(/\s/)) {
+      console.log('error');
+      return { oneValue: true };
+    }
+  };
+}

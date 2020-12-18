@@ -7,6 +7,10 @@ import { SideBarContentComponent } from './components/side-bar-content/side-bar-
 import { RouterModule } from '@angular/router';
 import { AutocompletePipe } from '@shared/pipes/autocomplete.pipe';
 import { FilterCarPipe } from '@shared/pipes/filter-car.pipe';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ConfirmDialogComponent } from './components/confrim-dialog/confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -15,14 +19,23 @@ import { FilterCarPipe } from '@shared/pipes/filter-car.pipe';
     SideBarContentComponent,
     AutocompletePipe,
     FilterCarPipe,
+    SpinnerComponent,
+    ConfirmDialogComponent,
   ],
-  imports: [CommonModule, FontAwesomeModule, RouterModule],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    RouterModule,
+    MatProgressSpinnerModule,
+    MatDialogModule,
+  ],
   exports: [
     HeaderComponent,
     SideBarContentComponent,
     SideBarComponent,
     AutocompletePipe,
     FilterCarPipe,
+    SpinnerComponent,
   ],
 })
 export class SharedModule {}

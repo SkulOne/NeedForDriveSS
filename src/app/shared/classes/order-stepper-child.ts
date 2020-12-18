@@ -1,5 +1,5 @@
 import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { Order } from './interfaces/order';
+import { Order } from '../interfaces/order';
 
 export abstract class OrderStepperChildDirective {
   private _currentIndex: number;

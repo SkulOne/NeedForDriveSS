@@ -10,7 +10,10 @@ export class CoorsInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (request.url.includes('api') && environment.production) {
+    if (
+      (request.url.includes('api/db') || request.url.includes('api/auth')) &&
+      environment.production
+    ) {
       const req = request.clone({
         url: `${this.redirectURL}/${this.backendURL}/${request.url}`,
       });

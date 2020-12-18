@@ -1,26 +1,25 @@
-export interface Car {
+export interface ICar {
+  id?: string;
   priceMax: number;
   priceMin: number;
   name: string;
   thumbnail: CarPhoto;
   description: string;
   categoryId: CategoryId;
-  colors: [string];
+  colors: string[];
   number: string;
   tank: number;
 }
-
-interface CarPhoto {
+// todo Вынеси
+export interface CarPhoto {
   mimetype: string;
-  originalName: string;
+  originalname: string;
   path: string;
   size: number;
 }
-
-interface CategoryId {
+// todo Вынеси
+export interface CategoryId {
   description: string;
   id: string;
-  name: CarCategory;
+  name: string;
 }
-
-export type CarCategory = 'Все' | 'Эконом' | 'Премиум';

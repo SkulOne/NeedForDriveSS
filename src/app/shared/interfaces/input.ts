@@ -4,7 +4,7 @@ export interface InputCheckedElement {
   labelValue: string;
 }
 export interface TextInput {
-  label: string;
+  label?: string;
   controlName: string;
   matLabel: string;
 }

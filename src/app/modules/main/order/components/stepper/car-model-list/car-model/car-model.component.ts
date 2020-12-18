@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Car } from '@shared/interfaces/car';
+import { ICar } from '@shared/interfaces/ICar';
 
 @Component({
   selector: 'app-car-model',
@@ -8,6 +8,6 @@ import { Car } from '@shared/interfaces/car';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarModelComponent {
-  @Input() carModel: Car;
+  @Input() carModel: ICar;
   constructor() {}
 }

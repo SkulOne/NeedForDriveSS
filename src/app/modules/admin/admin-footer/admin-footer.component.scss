@@ -1,0 +1,22 @@
+:host {
+  font-size: 14px;
+  height: 68px;
+  padding: 0 27px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+
+  .links {
+    a {
+      text-decoration: none;
+      &:not(:nth-child(1)) {
+        margin-left: 16px;
+      }
+    }
+  }
+
+  .rights {
+    color: #818ea3;
+  }
+}

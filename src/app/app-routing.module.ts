@@ -8,6 +8,8 @@ import { AdminComponent } from './modules/admin/admin.component';
 import { MainComponent } from './modules/main/main.component';
 import { AuthorizationComponent } from './modules/admin/auth/authorization.component';
 import { AuthorizationGuard } from '@shared/guard/authorization-guard.service';
+import { AdminCarCardComponent } from './modules/admin/admin-car-card/admin-car-card.component';
+import { AdminCarListComponent } from './modules/admin/admin-car-list/admin-car-list.component';
 
 const mainModuleRoutes: Routes = [
   { path: 'main', component: MainPageComponent },
@@ -22,12 +24,19 @@ const mainModuleRoutes: Routes = [
   { path: '', redirectTo: '/main', pathMatch: 'full' },
 ];
 
+const adminModuleRoutes: Routes = [
+  { path: 'carSetting', component: AdminCarCardComponent },
+  { path: 'carSetting/:id', component: AdminCarCardComponent },
+  { path: 'carList', component: AdminCarListComponent },
+];
 const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthorizationGuard],
+    children: adminModuleRoutes,
   },
+
   { path: 'auth', component: AuthorizationComponent },
   { path: '', component: MainComponent, children: mainModuleRoutes },
 ];

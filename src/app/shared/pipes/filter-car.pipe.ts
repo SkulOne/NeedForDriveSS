@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Car, CarCategory } from '../interfaces/car';
+import { ICar } from '../interfaces/ICar';
 
 @Pipe({
   name: 'filterCar',
 })
 export class FilterCarPipe implements PipeTransform {
-  transform(cars: Car[], category: CarCategory): Car[] {
+  transform(cars: ICar[], category: string): ICar[] {
     if (category !== 'Все' && category !== null) {
       return cars.filter((car) => car.categoryId.name === category);
     }

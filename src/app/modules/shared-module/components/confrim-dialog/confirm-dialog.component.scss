@@ -1,6 +1,10 @@
-@import '../../../../../shared/style/global';
+@import 'src/app/shared/style/global';
 
 :host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   .mat-dialog-actions {
     button {
       margin: 0 8px;

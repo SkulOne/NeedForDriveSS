@@ -16,6 +16,12 @@
   }
 }
 
+@mixin admin-card() {
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(90, 97, 105, 0.12);
+  border-radius: 9px;
+}
+
 .green-background {
   @include button(rgba(19, 73, 63, 1), rgba(12, 123, 27, 1));
 }
@@ -65,14 +71,16 @@ mat-dialog-container.mat-dialog-container {
   background: none;
 }
 
-div .mat-form-field-infix {
-  border: 0;
-}
-
 .mat-drawer-side {
   border: 0;
 }
 
 figure.mat-figure {
   align-items: flex-start !important;
+}
+
+.admin-card-title {
+  color: #3d5170;
+  font-size: 29px;
+  margin-bottom: 30px;
 }

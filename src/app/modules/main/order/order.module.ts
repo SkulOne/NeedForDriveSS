@@ -26,7 +26,6 @@ import { AdditionallyComponent } from './components/stepper/additionally/additio
 import { NgxMaskModule } from 'ngx-mask';
 import { OrderInfoComponent } from './components/stepper/order-info/order-info.component';
 import { OrderListItemComponent } from './components/order-properties/order-list-item/order-list-item.component';
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { OrderSharingComponent } from './components/order-sharing/order-sharing.component';
 import { RouterModule } from '@angular/router';
@@ -43,7 +42,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AdditionallyComponent,
     OrderInfoComponent,
     OrderListItemComponent,
-    ConfirmDialogComponent,
     OrderSharingComponent,
   ],
   imports: [

@@ -30,6 +30,7 @@
     "@types/google-maps": "^3.2.2",
     "ng2-date-picker": "^10.0.1",
     "ngx-mask": "^11.0.1",
+    "ngx-material-file-input": "^2.1.1",
     "ngx-swiper-wrapper": "^10.0.0",
     "ngx-take-until-destroy": "^5.4.0",
     "rxjs": "~6.6.0",

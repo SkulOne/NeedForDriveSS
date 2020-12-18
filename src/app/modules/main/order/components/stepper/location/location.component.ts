@@ -17,7 +17,7 @@ import { OrderService } from '@shared/services/order.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { autocompleteValidator } from '@shared/validators';
-import { OrderStepperChildDirective } from '@shared/order-stepper-child';
+import { OrderStepperChildDirective } from '@shared/classes/order-stepper-child';
 import { Order } from '@shared/interfaces/order';
 import MapTypeStyle = google.maps.MapTypeStyle;
 import LatLngLiteral = google.maps.LatLngLiteral;

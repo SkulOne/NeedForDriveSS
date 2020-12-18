@@ -1,0 +1,46 @@
+<div class="car-photo-container">
+  <img
+    [src]="carPhoto"
+    alt="car-image"
+    crossorigin="anonymous"
+    referrerpolicy="origin"
+    (load)="imgLoad()"
+  />
+  <button mat-icon-button (click)="deletePhoto()" color="warn">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <app-spinner [show]="showSpinner" color="accent"></app-spinner>
+</div>
+<form [formGroup]="photoAndDescriptionForm" *ngIf="car">
+  <div class="car-name-container">
+    <span class="car-name">{{ name }}</span>
+    <span class="car-type">{{ type }}</span>
+    <mat-form-field appearance="outline">
+      <mat-label>Выберите файл...</mat-label>
+      <ngx-mat-file-input [accept]="imgTypes" formControlName="photo"></ngx-mat-file-input>
+      <mat-icon matSuffix>folder</mat-icon>
+    </mat-form-field>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="progress">
+    <div class="title">
+      <span>Заполнено</span>
+      <span>{{ progressValue | number: '0.1-1' }}%</span>
+    </div>
+    <mat-progress-bar mode="determinate" [value]="progressValue" color="accent"></mat-progress-bar>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="description">
+    <label for="description" class="title">Описание</label>
+    <div class="description-value">
+      <mat-form-field appearance="outline">
+        <textarea
+          id="description"
+          formControlName="description"
+          matInput
+          placeholder="Описание автомобиля"
+        ></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

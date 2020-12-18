@@ -2,11 +2,11 @@ import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { CarService } from '@shared/services/car.service';
 import { Observable } from 'rxjs';
-import { Car, CarCategory } from '@shared/interfaces/car';
+import { ICar } from '@shared/interfaces/ICar';
 import { carTypeInputsArray } from './model-type-inputs';
 import { OrderService } from '@shared/services/order.service';
 import { Order } from '@shared/interfaces/order';
-import { OrderStepperChildDirective } from '@shared/order-stepper-child';
+import { OrderStepperChildDirective } from '@shared/classes/order-stepper-child';
 
 @Component({
   selector: 'app-car-model-list',
@@ -15,8 +15,8 @@ import { OrderStepperChildDirective } from '@shared/order-stepper-child';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarModelListComponent extends OrderStepperChildDirective implements OnInit {
-  cars: Observable<Car[]>;
-  category: Observable<CarCategory>;
+  cars: Observable<ICar[]>;
+  category: Observable<string>;
   carTypeInputs = carTypeInputsArray;
   carCategory: FormControl;
   @Input() order: Order;
@@ -29,7 +29,7 @@ export class CarModelListComponent extends OrderStepperChildDirective implements
   }
 
   ngOnInit(): void {
-    this.cars = this.carService.getCars();
+    this.cars = this.carService.getAll();
     this.carCategory = new FormControl('Все');
     this.category = this.carCategory.valueChanges;
     this.form.get('carModel').valueChanges.subscribe((value) => {
@@ -37,7 +37,7 @@ export class CarModelListComponent extends OrderStepperChildDirective implements
     });
   }
 
-  private setCar(car: Car): void {
+  private setCar(car: ICar): void {
     this.order = this.reset(this.order, ['pointId', 'carId', 'color', 'cityId']);
     this.order.carId = car;
     this.order.color = 'Любой';
