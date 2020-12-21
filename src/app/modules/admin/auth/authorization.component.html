@@ -4,7 +4,7 @@
     <span class="title">Need for drive</span>
   </div>
 
-  <form class="auth-form" [formGroup]="authorizationForm">
+  <form class="auth-form" [formGroup]="authorizationForm" (ngSubmit)="login()">
     <div class="auth-form__title">Вход</div>
 
     <div class="auth-form__item">
@@ -26,7 +26,7 @@
 
     <div class="actions">
       <a href="" class="access">Запросить доступ</a>
-      <button class="enter" type="button" (click)="login()">Войти</button>
+      <button class="enter" #submitBtn type="submit">Войти</button>
     </div>
   </form>
 </div>

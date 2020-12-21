@@ -14,10 +14,9 @@ export class CoorsInterceptor implements HttpInterceptor {
       (request.url.includes('api/db') || request.url.includes('api/auth')) &&
       environment.production
     ) {
-      const req = request.clone({
+      request = request.clone({
         url: `${this.redirectURL}/${this.backendURL}/${request.url}`,
       });
-      return next.handle(req);
     }
     return next.handle(request);
   }

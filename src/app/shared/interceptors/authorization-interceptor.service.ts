@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -8,14 +14,15 @@ export class AuthorizationInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (request.url.includes('auth')) {
-      request = request.clone({
-        headers: request.headers.set('Authorization', localStorage.getItem('base64')),
-      });
-      request = request.clone({
-        headers: request.headers.set('Content-Type', 'application/json'),
-      });
-      return next.handle(request);
+      request = this.setHeaders(request);
     }
     return next.handle(request);
+  }
+
+  private setHeaders(request: HttpRequest<unknown>): HttpRequest<unknown> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', localStorage.getItem('base64'));
+    headers = headers.append('Content-Type', 'application/json');
+    return request.clone({ headers });
   }
 }

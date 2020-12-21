@@ -1,59 +1,59 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LoginRequest } from '@shared/interfaces/login-request';
 import { ErrorHandlerService } from '@shared/services/error-handler.service';
-import { LoginResponse } from '@shared/interfaces/login-response';
-import { catchError } from 'rxjs/operators';
+import { LoginResponse, Tokens } from '@shared/interfaces/login-response';
+import { catchError, map } from 'rxjs/operators';
 import { getHash } from '@shared/utils';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthorizationService {
-  constructor(
-    private httpClient: HttpClient,
-    private errorService: ErrorHandlerService,
-    private router: Router
-  ) {}
+  constructor(private httpClient: HttpClient, private errorService: ErrorHandlerService) {}
 
-  auth(user: LoginRequest, routerPath: string): void {
+  auth(user: LoginRequest): Observable<Tokens> {
     const hash = `${getHash(user.username)}:${getHash(user.password)}`;
     localStorage.setItem('base64', 'Basic ' + btoa(hash));
 
-    this.httpClient
-      .post<LoginResponse>('api/auth/login', user)
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-          if (err.status === 401) {
-            localStorage.setItem('tokens', null);
-            this.errorService.userError(
-              'Ошибка авторизации! Пожалуйста, проверьте правильность написания почты и пароля.'
-            );
-            return of(null);
-          }
-        })
-      )
-      .subscribe((response) => {
-        AuthorizationService.setToken(response);
-        this.router.navigate([routerPath]);
-      });
+    return this.httpClient.post<LoginResponse>('api/auth/login', user).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 401) {
+          localStorage.setItem('tokens', null);
+          this.errorService.userError(
+            'Ошибка авторизации! Пожалуйста, проверьте правильность написания почты и пароля.'
+          );
+          return of(null);
+        }
+      }),
+      map(this.typeCasting)
+    );
   }
 
-  refreshToken(): void {
-    this.httpClient
-      .post<LoginResponse>('api/auth/refresh', { refresh_token: this.getTokens().refresh_token })
-      .subscribe(AuthorizationService.setToken);
+  refreshToken(): Observable<Tokens> {
+    return this.httpClient
+      .post<LoginResponse>('api/auth/refresh', { refresh_token: this.getTokens().refreshToken })
+      .pipe(map(this.typeCasting));
   }
 
-  getTokens(): LoginResponse {
+  getTokens(): Tokens {
     return JSON.parse(localStorage.getItem('tokens'));
   }
 
-  private static setToken(response: LoginResponse): void {
-    // todo Разберист с Cookie
-    response.date_expires = new Date().getTime() + response.expires_in * 1000;
+  setToken(response: Tokens): void {
+    response.dateExpires = new Date().getTime() + response.expiresIn * 1000;
     localStorage.setItem('tokens', JSON.stringify(response));
+  }
+
+  private typeCasting(response: LoginResponse): Tokens {
+    return {
+      accessToken: response.access_token,
+      expiresIn: response.expires_in,
+      refreshToken: response.refresh_token,
+      tokenType: response.token_type,
+      userId: response.user_id,
+      dateExpires: response.date_expires,
+    } as Tokens;
   }
 }

@@ -6,3 +6,12 @@ export interface LoginResponse {
   user_id: string;
   date_expires: number;
 }
+
+export interface Tokens {
+  accessToken: string;
+  expiresIn: number;
+  refreshToken: string;
+  tokenType: string;
+  userId: string;
+  dateExpires: number;
+}
