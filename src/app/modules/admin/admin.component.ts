@@ -1,14 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  ChangeDetectorRef,
-  HostListener,
-  OnDestroy,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, HostListener } from '@angular/core';
 import { listItems } from './side-nav-list-item/sidenav-list-items-array';
-import { MatDrawer, MatDrawerMode } from '@angular/material/sidenav';
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { MatDrawerMode } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-admin',
@@ -16,11 +8,11 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
   styleUrls: ['./admin.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminComponent implements OnInit, OnDestroy {
+export class AdminComponent implements OnInit {
   items = listItems;
   sidenavOpened: boolean;
   sidenavMode: MatDrawerMode;
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  constructor() {}
 
   @HostListener('window:resize') setSidenavProperties(): void {
     if (window.innerWidth > 1024) {
@@ -35,14 +27,4 @@ export class AdminComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setSidenavProperties();
   }
-
-  toggle(sidenav: MatDrawer): void {
-    sidenav.toggle();
-    sidenav._animationStarted.pipe(untilDestroyed(this)).subscribe(() => {
-      this.sidenavOpened = sidenav.opened;
-      this.changeDetectorRef.detectChanges();
-    });
-  }
-
-  ngOnDestroy(): void {}
 }

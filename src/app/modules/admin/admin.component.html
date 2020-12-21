@@ -12,8 +12,8 @@
     </div>
     <mat-list class="sidenav-items-list">
       <mat-divider></mat-divider>
-      <mat-list-item class="sidenav-toggle-container">
-        <button class="sidenav-toggle" mat-icon-button (click)="toggle(sidenav)">
+      <mat-list-item class="sidenav-toggle-container" *ngIf="!sidenavOpened">
+        <button class="sidenav-toggle" mat-icon-button (click)="sidenav.toggle()">
           <mat-icon>menu</mat-icon>
         </button>
       </mat-list-item>
@@ -29,13 +29,12 @@
     <app-admin-header></app-admin-header>
     <div class="content">
       <div class="sidenav-toggle-container">
-        <button mat-icon-button (click)="toggle(sidenav)">
+        <button mat-icon-button (click)="sidenav.toggle()" *ngIf="!sidenavOpened">
           <mat-icon>menu</mat-icon>
         </button>
       </div>
       <router-outlet></router-outlet>
     </div>
-
     <app-admin-footer></app-admin-footer>
   </mat-drawer-content>
 </mat-drawer-container>
