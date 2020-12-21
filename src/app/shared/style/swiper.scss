@@ -11,7 +11,7 @@ $arrows-hover-color: rgba(14, 194, 97, 0.2);
 }
 
 @media screen and (max-width: 767px) {
-  .mat-drawer-inner-container {
+  app-slider .mat-drawer-inner-container {
     margin-top: 28px;
     justify-content: flex-start;
     padding: 0;

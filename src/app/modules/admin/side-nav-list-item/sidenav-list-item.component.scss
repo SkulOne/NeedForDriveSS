@@ -5,14 +5,6 @@
   cursor: pointer;
   &:focus {
     outline: none;
-    background: #efeded;
-    box-shadow: inset 4px 0 0 0 #007bff;
-    .item-content {
-      color: #007bff;
-      mat-icon {
-        color: #007bff;
-      }
-    }
   }
   mat-list-item {
     height: 57.5px;
@@ -31,6 +23,17 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+  }
+}
+:host(.active) {
+  outline: none;
+  background: #efeded;
+  box-shadow: inset 4px 0 0 0 #007bff;
+  .item-content {
+    color: #007bff;
+    mat-icon {
+      color: #007bff;
     }
   }
 }

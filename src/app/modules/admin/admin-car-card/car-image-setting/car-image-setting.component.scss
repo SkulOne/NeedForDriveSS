@@ -4,8 +4,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 335px;
+  width: 35%;
   @include admin-card;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
   .car-photo-container {
     display: flex;
     width: 100%;
@@ -78,6 +81,28 @@
           resize: none;
           height: 56px;
         }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1439px) {
+  :host {
+    .car-photo-container img {
+      width: 200px;
+    }
+    .car-name-container {
+      padding-top: 26px;
+      .car-name {
+        font-size: 18px;
+      }
+      .car-type {
+        font-size: 13px;
+      }
+    }
+    .description {
+      padding: 16px 22px 0;
+      .description-value mat-form-field textarea {
+        height: 40px;
       }
     }
   }

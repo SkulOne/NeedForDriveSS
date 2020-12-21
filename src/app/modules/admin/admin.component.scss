@@ -15,6 +15,9 @@
         display: flex;
         align-items: center;
         padding: 23px 49px;
+        @media screen and (max-width: 1023px) {
+          padding: 13px 49px;
+        }
         .logo-text {
           margin-left: 7px;
           font-size: 16px;
@@ -33,9 +36,24 @@
       background: rgba(245, 246, 248, 1);
 
       .content {
+        display: flex;
         height: 100%;
         padding: 28px;
+        overflow: auto;
+        @media screen and (max-width: 1439px) {
+          padding: 12px;
+        }
+        @media screen and (max-width: 1023px) {
+          padding: 12px 12px;
+        }
       }
     }
   }
+}
+
+.sidenav-toggle-container {
+  margin-right: 10px;
+}
+.sidenav-toggle {
+  margin: auto;
 }

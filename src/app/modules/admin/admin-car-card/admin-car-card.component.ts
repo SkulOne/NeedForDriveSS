@@ -142,7 +142,6 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
-    // todo Мб тут стоит задавать значение и передавать в child components?
     this.carForm = this.formBuilder.group({
       photoAndDescription: this.formBuilder.group({
         photo: null,

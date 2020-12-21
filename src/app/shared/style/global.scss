@@ -83,4 +83,8 @@ figure.mat-figure {
   color: #3d5170;
   font-size: 29px;
   margin-bottom: 30px;
+  @media screen and (max-width: 1439px) {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
 }
