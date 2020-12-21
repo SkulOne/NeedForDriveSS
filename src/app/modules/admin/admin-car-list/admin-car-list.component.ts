@@ -5,6 +5,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared-module/components/confrim-dialog/confirm-dialog.component';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-car-list',
@@ -16,7 +21,12 @@ export class AdminCarListComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<ICar>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private carService: CarService, private router: Router) {}
+  constructor(
+    private carService: CarService,
+    private router: Router,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.carService
@@ -30,11 +40,33 @@ export class AdminCarListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  log(car: ICar): void {
-    console.log(car);
-  }
-
   edit(car: ICar): void {
     this.router.navigate(['/admin/carSetting', car.id]);
+  }
+
+  deleteCar(car: ICar): void {
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        data: {
+          title: 'Вы уверены что хотите удалить автомобиль?',
+        },
+      })
+      .afterClosed()
+      .pipe(
+        untilDestroyed(this),
+        switchMap((isConfirmed) => {
+          if (isConfirmed) {
+            return this.carService.delete(car.id);
+          }
+          return of(null);
+        })
+      )
+      .subscribe(() => {
+        this.snackBar.open('Машина успешно удалена!', 'Ok!', {
+          duration: 750,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+      });
   }
 }

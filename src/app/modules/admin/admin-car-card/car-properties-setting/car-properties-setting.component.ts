@@ -71,6 +71,7 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
       this.colors.push(color);
     }
     this.carPropertiesForm.get('colors').setValue(this.colors);
+    this.colorControl.setValue('');
   }
 
   chooseCar(): void {

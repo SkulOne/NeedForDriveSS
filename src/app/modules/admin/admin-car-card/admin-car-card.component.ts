@@ -38,7 +38,7 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder,
     private errorHandler: ErrorHandlerService,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
 
@@ -65,7 +65,6 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  // todo разбей метод
   saveCar(): void {
     if (this.carForm.valid) {
       const propertiesForm = this.carForm.get('properties').value;
@@ -82,10 +81,8 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
         propertiesForm.colors,
         this.parsePhoto()
       );
-      console.log(this.car);
       this.showConfirmDialog();
     } else {
-      console.log(this.carForm);
       this.errorHandler.userError('Форма содержит ошибки. Исправьте значения и попробуйте снова');
     }
   }
@@ -111,8 +108,7 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
           return of(null);
         })
       )
-      .subscribe((car) => {
-        console.log(car);
+      .subscribe(() => {
         this.router.navigate(['/admin/carList']);
         localStorage.removeItem('carId');
         this.snackBar.open('Машина успешно сохранена!', 'Ok!', {
@@ -158,8 +154,8 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
         type: [null, Validators.required],
         colors: null,
         number: null,
-        priceMin: [null, [oneValue(), numericValidator()]],
-        priceMax: [null, [oneValue(), numericValidator()]],
+        priceMin: [null, [Validators.required, oneValue(), numericValidator()]],
+        priceMax: [null, [Validators.required, oneValue(), numericValidator()]],
         tank: [null, [oneValue(), numericValidator()]],
       }),
     });

@@ -10,14 +10,13 @@ export interface ICar {
   number: string;
   tank: number;
 }
-// todo Вынеси
 export interface CarPhoto {
   mimetype: string;
   originalname: string;
   path: string;
   size: number;
 }
-// todo Вынеси
+
 export interface CategoryId {
   description: string;
   id: string;

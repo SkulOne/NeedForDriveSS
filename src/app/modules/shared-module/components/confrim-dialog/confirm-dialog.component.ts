@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IConfirmDialog } from '@shared/interfaces/iconfirm-dialog';
+import { ConfirmDialog } from '@shared/interfaces/confirm-dialog';
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -9,5 +9,5 @@ import { IConfirmDialog } from '@shared/interfaces/iconfirm-dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: IConfirmDialog) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmDialog) {}
 }

@@ -56,4 +56,10 @@ export class CarService {
       })
     );
   }
+
+  delete(id: string): Observable<void | object> {
+    return this.httpClient
+      .delete(`api/db/car/${id}`)
+      .pipe(catchError((err) => this.errorHandler.handleHttpError(err)));
+  }
 }

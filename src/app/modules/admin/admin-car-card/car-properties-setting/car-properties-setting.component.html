@@ -42,7 +42,14 @@
   </form>
 
   <div class="actions">
-    <button mat-raised-button color="accent" (click)="saveEmit()">Сохранить</button>
+    <button
+      mat-raised-button
+      color="accent"
+      [disabled]="!carPropertiesForm.parent.valid"
+      (click)="saveEmit()"
+    >
+      Сохранить
+    </button>
     <button mat-raised-button (click)="chooseCar()">Отменить</button>
   </div>
 </ng-container>
