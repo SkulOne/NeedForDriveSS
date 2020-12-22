@@ -46,6 +46,11 @@ export class AuthorizationService {
     localStorage.setItem('tokens', JSON.stringify(response));
   }
 
+  logout(): Observable<any> {
+    localStorage.removeItem('tokens');
+    return this.httpClient.post('api/auth/logout', {});
+  }
+
   private typeCasting(response: LoginResponse): Tokens {
     return {
       accessToken: response.access_token,

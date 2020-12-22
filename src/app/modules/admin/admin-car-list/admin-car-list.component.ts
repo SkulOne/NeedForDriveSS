@@ -20,6 +20,7 @@ export class AdminCarListComponent implements OnInit, OnDestroy {
   displayedColumns = ['category', 'name', 'number', 'priceMin', 'priceMax', 'tank', 'edit', 'log'];
   dataSource: MatTableDataSource<ICar>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  showSpinner: boolean;
 
   constructor(
     private carService: CarService,
@@ -29,12 +30,14 @@ export class AdminCarListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.showSpinner = true;
     this.carService
       .getAll()
       .pipe(untilDestroyed(this))
       .subscribe((cars) => {
         this.dataSource = new MatTableDataSource<ICar>(cars);
         this.dataSource.paginator = this.paginator;
+        this.showSpinner = false;
       });
   }
 

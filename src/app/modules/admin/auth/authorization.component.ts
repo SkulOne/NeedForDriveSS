@@ -4,6 +4,7 @@ import { AuthorizationService } from '@shared/services/authorization.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 @Component({
   selector: 'app-authorization',
@@ -14,7 +15,7 @@ import { switchMap } from 'rxjs/operators';
 export class AuthorizationComponent implements OnInit, OnDestroy {
   authorizationForm: FormGroup;
   loginTrigger = new Subject<void>();
-  loginObservable = this.loginTrigger.asObservable();
+  login$ = this.loginTrigger.asObservable();
   showSpinner: boolean;
 
   constructor(
@@ -29,8 +30,11 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
       password: ['', Validators.required],
     });
 
-    this.loginObservable
-      .pipe(switchMap(() => this.authorizationService.auth(this.authorizationForm.value)))
+    this.login$
+      .pipe(
+        untilDestroyed(this),
+        switchMap(() => this.authorizationService.auth(this.authorizationForm.value))
+      )
       .subscribe((response) => {
         this.authorizationService.setToken(response);
         this.showSpinner = true;
