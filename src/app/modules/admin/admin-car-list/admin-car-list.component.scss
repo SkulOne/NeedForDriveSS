@@ -9,3 +9,13 @@ table {
 .center {
   text-align: center;
 }
+
+form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: baseline;
+  mat-form-field {
+    font-size: 12px;
+  }
+}

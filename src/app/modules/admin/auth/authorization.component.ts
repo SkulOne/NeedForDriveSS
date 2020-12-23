@@ -1,10 +1,18 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthorizationService } from '@shared/services/authorization.service';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { of, OperatorFunction, Subject, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandlerService } from '@shared/services/error-handler.service';
 
 @Component({
   selector: 'app-authorization',
@@ -21,7 +29,9 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private authorizationService: AuthorizationService,
-    private router: Router
+    private router: Router,
+    private errorService: ErrorHandlerService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -33,12 +43,19 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     this.login$
       .pipe(
         untilDestroyed(this),
-        switchMap(() => this.authorizationService.auth(this.authorizationForm.value))
+        switchMap(() =>
+          this.authorizationService
+            .auth(this.authorizationForm.value)
+            .pipe(this.authErrorHandling())
+        )
       )
       .subscribe((response) => {
-        this.authorizationService.setToken(response);
-        this.showSpinner = true;
-        this.router.navigate(['/admin']);
+        if (response) {
+          this.authorizationService.setToken(response);
+          this.router.navigate(['/admin']);
+        }
+        this.showSpinner = false;
+        this.changeDetectorRef.detectChanges();
       });
   }
 
@@ -48,4 +65,17 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  private authErrorHandling(): OperatorFunction<unknown, any> {
+    return catchError((err: HttpErrorResponse) => {
+      if (err.status === 401) {
+        localStorage.setItem('tokens', null);
+        this.errorService.userError(
+          'Ошибка авторизации! Пожалуйста, проверьте правильность написания почты и пароля.'
+        );
+        return of(null);
+      }
+      return throwError('Auth error');
+    });
+  }
 }

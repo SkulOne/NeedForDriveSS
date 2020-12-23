@@ -14,7 +14,8 @@ import { ICar, CategoryId } from '@shared/interfaces/ICar';
 import { Router } from '@angular/router';
 import { CategoryService } from '@shared/services/category.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-car-properties-setting',
@@ -33,6 +34,8 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
   categories: CategoryId[];
 
   private _car;
+  private updateFormValueTrigger$ = new Subject<void>();
+  private updateFormValue$ = this.updateFormValueTrigger$.asObservable();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,19 +51,30 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
   @Input() set car(value: ICar) {
     if (value) {
       this._car = value;
-      this.updateFormValue();
+      this.updateFormValueTrigger$.next();
       this.setColors();
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.updateFormValue$
+      .pipe(
+        untilDestroyed(this),
+        switchMap(() => this.getCategories())
+      )
+      .subscribe((categories) => {
+        this.categories = categories;
+        this.setFormValue();
+        this.changeDetectorRef.detectChanges();
+      });
+  }
 
   deleteColor(color: string): void {
     const index = this.colors.indexOf(color);
     if (index > -1) {
       this.colors.splice(index, 1);
     }
-    if (this.colors.length === 0) {
+    if (this.colors.length) {
       this.carPropertiesForm.get('colors').setValue(false);
     }
   }
@@ -89,16 +103,6 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  private updateFormValue(): void {
-    this.getCategories()
-      .pipe(untilDestroyed(this))
-      .subscribe((categories) => {
-        this.categories = categories;
-        this.setFormValue();
-        this.changeDetectorRef.detectChanges();
-      });
-  }
-
   private setColors(): void {
     this.colors = this.car.colors ? this.car.colors : [];
   }
@@ -120,6 +124,6 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
   }
 
   private getCategories(): Observable<CategoryId[]> {
-    return this.categoryService.getAllCategory();
+    return this.categoryService.getAll();
   }
 }

@@ -3,17 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategoryId } from '@shared/interfaces/ICar';
 import { ResponseResult } from '@shared/interfaces/response-result';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { ErrorHandlerService } from '@shared/services/error-handler.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CategoryService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
 
-  getAllCategory(): Observable<CategoryId[]> {
-    return this.httpClient
-      .get<ResponseResult<CategoryId[]>>('api/db/category')
-      .pipe(map((result) => result.data));
+  getAll(): Observable<CategoryId[]> {
+    return this.httpClient.get<ResponseResult<CategoryId[]>>('api/db/category').pipe(
+      catchError((err) => this.errorHandler.handleHttpError(err)),
+      map((result) => result.data)
+    );
   }
 }

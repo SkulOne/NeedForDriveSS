@@ -20,22 +20,22 @@ export class DefaultHeaderBackendInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (req.url.includes('api/db/')) {
       req = this.setHeaders(req);
+      return next.handle(req).pipe(
+        catchError((err) => {
+          if (err.status === 401) {
+            this.authorizationService.refreshToken().pipe(
+              flatMap((tokens) => {
+                this.authorizationService.setToken(tokens);
+                req = this.setHeaders(req);
+                return next.handle(req);
+              })
+            );
+          }
+          return throwError(err);
+        })
+      );
     }
-
-    return next.handle(req).pipe(
-      catchError((err) => {
-        if (err.status === 401) {
-          this.authorizationService.refreshToken().pipe(
-            flatMap((tokens) => {
-              this.authorizationService.setToken(tokens);
-              req = this.setHeaders(req);
-              return next.handle(req);
-            })
-          );
-        }
-        return throwError(err);
-      })
-    );
+    return next.handle(req);
   }
 
   private setHeaders(request: HttpRequest<unknown>): HttpRequest<unknown> {
@@ -54,20 +54,3 @@ export class DefaultHeaderBackendInterceptor implements HttpInterceptor {
     return `Bearer ${this.userToken}`;
   }
 }
-
-// todo Мб пригодится, если повалится новое решение
-// private checkToken(): any {
-//   const tokens = this.authorizationService.getTokens();
-//   const currentDateMs = new Date().getTime();
-//   const spareTime = 600000;
-//   if (tokens?.dateExpires - currentDateMs < spareTime) {
-//     this.authorizationService.refreshToken();
-//   }
-// }
-// authorization.service.ts
-// refreshToken(): void {
-//   this.httpClient
-//     .post<LoginResponse>('api/auth/refresh', { refresh_token: this.getTokens().refreshToken })
-//     .pipe(map(this.typeCasting))
-//     .subscribe(this.setToken);
-// }

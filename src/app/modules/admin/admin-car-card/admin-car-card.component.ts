@@ -47,10 +47,11 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
     this.getCar();
     this.carForm.valueChanges
       .pipe(
+        untilDestroyed(this),
         map((changedValues) => {
           let result = [];
-          this.getArrayOfValues(changedValues).forEach((value) => {
-            result = result.concat(this.getArrayOfValues(value));
+          Object.values(changedValues).forEach((value) => {
+            result = result.concat(Object.values(value));
           });
           return result;
         })
@@ -121,8 +122,8 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
 
   private getCar(): void {
     const carId = this.getCarId();
-    localStorage.setItem('carId', carId);
-    if (carId && carId !== 'null') {
+    if (carId) {
+      localStorage.setItem('carId', carId);
       this.showSpinner = true;
       this.carService
         .get(carId)
@@ -136,9 +137,8 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
   }
 
   private getCarId(): string {
-    return this.activatedRoute.snapshot.paramMap.get('id')
-      ? this.activatedRoute.snapshot.paramMap.get('id')
-      : localStorage.getItem('carId');
+    const idFormParamMap = this.activatedRoute.snapshot.paramMap.get('id');
+    return idFormParamMap ? idFormParamMap : localStorage.getItem('carId');
   }
 
   private initForm(): void {
@@ -161,9 +161,10 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
   }
 
   private parsePhoto(): CarPhoto {
-    if (this.carForm.get('photoAndDescription').get('photo').value instanceof FileInput) {
-      const file = this.carForm.get('photoAndDescription').get('photo').value.files[0];
-      const photo = this.carForm.get('photoAndDescription').get('photoPath').value;
+    const photoAndDescriptionForm = this.carForm.get('photoAndDescription');
+    if (photoAndDescriptionForm.get('photo').value instanceof FileInput) {
+      const file = photoAndDescriptionForm.get('photo').value.files[0];
+      const photo = photoAndDescriptionForm.get('photoPath').value;
       return {
         mimetype: file.type,
         originalname: file.name,
@@ -172,14 +173,5 @@ export class AdminCarCardComponent implements OnInit, OnDestroy {
       };
     }
     return this.car.thumbnail;
-  }
-
-  private getArrayOfValues(object: unknown): unknown[] {
-    if (typeof object === 'object') {
-      const keys = Object.getOwnPropertyNames(object);
-      return keys.map((key) => {
-        return object[key];
-      });
-    }
   }
 }

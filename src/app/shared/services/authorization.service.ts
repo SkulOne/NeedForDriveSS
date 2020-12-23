@@ -1,34 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { LoginRequest } from '@shared/interfaces/login-request';
-import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { LoginResponse, Tokens } from '@shared/interfaces/login-response';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { getHash } from '@shared/utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthorizationService {
-  constructor(private httpClient: HttpClient, private errorService: ErrorHandlerService) {}
+  constructor(private httpClient: HttpClient) {}
 
   auth(user: LoginRequest): Observable<Tokens> {
     const hash = `${getHash(user.username)}:${getHash(user.password)}`;
     localStorage.setItem('base64', 'Basic ' + btoa(hash));
-
-    return this.httpClient.post<LoginResponse>('api/auth/login', user).pipe(
-      catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
-          localStorage.setItem('tokens', null);
-          this.errorService.userError(
-            'Ошибка авторизации! Пожалуйста, проверьте правильность написания почты и пароля.'
-          );
-          return of(null);
-        }
-      }),
-      map(this.typeCasting)
-    );
+    return this.httpClient.post<LoginResponse>('api/auth/login', user).pipe(map(this.typeCasting));
   }
 
   refreshToken(): Observable<Tokens> {
