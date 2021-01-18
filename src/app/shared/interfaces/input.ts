@@ -8,3 +8,9 @@ export interface TextInput {
   controlName: string;
   matLabel: string;
 }
+
+export interface SelectControlEntity {
+  matLabel: string;
+  controlName: string;
+  dataName: string;
+}

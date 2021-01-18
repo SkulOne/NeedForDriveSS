@@ -1,19 +1,36 @@
-<form class="search">
+<form class="search" [formGroup]="searchRoutesForm">
   <mat-icon>search</mat-icon>
-  <label>
-    <input type="text" placeholder="Поиск..." class="search-input" />
-  </label>
+  <input
+    type="text"
+    placeholder="Поиск..."
+    class="search-input"
+    formControlName="search"
+    [matAutocomplete]="routesAutocomplete"
+  />
+  <mat-autocomplete autoActiveFirstOption #routesAutocomplete>
+    <mat-option
+      *ngFor="
+        let route of routes | autocomplete: searchRoutesForm.get('search').value:'textContent'
+      "
+      (onSelectionChange)="routeSelected(route, $event)"
+    >
+      {{ route.textContent }}
+    </mat-option>
+  </mat-autocomplete>
 </form>
 <div class="icon">
   <mat-divider [vertical]="true"></mat-divider>
-  <mat-icon
-    class="notification"
-    matBadgeColor="warn"
-    matBadge="2"
-    matBadgeSize="small"
-    matBadgePosition="after"
-    >notifications</mat-icon
-  >
+  <button mat-icon-button (click)="notifyTrigger$.next()">
+    <mat-icon
+      class="notification"
+      matBadgeColor="warn"
+      [matBadge]="orderLength"
+      matBadgeSize="small"
+      matBadgePosition="after"
+      >notifications</mat-icon
+    >
+  </button>
+  <app-spinner [show]="showNotifySpinner" diameter="15" color="warn"></app-spinner>
   <mat-divider [vertical]="true"></mat-divider>
 </div>
 <div class="user-details">
@@ -35,4 +52,4 @@
     <span>Logout</span>
   </button>
 </mat-menu>
-<app-spinner [show]="showSpinner" color="primary"></app-spinner>
+<app-spinner [show]="showLogoutSpinner" color="primary"></app-spinner>

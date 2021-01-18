@@ -5,6 +5,7 @@ import { Order } from '@shared/interfaces/order';
 import { Router } from '@angular/router';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { switchMap } from 'rxjs/operators';
+import { orderStatusIds } from '@shared/orderStatusIdConst';
 
 @Component({
   selector: 'app-order',
@@ -64,7 +65,10 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   cancelOrder(): void {
-    this.orderService.cancelOrder(this.order).pipe(untilDestroyed(this)).subscribe();
+    this.orderService
+      .changeOrderStatus(this.order, orderStatusIds.cancelledId)
+      .pipe(untilDestroyed(this))
+      .subscribe();
     this.router.navigate(['/order']);
   }
 }

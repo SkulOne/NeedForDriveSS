@@ -14,19 +14,25 @@ import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { AdminCarCardComponent } from './admin-car-card/admin-car-card.component';
-import { CarImageSettingComponent } from './admin-car-card/car-image-setting/car-image-setting.component';
-import { CarPropertiesSettingComponent } from './admin-car-card/car-properties-setting/car-properties-setting.component';
+import { CarImageSettingComponent } from './car-properties-setting/components/car-image-setting/car-image-setting.component';
+import { CarPropertiesSettingComponent } from './car-properties-setting/car-properties-setting.component';
 import { AdminFooterComponent } from './admin-footer/admin-footer.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AdminCarListComponent } from './admin-car-list/admin-car-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { SharedModule } from '../shared-module/shared.module';
 import { MatSelectModule } from '@angular/material/select';
+import { AdminEntityEmptyComponent } from './admin-entity-empty/admin-entity-empty.component';
+import { EntityPageComponent } from './entity-page/entity-page.component';
+import { EntityListComponent } from './entity-page/entity-list/entity-list.component';
+import { EntitySettingsComponent } from './entity-page/entity-settings/entity-settings.component';
+import { AdminCarListComponent } from './admin-car-list/admin-car-list.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { AdminOrderListComponent } from './admin-order-list/admin-order-list.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -34,11 +40,15 @@ import { MatSelectModule } from '@angular/material/select';
     AuthorizationComponent,
     SidenavListItemComponent,
     AdminHeaderComponent,
-    AdminCarCardComponent,
     CarImageSettingComponent,
     CarPropertiesSettingComponent,
     AdminFooterComponent,
+    AdminEntityEmptyComponent,
+    EntityPageComponent,
+    EntityListComponent,
+    EntitySettingsComponent,
     AdminCarListComponent,
+    AdminOrderListComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +71,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSortModule,
     SharedModule,
     MatSelectModule,
+    MatAutocompleteModule,
+    NgxMaskModule,
   ],
 })
 export class AdminModule {}

@@ -85,7 +85,6 @@ export function numericValidator(): ValidatorFn {
 export function oneValue(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (control.value?.toString().match(/\s/)) {
-      console.log('error');
       return { oneValue: true };
     }
   };

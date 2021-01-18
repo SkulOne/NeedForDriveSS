@@ -79,12 +79,23 @@ figure.mat-figure {
   align-items: flex-start !important;
 }
 
-.admin-card-title {
+.admin-section-title {
   color: #3d5170;
-  font-size: 29px;
-  margin-bottom: 30px;
+  font-size: 24px;
+  margin-bottom: 8px;
   @media screen and (max-width: 1439px) {
     font-size: 20px;
-    margin-bottom: 15px;
+  }
+}
+
+div.mat-elevation-z8 {
+  overflow-x: scroll;
+  table thead tr th {
+    padding-right: 4px;
+  }
+  tr td {
+    &:not(:last-child) {
+      padding-right: 4px;
+    }
   }
 }

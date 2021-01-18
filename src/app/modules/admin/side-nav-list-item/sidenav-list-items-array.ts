@@ -1,15 +1,44 @@
-import { SidenavListItem } from './sidenav-list-item';
+import { SidenavListItem } from '@shared/interfaces/sidenav-list-item';
 
-export const listItems: SidenavListItem[] = [
+export const pages: SidenavListItem[] = [
   {
     icon: 'create',
     textContent: 'Карточка автомобиля',
-    routerLink: '/admin/carSetting',
+    routerLink: '/admin/edit/car',
   },
-  { icon: 'vertical_split', textContent: 'Список авто', routerLink: '/admin/carList' },
-  { icon: 'note_add', textContent: 'Заказы', routerLink: '/main' },
-  { icon: 'view_module', textContent: 'Menu 4', routerLink: '/main' },
-  { icon: 'view_column', textContent: 'Menu 5', routerLink: '/main' },
-  { icon: 'person', textContent: 'Menu 6', routerLink: '/main' },
-  { icon: 'error', textContent: 'Menu 7', routerLink: '/main' },
+  {
+    icon: 'vertical_split',
+    textContent: 'Список авто',
+    routerLink: '/admin/list/car',
+  },
+  {
+    icon: 'view_module',
+    textContent: 'Категории',
+    routerLink: '/admin/order',
+  },
+  {
+    icon: 'view_column',
+    textContent: 'Города',
+    routerLink: '/admin/city',
+  },
+  {
+    icon: 'person',
+    textContent: 'Точки выдачи',
+    routerLink: '/admin/point',
+  },
+  {
+    icon: 'error',
+    textContent: 'Тариф',
+    routerLink: '/admin/rate',
+  },
+  {
+    icon: 'note_add',
+    textContent: 'Единица тарифа',
+    routerLink: '/admin/rateType',
+  },
+  {
+    icon: 'note_add',
+    textContent: 'Список заказов',
+    routerLink: '/admin/list/order',
+  },
 ];

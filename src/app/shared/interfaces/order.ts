@@ -1,13 +1,13 @@
 import { City } from './city';
-import { ICar } from './ICar';
 import { Point } from './point';
+import { Car } from '@shared/classes/car';
 
 export interface Order {
   id?: string;
   orderStatusId?: OrderStatus;
   cityId?: City;
   pointId?: Point;
-  carId?: ICar;
+  carId?: Car;
   color: string;
   dateFrom?: number;
   dateTo?: number;

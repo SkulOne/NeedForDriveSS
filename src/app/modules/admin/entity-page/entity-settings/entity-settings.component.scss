@@ -1,0 +1,35 @@
+@import 'src/app/shared/style/global';
+
+:host {
+  display: block;
+
+  .content {
+    @include admin-card;
+    padding: 8px;
+
+    .progress {
+      margin-bottom: 12px;
+      .title {
+        color: #868e96;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        font-size: 12px;
+      }
+    }
+
+    .setting-form {
+      font-size: 12px;
+      mat-form-field {
+        margin-right: 8px;
+      }
+    }
+
+    .actions {
+      margin-bottom: 10px;
+      button {
+        margin-right: 8px;
+      }
+    }
+  }
+}

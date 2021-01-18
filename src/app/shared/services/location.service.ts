@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { ResponseResult } from '../interfaces/response-result';
 import { City } from '../interfaces/city';
 import LatLngLiteral = google.maps.LatLngLiteral;
 import GeocoderResult = google.maps.GeocoderResult;
 import LatLng = google.maps.LatLng;
 import { ErrorHandlerService } from './error-handler.service';
+import { HttpBackService } from '@shared/services/http-back.service';
 
 interface GeocoderResponseArray {
   results: GeocoderResult[];
@@ -21,7 +21,11 @@ export class LocationService {
   private readonly googleMapKey = 'key=AIzaSyDLs3CudxoCs9C43iKaJqQ31Xg3w89_8G8';
   private readonly url = 'https://maps.googleapis.com/maps/api/';
 
-  constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
+  constructor(
+    private httpBack: HttpBackService,
+    private errorHandler: ErrorHandlerService,
+    private httpClient: HttpClient
+  ) {}
 
   getUserCity(): Observable<string> {
     return this.getUserCoords().pipe(
@@ -55,13 +59,8 @@ export class LocationService {
     });
   }
 
-  getAllCity(): Observable<City[]> {
-    return this.httpClient.get<ResponseResult<City[]>>('api/db/city').pipe(
-      catchError((err) => this.errorHandler.handleHttpError(err)),
-      map((result) => {
-        return result.data;
-      })
-    );
+  getAll(): Observable<City[]> {
+    return this.httpBack.getAll<City>('city');
   }
 
   getCoordsByAddress(address: string): Observable<LatLng> {

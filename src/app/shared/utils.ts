@@ -34,3 +34,7 @@ export function getHash(str: string): number {
       .reduce((prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0, 0)
   );
 }
+
+export function getId(obj: any): string {
+  return obj.id ? obj.id : null;
+}

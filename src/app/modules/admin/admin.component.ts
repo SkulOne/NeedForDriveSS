@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy, OnInit, HostListener } from '@angular/core';
-import { listItems } from './side-nav-list-item/sidenav-list-items-array';
+import { pages } from './side-nav-list-item/sidenav-list-items-array';
 import { MatDrawerMode } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { SidenavListItem } from '@shared/interfaces/sidenav-list-item';
 
 @Component({
   selector: 'app-admin',
@@ -9,10 +11,10 @@ import { MatDrawerMode } from '@angular/material/sidenav';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminComponent implements OnInit {
-  items = listItems;
+  items = pages;
   sidenavOpened: boolean;
   sidenavMode: MatDrawerMode;
-  constructor() {}
+  constructor(public router: Router) {}
 
   @HostListener('window:resize') setSidenavProperties(): void {
     if (window.innerWidth > 1024) {
@@ -22,6 +24,10 @@ export class AdminComponent implements OnInit {
       this.sidenavOpened = false;
       this.sidenavMode = 'over';
     }
+  }
+
+  pageNavigate(item: SidenavListItem): void {
+    this.router.navigate([item.routerLink]);
   }
 
   ngOnInit(): void {

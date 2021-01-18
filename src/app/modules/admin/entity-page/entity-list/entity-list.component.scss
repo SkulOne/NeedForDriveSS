@@ -1,0 +1,69 @@
+@import 'src/app/shared/style/global';
+
+:host {
+  display: block;
+}
+
+.content {
+  @include admin-card;
+  padding: 8px;
+}
+
+.admin-card-title {
+  color: rgba(61, 81, 112, 1);
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.inputs-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  mat-form-field,
+  mat-checkbox {
+    margin-right: 8px;
+  }
+}
+
+.sort-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  mat-form-field {
+    font-size: 12px;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  button {
+    margin-left: 16px;
+  }
+}
+
+.progress {
+  font-size: 13px;
+  margin-bottom: 13px;
+  .title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: rgba(134, 142, 150, 1);
+  }
+  mat-progress-bar {
+    border-radius: 5px;
+    height: 4px;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+.search-title {
+  font-size: 14px;
+  margin: 0 0 8px 8px;
+  font-weight: 500;
+  color: $main-black-color;
+}

@@ -59,7 +59,7 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
   ngOnInit(): void {
     this.coords$ = this.locationService.getUserCoords();
     this.locationService
-      .getAllCity()
+      .getAll()
       .pipe(untilDestroyed(this))
       .subscribe((cities) => {
         this.cities = cities;
@@ -112,10 +112,6 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
 
   clearValue(formControlName: string): void {
     this.form.get(formControlName).setValue('');
-  }
-
-  test(ev: any): void {
-    console.log(ev);
   }
 
   private setPoint(point: Point): void {

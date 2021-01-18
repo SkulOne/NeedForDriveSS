@@ -11,13 +11,18 @@
   </button>
   <app-spinner [show]="showSpinner" color="accent"></app-spinner>
 </div>
-<form [formGroup]="photoAndDescriptionForm" *ngIf="car">
+<form [formGroup]="form">
   <div class="car-name-container">
     <span class="car-name">{{ name }}</span>
     <span class="car-type">{{ type }}</span>
     <mat-form-field appearance="outline">
       <mat-label>Выберите файл...</mat-label>
-      <ngx-mat-file-input [accept]="imgTypes" formControlName="photo"></ngx-mat-file-input>
+      <ngx-mat-file-input
+        [accept]="imgTypes"
+        formControlName="thumbnail"
+        [multiple]="false"
+        [valuePlaceholder]="namePhoto"
+      ></ngx-mat-file-input>
       <mat-icon matSuffix>folder</mat-icon>
     </mat-form-field>
   </div>

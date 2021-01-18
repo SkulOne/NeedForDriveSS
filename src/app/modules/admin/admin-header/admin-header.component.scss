@@ -21,10 +21,13 @@
       display: flex;
     }
     .search-input {
+      font-weight: 500;
+      color: $main-black-color;
       width: 100%;
       border: none;
       background: none;
-      font-size: 13px;
+      font-size: 15px;
+      font-family: Roboto, 'Helvetica Neue', sans-serif;
       &:focus {
         outline: none;
       }
@@ -32,11 +35,16 @@
   }
 
   .icon {
+    position: relative;
     display: flex;
     align-items: center;
     height: 100%;
     width: 70px;
     justify-content: space-between;
+    app-spinner {
+      left: calc(50% + 10px);
+      top: calc(50% - 10px);
+    }
   }
 
   .user-details {

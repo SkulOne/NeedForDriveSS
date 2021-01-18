@@ -1,0 +1,49 @@
+<div class="admin-section-title">Редактирование</div>
+
+<div class="content" *ngIf="getEntity(); else elseBlock">
+  <div class="forms-container">
+    <app-car-image-setting
+      *ngIf="form"
+      [form]="form"
+      [progressValue]="progressValue"
+    ></app-car-image-setting>
+
+    <form class="setting-form" [formGroup]="form">
+      <div class="properties">
+        <mat-form-field
+          *ngFor="let input of inputs[entityName].properties; let index"
+          appearance="outline"
+        >
+          <mat-label>{{ input.text }}</mat-label>
+          <mat-select *ngIf="input.property; else elseBlock" [formControlName]="input.matColumnDef">
+            <mat-option
+              *ngFor="let propertyEntity of getEntityPropertyArray(input.matColumnDef) | async"
+              [value]="propertyEntity"
+            >
+              {{ propertyEntity.name }}</mat-option
+            >
+          </mat-select>
+          <ng-template #elseBlock>
+            <input matInput type="text" formControlName="{{ input.matColumnDef }}" />
+          </ng-template>
+        </mat-form-field>
+      </div>
+      <div class="actions">
+        <button mat-raised-button color="accent" [disabled]="!form.valid" (click)="saveTrigger()">
+          Сохранить
+        </button>
+        <button mat-raised-button (click)="cancelBtn()">Отменить</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <app-admin-entity-empty
+    (create)="createEntity()"
+    hasSelectEvent="true"
+    (selectEntity)="navigateToList()"
+  ></app-admin-entity-empty>
+</ng-template>
+
+<app-spinner [show]="showSpinner"></app-spinner>

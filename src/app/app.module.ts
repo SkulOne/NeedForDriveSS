@@ -46,7 +46,7 @@ import { AuthorizationInterceptor } from '@shared/interceptors/authorization-int
       multi: true,
     },
   ],
-  exports: [],
   bootstrap: [AppComponent],
+  exports: [],
 })
 export class AppModule {}

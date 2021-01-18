@@ -1,0 +1,16 @@
+<div class="empty-entity-title">Вы не выбрали сущность.</div>
+<div class="empty-entity-actions">
+  <button (click)="create.emit()" mat-raised-button color="accent">Создать</button>
+
+  <button
+    (click)="selectEntity.emit()"
+    *ngIf="hasSelectEvent; else elseBlock"
+    mat-raised-button
+    color="primary"
+  >
+    Выбрать сущность
+  </button>
+  <ng-template #elseBlock>
+    <span>Или выберите сущность в таблице.</span>
+  </ng-template>
+</div>

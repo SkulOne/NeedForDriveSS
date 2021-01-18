@@ -1,0 +1,50 @@
+<div class="admin-section-title">Редактирование</div>
+
+<div class="content" *ngIf="getEntity(); else elseBlock">
+  <div class="progress">
+    <div class="title">
+      <span>Заполнено</span>
+      <span>{{ progressValue | number: '0.1-1' }}%</span>
+    </div>
+    <mat-progress-bar mode="determinate" [value]="progressValue" color="accent"></mat-progress-bar>
+  </div>
+
+  <form class="setting-form" [formGroup]="form">
+    <ng-container
+      *ngFor="let input of inputs[entityName].properties; let index"
+      [ngSwitch]="input.type"
+    >
+      <mat-form-field appearance="outline" *ngSwitchCase="'object'">
+        <mat-label>{{ input.text }}</mat-label>
+        <mat-select [formControlName]="input.matColumnDef">
+          <mat-option
+            *ngFor="let propertyEntity of getEntityPropertyArray(input.matColumnDef) | async"
+            [value]="propertyEntity"
+          >
+            {{ propertyEntity.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngSwitchCase="'text'">
+        <mat-label>{{ input.text }}</mat-label>
+        <input matInput type="text" formControlName="{{ input.matColumnDef }}" />
+      </mat-form-field>
+      <mat-checkbox *ngSwitchCase="'boolean'" [formControlName]="input.matColumnDef">{{
+        input.text
+      }}</mat-checkbox>
+    </ng-container>
+  </form>
+
+  <div class="actions">
+    <button mat-raised-button color="accent" [disabled]="!form.valid" (click)="saveTrigger()">
+      Сохранить
+    </button>
+    <button mat-raised-button (click)="resetEntity()">Отменить</button>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <app-admin-entity-empty (create)="createEntity()"></app-admin-entity-empty>
+</ng-template>
+
+<app-spinner [show]="showSpinner"></app-spinner>

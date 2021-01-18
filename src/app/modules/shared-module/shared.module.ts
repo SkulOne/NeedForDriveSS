@@ -11,6 +11,10 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmDialogComponent } from './components/confrim-dialog/confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CellValuePipe } from '@shared/pipes/cell-value.pipe';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { MatButtonModule } from '@angular/material/button';
+import { StringToBooleanPipe } from '@shared/pipes/string-to-boolean.pipe';
 
 @NgModule({
   declarations: [
@@ -19,8 +23,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     SideBarContentComponent,
     AutocompletePipe,
     FilterCarPipe,
+    CellValuePipe,
     SpinnerComponent,
     ConfirmDialogComponent,
+    PageNotFoundComponent,
+    StringToBooleanPipe,
   ],
   imports: [
     CommonModule,
@@ -28,6 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     RouterModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatButtonModule,
   ],
   exports: [
     HeaderComponent,
@@ -36,6 +44,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     AutocompletePipe,
     FilterCarPipe,
     SpinnerComponent,
+    CellValuePipe,
+    ConfirmDialogComponent,
+    StringToBooleanPipe,
   ],
 })
 export class SharedModule {}
