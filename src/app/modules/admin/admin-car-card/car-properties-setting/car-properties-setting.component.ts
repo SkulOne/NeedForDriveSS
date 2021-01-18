@@ -12,10 +12,11 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { carProperties } from './properties-inputs';
 import { ICar, CategoryId } from '@shared/interfaces/ICar';
 import { Router } from '@angular/router';
-import { CategoryService } from '@shared/services/category.service';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { Observable, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { HttpBackService } from '@shared/services/http-back.service';
+import { inputs } from '../../entity-page/inputs';
 
 @Component({
   selector: 'app-car-properties-setting',
@@ -27,6 +28,8 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
   @Input() carPropertiesForm: FormGroup | AbstractControl;
   @Output() save = new EventEmitter();
   @Output() create = new EventEmitter();
+
+  inputs = inputs;
 
   carPropertiesInputs = carProperties;
   colors: string[];
@@ -40,7 +43,7 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private categoryService: CategoryService,
+    private httpBack: HttpBackService,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 
@@ -88,7 +91,7 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
     this.colorControl.setValue('');
   }
 
-  chooseCar(): void {
+  selectCar(): void {
     this.router.navigate(['/admin/carList']);
     localStorage.removeItem('carId');
   }
@@ -124,6 +127,6 @@ export class CarPropertiesSettingComponent implements OnInit, OnDestroy {
   }
 
   private getCategories(): Observable<CategoryId[]> {
-    return this.categoryService.getAll();
+    return this.httpBack.getAll('category');
   }
 }

@@ -9,8 +9,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { AuthorizationService } from '@shared/services/authorization.service';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
-import { flatMap } from 'rxjs/internal/operators';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class DefaultHeaderBackendInterceptor implements HttpInterceptor {
@@ -23,8 +22,8 @@ export class DefaultHeaderBackendInterceptor implements HttpInterceptor {
       return next.handle(req).pipe(
         catchError((err) => {
           if (err.status === 401) {
-            this.authorizationService.refreshToken().pipe(
-              flatMap((tokens) => {
+            return this.authorizationService.refreshToken().pipe(
+              mergeMap((tokens) => {
                 this.authorizationService.setToken(tokens);
                 req = this.setHeaders(req);
                 return next.handle(req);

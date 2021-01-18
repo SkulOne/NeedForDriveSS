@@ -21,12 +21,17 @@ import { AdminFooterComponent } from './admin-footer/admin-footer.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AdminCarListComponent } from './admin-car-list/admin-car-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { SharedModule } from '../shared-module/shared.module';
 import { MatSelectModule } from '@angular/material/select';
+import { AdminEntityEmptyComponent } from './admin-entity-empty/admin-entity-empty.component';
+import { EntityPageComponent } from './entity-page/entity-page.component';
+import { EntityListComponent } from './entity-page/entity-list/entity-list.component';
+import { EntitySettingsComponent } from './entity-page/entity-settings/entity-settings.component';
+import { AdminCarListComponent } from './admin-car-list/admin-car-list.component';
+import { AdminCarSettingsComponent } from './admin-car-settings/admin-car-settings.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,12 @@ import { MatSelectModule } from '@angular/material/select';
     CarImageSettingComponent,
     CarPropertiesSettingComponent,
     AdminFooterComponent,
+    AdminEntityEmptyComponent,
+    EntityPageComponent,
+    EntityListComponent,
+    EntitySettingsComponent,
     AdminCarListComponent,
+    AdminCarSettingsComponent,
   ],
   imports: [
     CommonModule,

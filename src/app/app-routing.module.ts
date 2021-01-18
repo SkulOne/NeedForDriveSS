@@ -9,6 +9,7 @@ import { MainComponent } from './modules/main/main.component';
 import { AuthorizationComponent } from './modules/admin/auth/authorization.component';
 import { AuthorizationGuard } from '@shared/guard/authorization-guard.service';
 import { AdminCarCardComponent } from './modules/admin/admin-car-card/admin-car-card.component';
+import { EntityPageComponent } from './modules/admin/entity-page/entity-page.component';
 import { AdminCarListComponent } from './modules/admin/admin-car-list/admin-car-list.component';
 
 const mainModuleRoutes: Routes = [
@@ -25,10 +26,13 @@ const mainModuleRoutes: Routes = [
 ];
 
 const adminModuleRoutes: Routes = [
-  { path: 'carSetting', component: AdminCarCardComponent },
+  // { path: 'carSetting', component: AdminCarCardComponent },
+  { path: 'test/set/car', component: AdminCarCardComponent },
   { path: 'carSetting/:id', component: AdminCarCardComponent },
-  { path: 'carList', component: AdminCarListComponent },
+  { path: 'test/car', component: AdminCarListComponent },
+  { path: 'test/:entityName', component: EntityPageComponent },
 ];
+
 const routes: Routes = [
   {
     path: 'admin',

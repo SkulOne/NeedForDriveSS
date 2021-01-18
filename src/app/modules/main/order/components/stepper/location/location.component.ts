@@ -59,7 +59,7 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
   ngOnInit(): void {
     this.coords$ = this.locationService.getUserCoords();
     this.locationService
-      .getAllCity()
+      .getAll()
       .pipe(untilDestroyed(this))
       .subscribe((cities) => {
         this.cities = cities;

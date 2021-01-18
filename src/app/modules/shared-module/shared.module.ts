@@ -10,7 +10,8 @@ import { FilterCarPipe } from '@shared/pipes/filter-car.pipe';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmDialogComponent } from './components/confrim-dialog/confirm-dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { CellValuePipe } from '@shared/pipes/cell-value.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SideBarContentComponent,
     AutocompletePipe,
     FilterCarPipe,
+    CellValuePipe,
     SpinnerComponent,
     ConfirmDialogComponent,
   ],
@@ -36,6 +38,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     AutocompletePipe,
     FilterCarPipe,
     SpinnerComponent,
+    CellValuePipe,
+    ConfirmDialogComponent,
   ],
 })
 export class SharedModule {}

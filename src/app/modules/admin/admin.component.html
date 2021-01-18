@@ -19,8 +19,9 @@
       </mat-list-item>
       <app-sidenav-list-item
         *ngFor="let item of items"
-        [routerLink]="item.routerLink"
+        (click)="pageNavigate(item)"
         [item]="item"
+        [class.active]="router.isActive(item.routerLink, false)"
         [routerLinkActive]="['active']"
       ></app-sidenav-list-item>
     </mat-list>

@@ -1,6 +1,6 @@
-<div class="title">Настройки автомобиля</div>
+<div class="admin-card-title">Настройки автомобиля</div>
 <ng-container *ngIf="car; else elseBlock">
-  <form [formGroup]="carPropertiesForm">
+  <form [formGroup]="carPropertiesForm" class="setting-form">
     <mat-form-field appearance="outline">
       <mat-label>Тип автомобиля</mat-label>
       <mat-select formControlName="type">
@@ -45,21 +45,19 @@
     <button
       mat-raised-button
       color="accent"
-      [disabled]="!carPropertiesForm.parent.valid"
+      [disabled]="!carPropertiesForm.valid"
       (click)="saveEmit()"
     >
       Сохранить
     </button>
-    <button mat-raised-button (click)="chooseCar()">Отменить</button>
+    <button mat-raised-button (click)="selectCar()">Отменить</button>
   </div>
 </ng-container>
 
 <ng-template #elseBlock>
-  <div class="empty-car-container">
-    <div class="empty-car-title">Вы не выбрали автомобиль.</div>
-    <div class="empty-car-actions">
-      <button (click)="chooseCar()" mat-raised-button color="primary">Выбрать авто</button>
-      <button (click)="createCar()" mat-raised-button color="accent">Создать авто</button>
-    </div>
-  </div>
+  <app-admin-entity-empty
+    [hasSelectEvent]="true"
+    (create)="createCar()"
+    (select)="selectCar()"
+  ></app-admin-entity-empty>
 </ng-template>

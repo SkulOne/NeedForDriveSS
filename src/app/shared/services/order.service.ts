@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Order, OrderStatus, RateId } from '../interfaces/order';
 import { HttpClient } from '@angular/common/http';
-import { ResponseResult } from '../interfaces/response-result';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ErrorHandlerService } from './error-handler.service';
 import { LocationService } from './location.service';
+import { HttpBackService } from '@shared/services/http-back.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +20,10 @@ export class OrderService {
   constructor(
     private httpClient: HttpClient,
     private errorHandler: ErrorHandlerService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private httpBack: HttpBackService
   ) {}
+
   get order(): Observable<Order> {
     return this._orderBehavior.asObservable();
   }
@@ -39,42 +41,35 @@ export class OrderService {
   }
 
   getRates(): Observable<RateId[]> {
-    return this.httpClient.get<ResponseResult<RateId[]>>('api/db/rate').pipe(
-      catchError((err) => this.errorHandler.handleHttpError(err)),
-      map((value) => value.data)
-    );
+    return this.httpBack.getAll<RateId>('rate');
   }
 
   getOrderStatus(): Observable<OrderStatus> {
-    return this.httpClient
-      .get<ResponseResult<OrderStatus[]>>('api/db/orderStatus')
-      .pipe(map((result) => result.data[0]));
+    return this.httpBack.getAll<OrderStatus>('orderStatus').pipe(map((result) => result[0]));
   }
 
   postOrder(order: Order): Observable<string> {
-    return this.httpClient.post<ResponseResult<Order>>('api/db/order', order).pipe(
-      catchError((err) => this.errorHandler.handleHttpError(err)),
+    return this.httpBack.post<Order>('order', order).pipe(
       map((value) => {
-        return value.data.id;
+        return value.id;
       })
     );
   }
 
   getOrderById(id: string): Observable<Order> {
-    return this.httpClient.get<ResponseResult<Order>>(`api/db/order/${id}`).pipe(
-      catchError((err) => this.errorHandler.handleHttpError(err)),
+    return this.httpBack.get<Order>(`order`, id).pipe(
       map((result) => {
-        const car = result.data.carId;
+        const car = result.carId;
         car.thumbnail.path = car.thumbnail.path.search('data:image/png;base64,')
           ? `http://api-factory.simbirsoft1.com${car.thumbnail.path}`
           : car.thumbnail.path;
-        return result.data;
+        return result;
       })
     );
   }
 
   cancelOrder(order: Order): Observable<Order> {
     order.orderStatusId.id = this.cancelledId;
-    return this.httpClient.put<Order>(`api/db/order/${order.id}`, order);
+    return this.httpBack.put<Order>('order', order);
   }
 }

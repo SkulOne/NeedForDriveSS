@@ -19,6 +19,6 @@ export interface CarPhoto {
 
 export interface CategoryId {
   description: string;
-  id: string;
+  id?: string;
   name: string;
 }

@@ -1,0 +1,44 @@
+<div class="admin-section-title">Редактирование категории</div>
+
+<div class="content" *ngIf="getEntity(); else elseBlock">
+  <div class="progress">
+    <div class="title">
+      <span>Заполнено</span>
+      <span>{{ progressValue | number: '0.1-1' }}%</span>
+    </div>
+    <mat-progress-bar mode="determinate" [value]="progressValue" color="accent"></mat-progress-bar>
+  </div>
+
+  <form class="setting-form" [formGroup]="form">
+    <mat-form-field
+      *ngFor="let input of inputs[_entityName].inputs; let index"
+      appearance="outline"
+    >
+      <mat-label>{{ input.matLabel }}</mat-label>
+      <mat-select *ngIf="input.dataName; else elseBlock" [formControlName]="input.controlName">
+        <mat-option
+          *ngFor="let propertyEntity of getEntityPropertyArray() | async; let index"
+          [value]="propertyEntity"
+        >
+          {{ propertyEntity.name }}</mat-option
+        >
+      </mat-select>
+      <ng-template #elseBlock>
+        <input matInput type="text" formControlName="{{ input.controlName }}" />
+      </ng-template>
+    </mat-form-field>
+  </form>
+
+  <div class="actions">
+    <button mat-raised-button color="accent" [disabled]="!form.valid" (click)="save()">
+      Сохранить
+    </button>
+    <button mat-raised-button (click)="cancel()">Отменить</button>
+  </div>
+</div>
+
+<ng-template #elseBlock>
+  <app-admin-entity-empty (create)="createEntity()"></app-admin-entity-empty>
+</ng-template>
+
+<app-spinner [show]="showSpinner"></app-spinner>

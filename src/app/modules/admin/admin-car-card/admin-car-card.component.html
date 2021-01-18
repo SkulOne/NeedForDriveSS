@@ -1,19 +1,24 @@
-<div class="admin-card-title">Карточка автомобиля</div>
-<div class="admin-page-wrapper">
-  <app-car-image-setting
-    [car]="car"
-    [photoAndDescriptionForm]="carForm.get('photoAndDescription')"
-    [progressValue]="progressValue"
-    [name]="carForm.get('properties').value.name"
-    [type]="carForm.get('properties').value.type?.name"
-  ></app-car-image-setting>
+<div class="admin-section-title">Карточка автомобиля</div>
+<div class="admin-page-wrapper" *ngIf="getEntity(); else elseBlock">
+  <!--  <app-car-image-setting-->
+  <!--    [car]="getEntity()"-->
+  <!--    [photoAndDescriptionForm]="carForm.get('photoAndDescription')"-->
+  <!--    [progressValue]="progressValue"-->
+  <!--    [name]="carForm.get('properties').value.name"-->
+  <!--    [type]="carForm.get('properties').value.type?.name"-->
+  <!--  ></app-car-image-setting>-->
   <app-car-properties-setting
-    [carPropertiesForm]="carForm.get('properties')"
-    [car]="car"
-    (save)="saveCar()"
-    (create)="createCar()"
+    [carPropertiesForm]="form"
+    [car]="getEntity()"
   ></app-car-properties-setting>
+  <!--    (save)="saveCar()"-->
+  <!--    (create)="createCar()"-->
 </div>
+
 <div class="spinner-container" *ngIf="showSpinner">
   <app-spinner [show]="showSpinner" color="primary"></app-spinner>
 </div>
+
+<ng-template #elseBlock>
+  <app-admin-entity-empty (create)="createEntity()"></app-admin-entity-empty>
+</ng-template>
