@@ -31,7 +31,6 @@ import { EntityPageComponent } from './entity-page/entity-page.component';
 import { EntityListComponent } from './entity-page/entity-list/entity-list.component';
 import { EntitySettingsComponent } from './entity-page/entity-settings/entity-settings.component';
 import { AdminCarListComponent } from './admin-car-list/admin-car-list.component';
-import { AdminCarSettingsComponent } from './admin-car-settings/admin-car-settings.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +47,6 @@ import { AdminCarSettingsComponent } from './admin-car-settings/admin-car-settin
     EntityListComponent,
     EntitySettingsComponent,
     AdminCarListComponent,
-    AdminCarSettingsComponent,
   ],
   imports: [
     CommonModule,

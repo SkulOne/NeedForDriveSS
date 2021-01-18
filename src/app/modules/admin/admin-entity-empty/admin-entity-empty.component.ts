@@ -15,7 +15,7 @@ import {
 })
 export class AdminEntityEmptyComponent implements OnInit {
   @Input() hasSelectEvent: boolean;
-  // tslint:disable-next-line:no-output-native todo Убери после шаринга
+  // tslint:disable-next-line:no-output-native todo ?
   @Output() select = new EventEmitter();
   @Output() create = new EventEmitter();
 

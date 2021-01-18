@@ -59,6 +59,8 @@ export const inputs: EntityInputs = {
       { text: 'Мин. цена', matColumnDef: 'priceMin' },
       { text: 'Макс. цена', matColumnDef: 'priceMax' },
       { text: 'Описание', matColumnDef: 'description' },
+      { text: 'Номер', matColumnDef: 'number' },
+      { text: 'Бензин', matColumnDef: 'tank' },
       { text: 'Категория', matColumnDef: 'categoryId', property: ['name', 'description'] },
     ],
     inputs: [
@@ -66,6 +68,8 @@ export const inputs: EntityInputs = {
       { matLabel: 'Мин. цена', controlName: 'priceMin' },
       { matLabel: 'Макс. цена', controlName: 'priceMax' },
       { matLabel: 'Описание', controlName: 'description' },
+      { matLabel: 'Номер', controlName: 'number' },
+      { matLabel: 'Бензин', controlName: 'tank' },
       { matLabel: 'Категория', controlName: 'categoryId' },
     ],
   },

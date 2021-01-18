@@ -1,22 +1,33 @@
 @import 'src/app/shared/style/global';
 
 :host {
+  display: block;
   padding: 18px;
-  width: 60%;
-  height: 100%;
-  @include admin-card;
   @media screen and (max-width: 767px) {
     width: calc(100% - 36px);
   }
 
-  form {
+  .forms-container {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    font-size: 13px;
-    mat-form-field {
-      width: 45%;
-      margin-right: 16px;
+    justify-content: space-between;
+    form {
+      @include admin-card;
+      font-size: 13px;
+      width: 65%;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .properties {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        mat-form-field {
+          width: 45%;
+          margin-right: 16px;
+        }
+      }
     }
   }
   .checkbox-group {

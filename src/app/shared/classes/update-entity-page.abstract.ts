@@ -27,7 +27,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   private saveEntity$ = this.saveEntityTrigger$.asObservable();
   private _entity: T;
   private _formBuilder: FormBuilder;
-  private _ignoredKeys = ['updatedAt', 'createdAt', 'id', 'coords'];
+  private _ignoredKeys = ['updatedAt', 'createdAt', 'id', 'coords', 'colors'];
   private _snackBar: MatSnackBar;
   private _changeDetectorRef: ChangeDetectorRef;
   private _activatedRoute: ActivatedRoute;
@@ -66,7 +66,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
           )
         )
       )
-      .subscribe();
+      .subscribe(() => {});
 
     this.saveEntity$
       .pipe(

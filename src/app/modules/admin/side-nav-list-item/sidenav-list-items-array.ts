@@ -49,5 +49,4 @@ export const listItems: SidenavListItem[] = [
     routerLink: '/admin/test/car',
     data: new Car(),
   },
-  // todo ещё заказы не забудь
 ];

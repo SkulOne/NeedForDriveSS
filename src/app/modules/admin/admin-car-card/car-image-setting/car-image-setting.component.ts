@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { ICar } from '@shared/interfaces/ICar';
+import { CarPhoto, ICar } from '@shared/interfaces/ICar';
 import { FileInput } from 'ngx-material-file-input';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
@@ -21,17 +21,19 @@ export class CarImageSettingComponent implements OnInit, OnDestroy {
   @Input() progressValue: number;
   @Input() name: string;
   @Input() type: string;
-  @Input() photoAndDescriptionForm: AbstractControl | FormGroup;
+  @Input() form: FormGroup;
 
   readonly carEmpty = 'assets/images/car-null.png';
 
   imgTypes = '.pdf, .png, .jpeg, .jpg, .bmp';
   carPhoto: string | ArrayBuffer = this.carEmpty;
   showSpinner: boolean;
+  namePhoto: string;
 
   private _car;
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
   get car(): ICar {
     return this._car;
   }
@@ -47,8 +49,9 @@ export class CarImageSettingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.photoAndDescriptionForm
-      .get('photo')
+    console.log(this.form);
+    this.form
+      .get('thumbnail')
       .valueChanges.pipe(untilDestroyed(this))
       .subscribe((value) => {
         this.setPhoto(value);
@@ -59,8 +62,7 @@ export class CarImageSettingComponent implements OnInit, OnDestroy {
 
   deletePhoto(): void {
     this.carPhoto = this.carEmpty;
-    this.photoAndDescriptionForm.get('photo').setValue(null);
-    this.photoAndDescriptionForm.get('photoPath').setValue(null);
+    this.form.get('thumbnail').setValue(null);
   }
 
   imgLoad(): void {
@@ -68,10 +70,9 @@ export class CarImageSettingComponent implements OnInit, OnDestroy {
   }
 
   private setFormValue(): void {
-    this.photoAndDescriptionForm.setValue({
+    this.form.setValue({
       photo: this.car.thumbnail ? this.car.thumbnail : null,
       description: this.car.description,
-      photoPath: this.car.thumbnail ? this.car.thumbnail.path : null,
     });
   }
 
@@ -84,7 +85,14 @@ export class CarImageSettingComponent implements OnInit, OnDestroy {
       reader.onload = (_event) => {
         this.showSpinner = false;
         this.carPhoto = reader.result;
-        this.photoAndDescriptionForm.get('photoPath').setValue(reader.result);
+        const photo = inputValue.files[0];
+        this.form.get('thumbnail').setValue({
+          path: this.carPhoto,
+          size: photo.size,
+          mimetype: photo.type,
+          originalname: photo.name,
+        } as CarPhoto);
+        this.namePhoto = photo.name;
         this.changeDetectorRef.detectChanges();
       };
     }
