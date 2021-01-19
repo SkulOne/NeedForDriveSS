@@ -5,17 +5,6 @@
     <mat-form-field appearance="outline" *ngFor="let input of sortInputs">
       <mat-label>{{ input.matLabel }}</mat-label>
       <input type="text" matInput [formControlName]="input.controlName" />
-      <mat-select *ngIf="input.dataName; else elseBlock" [formControlName]="input.controlName">
-        <mat-option
-          *ngFor="let propertyEntity of getEntityPropertyArray(); let index"
-          [value]="propertyEntity"
-        >
-          {{ propertyEntity }}</mat-option
-        >
-      </mat-select>
-      <ng-template #elseBlock>
-        <input matInput type="text" formControlName="{{ input.controlName }}" />
-      </ng-template>
     </mat-form-field>
   </div>
   <button mat-icon-button (click)="resetData()">

@@ -1,5 +1,4 @@
-import { TableHeader } from '@shared/interfaces/table-header';
-import { SelectControlEntity, TextInput } from '@shared/interfaces/input';
+import { EntityInputs } from '@shared/interfaces/entity-inputs';
 
 export const inputs: EntityInputs = {
   category: {
@@ -52,13 +51,11 @@ export const inputs: EntityInputs = {
       { controlName: 'name', matLabel: 'Название' },
     ],
   },
-  // todo Вот это всё можно было бы генерить автоматически, если б не russian worlds
   car: {
     tableHeaders: [
       { text: 'Модель', matColumnDef: 'name' },
       { text: 'Мин. цена', matColumnDef: 'priceMin' },
       { text: 'Макс. цена', matColumnDef: 'priceMax' },
-      { text: 'Описание', matColumnDef: 'description' },
       { text: 'Номер', matColumnDef: 'number' },
       { text: 'Бензин', matColumnDef: 'tank' },
       { text: 'Категория', matColumnDef: 'categoryId', property: ['name', 'description'] },
@@ -73,13 +70,3 @@ export const inputs: EntityInputs = {
     ],
   },
 };
-
-// todo: Вынеси да э па братски
-export interface EntityInputs {
-  [key: string]: {
-    tableHeaders: TableHeader[];
-    inputs: EntityInput[];
-  };
-}
-
-export type EntityInput = TextInput | SelectControlEntity;

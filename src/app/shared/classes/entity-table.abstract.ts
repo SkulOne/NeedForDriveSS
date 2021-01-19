@@ -14,7 +14,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { UpdateEntityConfig } from '@shared/interfaces/update-entity-config';
 import { MatTableDataSource } from '@angular/material/table';
-import { TextInput } from '@shared/interfaces/input';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { mergeMap, switchMap } from 'rxjs/operators';
 import { ConfirmDialogComponent } from '../../modules/shared-module/components/confrim-dialog/confirm-dialog.component';
@@ -23,7 +22,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormChangedValue } from '@shared/interfaces/form-changed-value';
 import { HttpBackService } from '@shared/services/http-back.service';
 import { ActivatedRoute } from '@angular/router';
-import { EntityInput, inputs } from '../../modules/admin/entity-page/inputs';
+import { inputs } from '../../modules/admin/entity-page/inputs';
+import { EntityInput } from '@shared/interfaces/entity-inputs';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
@@ -52,8 +52,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   private _service: HttpBackService;
   private _router: ActivatedRoute;
   private _entityName: string;
-
-  private _data: T[];
+  private _data = [];
 
   protected constructor(
     service: HttpBackService,
@@ -184,10 +183,9 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
     this.showSpinner = true;
     this._changeDetectorRef.detectChanges();
     return this._service.getAll<T>(this._entityName).pipe(
-      switchMap((categories) => {
+      switchMap((property) => {
         this.crateDisplayedColumns();
-        this.data = categories;
-
+        this.data = property;
         this.showSpinner = false;
         this._changeDetectorRef.detectChanges();
         return EMPTY;

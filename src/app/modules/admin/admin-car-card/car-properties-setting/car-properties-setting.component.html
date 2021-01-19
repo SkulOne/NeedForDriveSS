@@ -11,7 +11,7 @@
     <form class="setting-form" [formGroup]="form">
       <div class="properties">
         <mat-form-field
-          *ngFor="let input of inputs[_entityName].inputs; let index"
+          *ngFor="let input of inputs[entityName].inputs; let index"
           appearance="outline"
         >
           <mat-label>{{ input.matLabel }}</mat-label>

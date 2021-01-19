@@ -34,3 +34,12 @@ export function getHash(str: string): number {
       .reduce((prevHash, currVal) => ((prevHash << 5) - prevHash + currVal.charCodeAt(0)) | 0, 0)
   );
 }
+
+export function getId(obj: any): string {
+  const errorMessage = 'Увы, у этого объекта нет id.';
+  if (obj.id) {
+    return obj.id;
+  } else {
+    throw new Error(errorMessage);
+  }
+}

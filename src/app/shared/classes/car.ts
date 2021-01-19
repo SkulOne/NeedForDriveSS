@@ -1,7 +1,8 @@
-import { CarPhoto, CategoryId, ICar } from '@shared/interfaces/ICar';
+import { CategoryId } from '@shared/interfaces/category';
+import { CarPhoto } from '@shared/interfaces/car-photo';
 
-export class Car implements ICar {
-  id: string;
+export class Car {
+  id?: string;
   categoryId: CategoryId;
   colors: string[];
   description: string;

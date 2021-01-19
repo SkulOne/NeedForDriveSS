@@ -10,10 +10,7 @@
   </div>
 
   <form class="setting-form" [formGroup]="form">
-    <mat-form-field
-      *ngFor="let input of inputs[_entityName].inputs; let index"
-      appearance="outline"
-    >
+    <mat-form-field *ngFor="let input of inputs[entityName].inputs; let index" appearance="outline">
       <mat-label>{{ input.matLabel }}</mat-label>
       <mat-select *ngIf="input.dataName; else elseBlock" [formControlName]="input.controlName">
         <mat-option

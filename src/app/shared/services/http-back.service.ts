@@ -4,6 +4,7 @@ import { ResponseResult } from '@shared/interfaces/response-result';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandlerService } from '@shared/services/error-handler.service';
+import { getId } from '@shared/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -41,14 +42,11 @@ export class HttpBackService {
   }
 
   put<T>(entityName: string, entity: T, id?: string): Observable<T> {
-    return (
-      this.httpClient
-        // @ts-ignore todo разберись
-        .put<ResponseResult<T>>(`${this.backUrl}/${entityName}/${id ? id : entity.id}`, entity)
-        .pipe(
-          catchError((err) => this.errorHandler.handleHttpError(err)),
-          map((value) => value.data)
-        )
-    );
+    return this.httpClient
+      .put<ResponseResult<T>>(`${this.backUrl}/${entityName}/${id ? id : getId(entity)}`, entity)
+      .pipe(
+        catchError((err) => this.errorHandler.handleHttpError(err)),
+        map((value) => value.data)
+      );
   }
 }

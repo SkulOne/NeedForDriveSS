@@ -1,9 +1,9 @@
 import { SidenavListItem } from './sidenav-list-item';
 import { Car } from '@shared/classes/car';
-import { CategoryId } from '@shared/interfaces/ICar';
 import { City } from '@shared/interfaces/city';
 import { Point } from '@shared/interfaces/point';
 import { RateId, RateTypeID } from '@shared/interfaces/order';
+import { CategoryId } from '@shared/interfaces/category';
 
 export const listItems: SidenavListItem[] = [
   {
@@ -15,7 +15,7 @@ export const listItems: SidenavListItem[] = [
   {
     icon: 'vertical_split',
     textContent: 'Список авто',
-    routerLink: '/admin/carList',
+    routerLink: '/admin/test/get/car',
     data: new Car(),
   },
   {

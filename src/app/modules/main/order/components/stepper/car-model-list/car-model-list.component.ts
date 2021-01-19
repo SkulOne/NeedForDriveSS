@@ -2,11 +2,11 @@ import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { CarService } from '@shared/services/car.service';
 import { Observable } from 'rxjs';
-import { ICar } from '@shared/interfaces/ICar';
 import { carTypeInputsArray } from './model-type-inputs';
 import { OrderService } from '@shared/services/order.service';
 import { Order } from '@shared/interfaces/order';
 import { OrderStepperChildDirective } from '@shared/classes/order-stepper-child';
+import { Car } from '@shared/classes/car';
 
 @Component({
   selector: 'app-car-model-list',
@@ -15,7 +15,7 @@ import { OrderStepperChildDirective } from '@shared/classes/order-stepper-child'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CarModelListComponent extends OrderStepperChildDirective implements OnInit {
-  cars: Observable<ICar[]>;
+  cars: Observable<Car[]>;
   category: Observable<string>;
   carTypeInputs = carTypeInputsArray;
   carCategory: FormControl;
@@ -37,7 +37,7 @@ export class CarModelListComponent extends OrderStepperChildDirective implements
     });
   }
 
-  private setCar(car: ICar): void {
+  private setCar(car: Car): void {
     this.order = this.reset(this.order, ['pointId', 'carId', 'color', 'cityId']);
     this.order.carId = car;
     this.order.color = 'Любой';

@@ -26,10 +26,8 @@ const mainModuleRoutes: Routes = [
 ];
 
 const adminModuleRoutes: Routes = [
-  // { path: 'carSetting', component: AdminCarCardComponent },
   { path: 'test/set/car', component: AdminCarCardComponent },
-  { path: 'carSetting/:id', component: AdminCarCardComponent },
-  { path: 'test/car', component: AdminCarListComponent },
+  { path: 'test/get/car', component: AdminCarListComponent },
   { path: 'test/:entityName', component: EntityPageComponent },
 ];
 

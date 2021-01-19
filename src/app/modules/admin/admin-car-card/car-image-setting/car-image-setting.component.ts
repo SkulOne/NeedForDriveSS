@@ -6,10 +6,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
-import { CarPhoto, ICar } from '@shared/interfaces/ICar';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FileInput } from 'ngx-material-file-input';
 import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Car } from '@shared/classes/car';
+import { CarPhoto } from '@shared/interfaces/car-photo';
 
 @Component({
   selector: 'app-car-image-setting',
@@ -34,11 +35,11 @@ export class CarImageSettingComponent implements OnInit, OnDestroy {
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
-  get car(): ICar {
+  get car(): Car {
     return this._car;
   }
 
-  @Input() set car(value: ICar) {
+  @Input() set car(value: Car) {
     if (value) {
       this._car = value;
       this.carPhoto = this.car.thumbnail ? this.car.thumbnail.path : this.carEmpty;
@@ -49,6 +50,8 @@ export class CarImageSettingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.form.addControl('description', new FormControl());
+    this.form.addControl('thumbnail', new FormControl());
     this.form
       .get('thumbnail')
       .valueChanges.pipe(untilDestroyed(this))

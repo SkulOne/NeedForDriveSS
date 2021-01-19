@@ -3,7 +3,7 @@
   <button (click)="create.emit()" mat-raised-button color="accent">Создать</button>
 
   <button
-    (click)="select.emit()"
+    (click)="selectEntity.emit()"
     *ngIf="hasSelectEvent; else elseBlock"
     mat-raised-button
     color="primary"

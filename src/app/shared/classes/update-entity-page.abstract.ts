@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChangeDetectorRef, Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { map, switchMap } from 'rxjs/operators';
-import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { EMPTY, Observable, Subject } from 'rxjs';
 import { UpdateEntityConfig } from '@shared/interfaces/update-entity-config';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -9,7 +9,8 @@ import { FormChangedValue } from '@shared/interfaces/form-changed-value';
 import { HttpBackService } from '@shared/services/http-back.service';
 import { ActivatedRoute } from '@angular/router';
 import { listItems } from '../../modules/admin/side-nav-list-item/sidenav-list-items-array';
-import { EntityInputs } from '../../modules/admin/entity-page/inputs';
+import { EntityInputs } from '@shared/interfaces/entity-inputs';
+import { getId } from '@shared/utils';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
@@ -20,29 +21,28 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   formGeneratedTrigger$ = new Subject();
   saveEntityTrigger$ = new Subject<T>();
   data = [];
-  _entityName: string;
-  _service: HttpBackService;
+  entityName: string;
 
+  private _service: HttpBackService;
   private formGenerated$ = this.formGeneratedTrigger$.asObservable();
   private saveEntity$ = this.saveEntityTrigger$.asObservable();
   private _entity: T;
   private _formBuilder: FormBuilder;
-  private _ignoredKeys = ['updatedAt', 'createdAt', 'id', 'coords', 'colors'];
   private _snackBar: MatSnackBar;
   private _changeDetectorRef: ChangeDetectorRef;
   private _activatedRoute: ActivatedRoute;
   private _emptyEntity: unknown;
   private _inputs: EntityInputs;
-  private index: number;
+  private _index: number;
   protected constructor(
     service: HttpBackService,
     router: ActivatedRoute,
     inputs: EntityInputs,
     config: UpdateEntityConfig
   ) {
+    this._service = service;
     this._formBuilder = config.formBuilder;
     this._snackBar = config.snackBar;
-    this._service = service;
     this._activatedRoute = router;
     this._inputs = inputs;
     this._changeDetectorRef = config.changeDetectorRef;
@@ -71,8 +71,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
     this.saveEntity$
       .pipe(
         untilDestroyed(this),
-        // @ts-ignore todo Разберись
-        switchMap((entity) => this.saveEntity(this._service, entity, entity.id))
+        switchMap((entity) => this.saveEntity(this._service, entity, getId(entity)))
       )
       .subscribe(() => {
         this.showSpinner = false;
@@ -86,10 +85,10 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
         untilDestroyed(this),
         map((value) => {
           const commands = value.map((item) => item.path);
-          this._entityName = commands[commands.length - 1];
+          this.entityName = commands[commands.length - 1];
           const url = '/admin/' + commands.join('/');
           this._emptyEntity = listItems.filter((item) => url === item.routerLink)[0].data;
-          this._inputs[this._entityName].inputs.forEach((input) => {
+          this._inputs[this.entityName].inputs.forEach((input) => {
             if ('dataName' in input) {
               this.data.push(this._service.getAll(input.dataName));
             }
@@ -114,11 +113,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   save(): void {
     this.showSpinner = true;
     const formValue = this.form.value;
-    // @ts-ignore todo Разберись
-    if (this.getEntity().id) {
-      // @ts-ignore todo Разберись
-      formValue.id = this.getEntity().id;
-    }
+    formValue.id = getId(this.getEntity());
     this.saveEntityTrigger$.next(formValue);
   }
 
@@ -128,26 +123,35 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   }
 
   getEntityPropertyArray(): Observable<unknown> {
-    return this.data[this.index ? this.index++ : 0];
+    return this.data[this._index ? this._index++ : 0];
   }
 
   private saveEntity(service: HttpBackService, entity: T, id: string): Observable<T> {
     if (id) {
-      return service.put<T>(this._entityName, entity, id);
+      return service.put<T>(this.entityName, entity, id);
     }
-    return service.post<T>(this._entityName, entity);
+    return service.post<T>(this.entityName, entity);
   }
 
   private generateForm(): void {
     const formControls = {};
-    Object.keys(this._entity).forEach((key) => {
-      if (this._ignoredKeys.indexOf(key) < 0) {
-        const formControlValue = this._entity ? this._entity[key] : null;
-        formControls[key] = this._formBuilder.control(formControlValue, Validators.required);
-
-        if (key.slice(key.length - 2).includes('Id')) {
-          this.data.push(this._service.getAll(key.slice(0, key.length - 2)));
-        }
+    // Object.keys(this._entity).forEach((key) => {
+    //   if (this._ignoredKeys.indexOf(key) < 0) {
+    //     const formControlValue = this._entity ? this._entity[key] : null;
+    //     formControls[key] = this._formBuilder.control(formControlValue, Validators.required);
+    //
+    //     if (key.slice(key.length - 2).includes('Id')) {
+    //       this.data.push(this._service.getAll(key.slice(0, key.length - 2)));
+    //     }
+    //   }
+    // });
+    const entityInput = this._inputs[this.entityName].inputs;
+    entityInput.forEach((key) => {
+      const control = key.controlName;
+      const formControlValue = this._entity ? this._entity[control] : null;
+      formControls[control] = this._formBuilder.control(formControlValue, Validators.required);
+      if (control.slice(control.length - 2).includes('Id')) {
+        this.data.push(this._service.getAll(control.slice(0, control.length - 2)));
       }
     });
     this.form = this._formBuilder.group(formControls);

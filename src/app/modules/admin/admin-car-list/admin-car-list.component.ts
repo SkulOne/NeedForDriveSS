@@ -1,11 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { EntityTable } from '@shared/classes/entity-table.abstract';
-import { Car } from '@shared/classes/car';
-import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
-import { FormBuilder } from '@angular/forms';
-import { HttpBackService } from '@shared/services/http-back.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-car-list',
@@ -14,10 +8,10 @@ import { HttpBackService } from '@shared/services/http-back.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminCarListComponent {
-  constructor() {}
-  // constructor(private service: HttpBackService, private activatedRoute: ActivatedRoute,
-  //             private snackBar: MatSnackBar, private dialog: MatDialog,
-  //             private changeDetectorRef: ChangeDetectorRef, private formBuilder: FormBuilder) {
-  //   super(service, activatedRoute, { snackBar, dialog, changeDetectorRef, formBuilder });
-  // }
+  constructor(private router: Router) {}
+
+  selectCar($event: unknown): void {
+    localStorage.setItem('car', JSON.stringify($event));
+    this.router.navigate(['admin', 'test', 'set', 'car']);
+  }
 }
