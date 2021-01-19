@@ -114,10 +114,6 @@ export class LocationComponent extends OrderStepperChildDirective implements OnI
     this.form.get(formControlName).setValue('');
   }
 
-  test(ev: any): void {
-    console.log(ev);
-  }
-
   private setPoint(point: Point): void {
     if (point) {
       this.order = this.reset(this.order, ['pointId', 'cityId']);

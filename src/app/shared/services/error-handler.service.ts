@@ -10,7 +10,6 @@ export class ErrorHandlerService {
   constructor(private snackBar: MatSnackBar) {}
 
   handleHttpError(error: HttpErrorResponse): Observable<never> {
-    console.log(error);
     if (error.error instanceof ErrorEvent) {
       this.userError(error.error.message);
     } else {

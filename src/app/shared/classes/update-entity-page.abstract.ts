@@ -77,7 +77,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
       .subscribe(() => {
         this.showSpinner = false;
         this.form.reset();
-        this.openSuccessfulSnackBar('Категория добавлена. Обновите таблицу.');
+        this.openSuccessfulSnackBar('Сущность добавлена. Обновите таблицу.');
         this._changeDetectorRef.detectChanges();
       });
 

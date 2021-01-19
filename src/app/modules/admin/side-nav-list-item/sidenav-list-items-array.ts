@@ -12,7 +12,12 @@ export const listItems: SidenavListItem[] = [
     routerLink: '/admin/test/set/car',
     data: new Car(),
   },
-  { icon: 'vertical_split', textContent: 'Список авто', routerLink: '/admin/carList' },
+  {
+    icon: 'vertical_split',
+    textContent: 'Список авто',
+    routerLink: '/admin/carList',
+    data: new Car(),
+  },
   {
     icon: 'view_module',
     textContent: 'Категории',
@@ -42,11 +47,5 @@ export const listItems: SidenavListItem[] = [
     textContent: 'RateType',
     routerLink: '/admin/test/rateType',
     data: { name: null, unit: null } as RateTypeID,
-  },
-  {
-    icon: 'create',
-    textContent: 'Карточка автомобиля',
-    routerLink: '/admin/test/car',
-    data: new Car(),
   },
 ];

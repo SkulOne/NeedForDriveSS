@@ -67,10 +67,9 @@ export const inputs: EntityInputs = {
       { matLabel: 'Модель', controlName: 'name' },
       { matLabel: 'Мин. цена', controlName: 'priceMin' },
       { matLabel: 'Макс. цена', controlName: 'priceMax' },
-      { matLabel: 'Описание', controlName: 'description' },
       { matLabel: 'Номер', controlName: 'number' },
       { matLabel: 'Бензин', controlName: 'tank' },
-      { matLabel: 'Категория', controlName: 'categoryId' },
+      { matLabel: 'Категория', controlName: 'categoryId', dataName: 'category' },
     ],
   },
 };
@@ -83,4 +82,4 @@ export interface EntityInputs {
   };
 }
 
-type EntityInput = TextInput | SelectControlEntity;
+export type EntityInput = TextInput | SelectControlEntity;

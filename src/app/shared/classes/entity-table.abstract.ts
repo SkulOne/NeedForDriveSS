@@ -23,7 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormChangedValue } from '@shared/interfaces/form-changed-value';
 import { HttpBackService } from '@shared/services/http-back.service';
 import { ActivatedRoute } from '@angular/router';
-import { inputs } from '../../modules/admin/entity-page/inputs';
+import { EntityInput, inputs } from '../../modules/admin/entity-page/inputs';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
@@ -34,7 +34,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   showSpinner: boolean;
   sortingForm: FormGroup;
   dataSource: MatTableDataSource<T>;
-  sortInputs: TextInput[];
+  sortInputs: EntityInput[];
   formGeneratedTrigger$ = new Subject();
   resetFormTrigger$ = new Subject();
 

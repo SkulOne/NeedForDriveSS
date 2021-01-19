@@ -49,7 +49,6 @@ export class CarImageSettingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.form);
     this.form
       .get('thumbnail')
       .valueChanges.pipe(untilDestroyed(this))
