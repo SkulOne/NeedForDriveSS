@@ -1,7 +1,7 @@
 <div class="search-title">Поиск</div>
 
 <form [formGroup]="sortingForm" class="sort-form">
-  <div class="buttons-container">
+  <div class="inputs-container">
     <mat-form-field appearance="outline" *ngFor="let input of sortInputs">
       <mat-label>{{ input.matLabel }}</mat-label>
       <input type="text" matInput [formControlName]="input.controlName" />

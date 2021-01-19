@@ -26,9 +26,9 @@ const mainModuleRoutes: Routes = [
 ];
 
 const adminModuleRoutes: Routes = [
-  { path: 'test/set/car', component: AdminCarCardComponent },
-  { path: 'test/get/car', component: AdminCarListComponent },
-  { path: 'test/:entityName', component: EntityPageComponent },
+  { path: 'edit/car', component: AdminCarCardComponent },
+  { path: 'list/car', component: AdminCarListComponent },
+  { path: ':entityName', component: EntityPageComponent },
 ];
 
 const routes: Routes = [

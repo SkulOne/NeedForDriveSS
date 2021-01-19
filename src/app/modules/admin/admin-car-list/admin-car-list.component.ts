@@ -12,6 +12,6 @@ export class AdminCarListComponent {
 
   selectCar($event: unknown): void {
     localStorage.setItem('car', JSON.stringify($event));
-    this.router.navigate(['admin', 'test', 'set', 'car']);
+    this.router.navigate(['admin', 'edit', 'car']);
   }
 }

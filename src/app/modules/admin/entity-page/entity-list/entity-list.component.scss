@@ -23,20 +23,13 @@
   }
 }
 
-.setting-form {
-  display: flex;
-  flex-wrap: wrap;
-  font-size: 12px;
-}
-
-.buttons-container mat-form-field {
+.inputs-container mat-form-field {
   margin-right: 8px;
 }
 
 .sort-form {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
   align-items: baseline;
   mat-form-field {
     font-size: 12px;
