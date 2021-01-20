@@ -15,6 +15,7 @@ import {
 })
 export class AdminEntityEmptyComponent implements OnInit {
   @Input() hasSelectEvent: boolean;
+  @Input() entityListRoute: string[];
   @Output() selectEntity = new EventEmitter();
   @Output() create = new EventEmitter();
 

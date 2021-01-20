@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { SidenavListItem } from './sidenav-list-item';
+import { SidenavListItem } from '@shared/interfaces/sidenav-list-item';
 
 @Component({
   selector: 'app-sidenav-list-item',

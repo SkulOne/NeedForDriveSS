@@ -29,17 +29,21 @@
         </mat-form-field>
       </div>
       <div class="actions">
-        <button mat-raised-button color="accent" [disabled]="!form.valid" (click)="save()">
+        <button mat-raised-button color="accent" [disabled]="!form.valid" (click)="saveTrigger()">
           Сохранить
         </button>
-        <button mat-raised-button (click)="cancel()">Отменить</button>
+        <button mat-raised-button (click)="cancelBtn()">Отменить</button>
       </div>
     </form>
   </div>
 </div>
 
 <ng-template #elseBlock>
-  <app-admin-entity-empty (create)="createEntity()"></app-admin-entity-empty>
+  <app-admin-entity-empty
+    (create)="createEntity()"
+    hasSelectEvent="true"
+    (selectEntity)="navigateToList()"
+  ></app-admin-entity-empty>
 </ng-template>
 
 <app-spinner [show]="showSpinner"></app-spinner>

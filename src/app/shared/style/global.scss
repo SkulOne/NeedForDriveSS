@@ -78,3 +78,12 @@ mat-dialog-container.mat-dialog-container {
 figure.mat-figure {
   align-items: flex-start !important;
 }
+
+.admin-section-title {
+  color: #3d5170;
+  font-size: 24px;
+  margin-bottom: 8px;
+  @media screen and (max-width: 1439px) {
+    font-size: 20px;
+  }
+}

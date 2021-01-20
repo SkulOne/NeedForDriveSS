@@ -2,14 +2,11 @@
 
 :host {
   display: block;
-  @include admin-card;
-  padding: 8px;
-
-  .admin-section-title {
-    margin-bottom: 10px;
-  }
 
   .content {
+    @include admin-card;
+    padding: 8px;
+
     .progress {
       margin-bottom: 12px;
       .title {

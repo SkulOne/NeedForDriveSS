@@ -2,6 +2,9 @@
 
 :host {
   display: block;
+}
+
+.content {
   @include admin-card;
   padding: 8px;
 }
@@ -10,17 +13,6 @@
   color: rgba(61, 81, 112, 1);
   font-weight: 500;
   font-size: 18px;
-  padding-bottom: 16px;
-}
-
-.admin-section-title {
-  color: #3d5170;
-  font-size: 29px;
-  margin-bottom: 30px;
-  @media screen and (max-width: 1439px) {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
 }
 
 .inputs-container mat-form-field {

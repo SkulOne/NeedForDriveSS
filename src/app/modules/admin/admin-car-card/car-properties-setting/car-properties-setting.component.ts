@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpBackService } from '@shared/services/http-back.service';
 import { inputs } from '../../entity-page/inputs';
 import { UpdateEntityPage } from '@shared/classes/update-entity-page.abstract';
@@ -18,18 +18,33 @@ export class CarPropertiesSettingComponent extends UpdateEntityPage<Car> impleme
   inputs = inputs;
   constructor(
     private formBuilder: FormBuilder,
-    private router: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private httpBackService: HttpBackService,
     private changeDetectorRef: ChangeDetectorRef,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
-    super(httpBackService, router, inputs, { formBuilder, changeDetectorRef, dialog, snackBar });
+    super(httpBackService, activatedRoute, inputs, {
+      formBuilder,
+      changeDetectorRef,
+      dialog,
+      snackBar,
+    });
   }
 
   ngOnInit(): void {
     super.ngOnInit();
     this.entity = JSON.parse(localStorage.getItem('car'));
     this.changeDetectorRef.detectChanges();
+  }
+
+  cancelBtn(): void {
+    localStorage.removeItem('car');
+    this.resetEntity();
+  }
+
+  navigateToList(): void {
+    this.router.navigate(['admin', 'list', 'car']);
   }
 }

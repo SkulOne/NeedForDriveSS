@@ -8,7 +8,6 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { FormChangedValue } from '@shared/interfaces/form-changed-value';
 import { HttpBackService } from '@shared/services/http-back.service';
 import { ActivatedRoute } from '@angular/router';
-import { listItems } from '../../modules/admin/side-nav-list-item/sidenav-list-items-array';
 import { EntityInputs } from '@shared/interfaces/entity-inputs';
 import { getId } from '@shared/utils';
 
@@ -31,7 +30,6 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   private _snackBar: MatSnackBar;
   private _changeDetectorRef: ChangeDetectorRef;
   private _activatedRoute: ActivatedRoute;
-  private _emptyEntity: unknown;
   private _inputs: EntityInputs;
   private _index: number;
   protected constructor(
@@ -66,7 +64,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
           )
         )
       )
-      .subscribe(() => {});
+      .subscribe();
 
     this.saveEntity$
       .pipe(
@@ -86,14 +84,12 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
         map((value) => {
           const commands = value.map((item) => item.path);
           this.entityName = commands[commands.length - 1];
-          const url = '/admin/' + commands.join('/');
-          this._emptyEntity = listItems.filter((item) => url === item.routerLink)[0].data;
           this._inputs[this.entityName].inputs.forEach((input) => {
             if ('dataName' in input) {
               this.data.push(this._service.getAll(input.dataName));
             }
           });
-          this.cancel();
+          this.resetEntity();
         })
       )
       .subscribe();
@@ -105,12 +101,12 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
     return this._entity;
   }
 
-  cancel(): void {
+  resetEntity(): void {
     this._entity = null;
     this._changeDetectorRef.detectChanges();
   }
 
-  save(): void {
+  saveTrigger(): void {
     this.showSpinner = true;
     const formValue = this.form.value;
     formValue.id = getId(this.getEntity());
@@ -118,7 +114,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   }
 
   createEntity(): void {
-    this.entity = this._emptyEntity as T;
+    this.entity = {} as T;
     this._changeDetectorRef.detectChanges();
   }
 
@@ -135,16 +131,6 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
 
   private generateForm(): void {
     const formControls = {};
-    // Object.keys(this._entity).forEach((key) => {
-    //   if (this._ignoredKeys.indexOf(key) < 0) {
-    //     const formControlValue = this._entity ? this._entity[key] : null;
-    //     formControls[key] = this._formBuilder.control(formControlValue, Validators.required);
-    //
-    //     if (key.slice(key.length - 2).includes('Id')) {
-    //       this.data.push(this._service.getAll(key.slice(0, key.length - 2)));
-    //     }
-    //   }
-    // });
     const entityInput = this._inputs[this.entityName].inputs;
     entityInput.forEach((key) => {
       const control = key.controlName;
