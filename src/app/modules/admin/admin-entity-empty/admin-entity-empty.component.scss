@@ -5,6 +5,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 10px;
+  @include admin-card;
 
   .empty-entity-title {
     font-weight: 500;

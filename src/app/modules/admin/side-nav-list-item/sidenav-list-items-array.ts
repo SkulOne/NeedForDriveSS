@@ -28,12 +28,17 @@ export const listItems: SidenavListItem[] = [
   },
   {
     icon: 'error',
-    textContent: 'Rate',
+    textContent: 'Тариф',
     routerLink: '/admin/rate',
   },
   {
     icon: 'note_add',
-    textContent: 'RateType',
+    textContent: 'Единица тарифа',
     routerLink: '/admin/rateType',
+  },
+  {
+    icon: 'note_add',
+    textContent: 'Список заказов',
+    routerLink: '/admin/order',
   },
 ];

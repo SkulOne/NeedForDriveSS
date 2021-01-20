@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpBackService } from '@shared/services/http-back.service';
 import { UpdateEntityPage } from '@shared/classes/update-entity-page.abstract';
 import { ActivatedRoute } from '@angular/router';
-import { RouterDataService } from '@shared/services/router-data.service';
 import { inputs } from '../inputs';
 
 @Component({
@@ -17,7 +16,6 @@ export class EntitySettingsComponent extends UpdateEntityPage<any> implements On
   inputs = inputs;
 
   constructor(
-    private routerData: RouterDataService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private changeDetectorRef: ChangeDetectorRef,

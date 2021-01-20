@@ -8,14 +8,13 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { AuthorizationService } from '@shared/services/authorization.service';
-import { Router } from '@angular/router';
 import { catchError, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class DefaultHeaderBackendInterceptor implements HttpInterceptor {
   private readonly userToken = '52efbe08228671240494f537f2486bc109a637b4';
 
-  constructor(private _router: Router, private authorizationService: AuthorizationService) {}
+  constructor(private authorizationService: AuthorizationService) {}
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (req.url.includes('api/db/')) {
       req = this.setHeaders(req);

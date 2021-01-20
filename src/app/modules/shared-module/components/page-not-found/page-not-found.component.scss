@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .error-code {
+    font-weight: 500;
+    font-size: 75px;
+    color: #cacedb;
+    margin-bottom: 13px;
+  }
+
+  .message {
+    color: #3d5170;
+    font-size: 50px;
+    margin-bottom: 15px;
+  }
+
+  .retry-message {
+    color: #818ea3;
+    font-size: 20px;
+    margin-bottom: 35px;
+  }
+}

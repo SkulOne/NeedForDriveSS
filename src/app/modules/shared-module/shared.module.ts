@@ -10,8 +10,10 @@ import { FilterCarPipe } from '@shared/pipes/filter-car.pipe';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmDialogComponent } from './components/confrim-dialog/confirm-dialog.component';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { CellValuePipe } from '@shared/pipes/cell-value.pipe';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { CellValuePipe } from '@shared/pipes/cell-value.pipe';
     CellValuePipe,
     SpinnerComponent,
     ConfirmDialogComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +33,7 @@ import { CellValuePipe } from '@shared/pipes/cell-value.pipe';
     RouterModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+    MatButtonModule,
   ],
   exports: [
     HeaderComponent,

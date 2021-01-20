@@ -15,6 +15,7 @@ export class AdminHeaderComponent implements OnInit, OnDestroy {
   logoutTrigger = new Subject<void>();
   logout$ = this.logoutTrigger.asObservable();
   showSpinner: boolean;
+  orderLength: number;
   constructor(private authorizationService: AuthorizationService, private router: Router) {}
 
   logout(): void {
@@ -32,7 +33,22 @@ export class AdminHeaderComponent implements OnInit, OnDestroy {
         this.showSpinner = false;
         this.router.navigate(['/auth']);
       });
+
+    // this.getOrderLength()
+    //   .pipe(untilDestroyed(this))
+    //   .subscribe((length) => {
+    //     console.log(length);
+    //     this.orderLength = length;
+    //   });
   }
 
   ngOnDestroy(): void {}
+
+  // getOrderLength(): Observable<number> {
+  //   return this.httpBack.getAll('order').pipe(
+  //     switchMap((orderArray) => {
+  //       return of(orderArray.length);
+  //     })
+  //   );
+  // }
 }

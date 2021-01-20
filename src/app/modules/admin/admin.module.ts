@@ -14,9 +14,8 @@ import { AdminHeaderComponent } from './admin-header/admin-header.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { AdminCarCardComponent } from './admin-car-card/admin-car-card.component';
-import { CarImageSettingComponent } from './admin-car-card/car-image-setting/car-image-setting.component';
-import { CarPropertiesSettingComponent } from './admin-car-card/car-properties-setting/car-properties-setting.component';
+import { CarImageSettingComponent } from './car-properties-setting/components/car-image-setting/car-image-setting.component';
+import { CarPropertiesSettingComponent } from './car-properties-setting/car-properties-setting.component';
 import { AdminFooterComponent } from './admin-footer/admin-footer.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
@@ -38,7 +37,6 @@ import { AdminCarListComponent } from './admin-car-list/admin-car-list.component
     AuthorizationComponent,
     SidenavListItemComponent,
     AdminHeaderComponent,
-    AdminCarCardComponent,
     CarImageSettingComponent,
     CarPropertiesSettingComponent,
     AdminFooterComponent,

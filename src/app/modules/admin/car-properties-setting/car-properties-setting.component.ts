@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, ChangeDetectorRef } from '@
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpBackService } from '@shared/services/http-back.service';
-import { inputs } from '../../entity-page/inputs';
+import { inputs } from '../entity-page/inputs';
 import { UpdateEntityPage } from '@shared/classes/update-entity-page.abstract';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';

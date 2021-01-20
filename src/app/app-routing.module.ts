@@ -5,12 +5,13 @@ import { OrderComponent } from './modules/main/order/order.component';
 import { OrderSharingComponent } from './modules/main/order/components/order-sharing/order-sharing.component';
 import { StepperComponent } from './modules/main/order/components/stepper/stepper.component';
 import { AdminComponent } from './modules/admin/admin.component';
-import { MainComponent } from './modules/main/main.component';
 import { AuthorizationComponent } from './modules/admin/auth/authorization.component';
 import { AuthorizationGuard } from '@shared/guard/authorization-guard.service';
-import { AdminCarCardComponent } from './modules/admin/admin-car-card/admin-car-card.component';
 import { EntityPageComponent } from './modules/admin/entity-page/entity-page.component';
 import { AdminCarListComponent } from './modules/admin/admin-car-list/admin-car-list.component';
+import { PageNotFoundComponent } from './modules/shared-module/components/page-not-found/page-not-found.component';
+import { CarPropertiesSettingComponent } from './modules/admin/car-properties-setting/car-properties-setting.component';
+import { MainComponent } from './modules/main/main.component';
 
 const mainModuleRoutes: Routes = [
   { path: 'main', component: MainPageComponent },
@@ -26,9 +27,16 @@ const mainModuleRoutes: Routes = [
 ];
 
 const adminModuleRoutes: Routes = [
-  { path: 'edit/car', component: AdminCarCardComponent },
+  { path: 'edit/car', component: CarPropertiesSettingComponent },
   { path: 'list/car', component: AdminCarListComponent },
-  { path: ':entityName', component: EntityPageComponent },
+  { path: 'category', component: EntityPageComponent },
+  { path: 'city', component: EntityPageComponent },
+  { path: 'point', component: EntityPageComponent },
+  { path: 'rate', component: EntityPageComponent },
+  { path: 'rateType', component: EntityPageComponent },
+  { path: 'edit/order', component: EntityPageComponent },
+  { path: '', pathMatch: 'full', redirectTo: '/admin/list/car' },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 const routes: Routes = [
@@ -38,9 +46,9 @@ const routes: Routes = [
     canActivate: [AuthorizationGuard],
     children: adminModuleRoutes,
   },
-
   { path: 'auth', component: AuthorizationComponent },
   { path: '', component: MainComponent, children: mainModuleRoutes },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
