@@ -1,9 +1,16 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { switchMap } from 'rxjs/operators';
 import { AuthorizationService } from '@shared/services/authorization.service';
 import { Router } from '@angular/router';
+import { OrderService } from '@shared/services/order.service';
 
 @Component({
   selector: 'app-admin-header',
@@ -14,12 +21,18 @@ import { Router } from '@angular/router';
 export class AdminHeaderComponent implements OnInit, OnDestroy {
   logoutTrigger = new Subject<void>();
   logout$ = this.logoutTrigger.asObservable();
-  showSpinner: boolean;
+  showLogoutSpinner: boolean;
+  showNotifySpinner = true;
   orderLength: number;
-  constructor(private authorizationService: AuthorizationService, private router: Router) {}
+  constructor(
+    private authorizationService: AuthorizationService,
+    private router: Router,
+    private orderService: OrderService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   logout(): void {
-    this.showSpinner = true;
+    this.showLogoutSpinner = true;
     this.logoutTrigger.next();
   }
 
@@ -30,25 +43,19 @@ export class AdminHeaderComponent implements OnInit, OnDestroy {
         switchMap(() => this.authorizationService.logout())
       )
       .subscribe(() => {
-        this.showSpinner = false;
+        this.showLogoutSpinner = false;
         this.router.navigate(['/auth']);
       });
 
-    // this.getOrderLength()
-    //   .pipe(untilDestroyed(this))
-    //   .subscribe((length) => {
-    //     console.log(length);
-    //     this.orderLength = length;
-    //   });
+    this.orderService
+      .getNewOrders()
+      .pipe(untilDestroyed(this))
+      .subscribe((newOrdersLength) => {
+        this.orderLength = newOrdersLength;
+        this.showNotifySpinner = false;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   ngOnDestroy(): void {}
-
-  // getOrderLength(): Observable<number> {
-  //   return this.httpBack.getAll('order').pipe(
-  //     switchMap((orderArray) => {
-  //       return of(orderArray.length);
-  //     })
-  //   );
-  // }
 }

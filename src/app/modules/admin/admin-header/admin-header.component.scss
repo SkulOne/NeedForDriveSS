@@ -32,11 +32,16 @@
   }
 
   .icon {
+    position: relative;
     display: flex;
     align-items: center;
     height: 100%;
     width: 70px;
     justify-content: space-between;
+    app-spinner {
+      left: calc(50% + 10px);
+      top: calc(50% - 10px);
+    }
   }
 
   .user-details {

@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Order, OrderStatus, RateId } from '../interfaces/order';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ErrorHandlerService } from './error-handler.service';
 import { LocationService } from './location.service';
 import { HttpBackService } from '@shared/services/http-back.service';
+import { ResponseResult } from '@shared/interfaces/response-result';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class OrderService {
   private _orderBehavior = new BehaviorSubject(null);
   private _stepperIndex: number;
   private readonly cancelledId = '5e26a1f5099b810b946c5d8c';
+  private readonly newId = '5e26a191099b810b946c5d89';
 
   constructor(
     private httpClient: HttpClient,
@@ -71,5 +73,11 @@ export class OrderService {
   cancelOrder(order: Order): Observable<Order> {
     order.orderStatusId.id = this.cancelledId;
     return this.httpBack.put<Order>('order', order);
+  }
+
+  getNewOrders(): Observable<number> {
+    return this.httpClient
+      .get<ResponseResult<Order[]>>(`api/db/order?orderStatusId=${this.newId}&page=1&limit=1`)
+      .pipe(map((newOrders) => newOrders.count));
   }
 }

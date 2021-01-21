@@ -14,11 +14,13 @@ export class HttpBackService {
 
   constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
 
-  getAll<T>(entityName: string): Observable<T[]> {
-    return this.httpClient.get<ResponseResult<T[]>>(`${this.backUrl}/${entityName}`).pipe(
-      catchError((err) => this.errorHandler.handleHttpError(err)),
-      map((result) => result.data)
-    );
+  getAll<T>(entityName: string, page = 0, limit = 49): Observable<T[]> {
+    return this.httpClient
+      .get<ResponseResult<T[]>>(`${this.backUrl}/${entityName}?page=${page}&limit=${limit}`)
+      .pipe(
+        catchError((err) => this.errorHandler.handleHttpError(err)),
+        map((result) => result.data)
+      );
   }
 
   get<T>(entityName: string, id: string): Observable<T> {

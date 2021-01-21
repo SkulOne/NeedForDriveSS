@@ -39,6 +39,6 @@ export const listItems: SidenavListItem[] = [
   {
     icon: 'note_add',
     textContent: 'Список заказов',
-    routerLink: '/admin/order',
+    routerLink: '/admin/edit/order',
   },
 ];

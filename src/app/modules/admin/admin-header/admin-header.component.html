@@ -14,6 +14,7 @@
     matBadgePosition="after"
     >notifications</mat-icon
   >
+  <app-spinner [show]="showNotifySpinner" diameter="15" color="warn"></app-spinner>
   <mat-divider [vertical]="true"></mat-divider>
 </div>
 <div class="user-details">
@@ -35,4 +36,4 @@
     <span>Logout</span>
   </button>
 </mat-menu>
-<app-spinner [show]="showSpinner" color="primary"></app-spinner>
+<app-spinner [show]="showLogoutSpinner" color="primary"></app-spinner>

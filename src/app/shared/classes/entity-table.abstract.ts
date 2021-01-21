@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
@@ -24,6 +24,7 @@ import { HttpBackService } from '@shared/services/http-back.service';
 import { ActivatedRoute } from '@angular/router';
 import { inputs } from '../../modules/admin/entity-page/inputs';
 import { EntityInput } from '@shared/interfaces/entity-inputs';
+import { executeBrowserBuilder } from '@angular-devkit/build-angular';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
@@ -37,6 +38,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   sortInputs: EntityInput[];
   formGeneratedTrigger$ = new Subject();
   resetFormTrigger$ = new Subject();
+  pageEventTrigger$ = new Subject();
 
   private deleteBtnTrigger$ = new Subject<{ id: string; message: string }>();
   @ViewChild(MatPaginator) private _paginator: MatPaginator;
@@ -44,6 +46,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   private formGenerated$ = this.formGeneratedTrigger$.asObservable();
   private resetForm$ = this.resetFormTrigger$.asObservable();
   private deleteBtn$ = this.deleteBtnTrigger$.asObservable();
+  private pageEvent$ = this.pageEventTrigger$.asObservable();
   private _ignoredKeys = ['updatedAt', 'createdAt', 'id'];
   private _formBuilder: FormBuilder;
   private _dialog: MatDialog;
@@ -53,6 +56,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   private _router: ActivatedRoute;
   private _entityName: string;
   private _data = [];
+  private _pageIndex = 0;
 
   protected constructor(
     service: HttpBackService,
@@ -116,6 +120,23 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
         switchMap(() => this.setData())
       )
       .subscribe();
+
+    this.pageEvent$
+      .pipe(
+        untilDestroyed(this),
+        switchMap((pageEvent: PageEvent) => {
+          console.log((pageEvent.pageIndex * pageEvent.pageSize) / pageEvent.length);
+          if ((pageEvent.pageIndex * pageEvent.pageSize) / pageEvent.length >= 0.75) {
+            this.showSpinner = true;
+            return this._service.getAll<T>(this._entityName, this._pageIndex++);
+          }
+          return EMPTY;
+        })
+      )
+      .subscribe((entityList) => {
+        this.showSpinner = false;
+        this.dataSource.data = this.dataSource.data.concat(entityList);
+      });
   }
 
   selectEntity(entity: T): void {
@@ -206,7 +227,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
       filteredData = this._data.filter((entity) => {
         let value = entity[control];
         if (typeof value === 'object') {
-          value = value.name;
+          value = value?.name;
         }
         return value?.toString().toLowerCase().indexOf(filteredValue) > -1;
       });

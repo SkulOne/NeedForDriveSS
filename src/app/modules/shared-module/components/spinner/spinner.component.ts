@@ -10,6 +10,7 @@ import { ThemePalette } from '@angular/material/core/common-behaviors/color';
 export class SpinnerComponent implements OnInit {
   @Input() show: boolean;
   @Input() color: ThemePalette;
+  @Input() diameter = 100;
 
   constructor() {}
 

@@ -29,12 +29,13 @@ const mainModuleRoutes: Routes = [
 const adminModuleRoutes: Routes = [
   { path: 'edit/car', component: CarPropertiesSettingComponent },
   { path: 'list/car', component: AdminCarListComponent },
+  { path: 'edit/order', component: EntityPageComponent },
+  { path: 'list/order', component: EntityPageComponent },
   { path: 'category', component: EntityPageComponent },
   { path: 'city', component: EntityPageComponent },
   { path: 'point', component: EntityPageComponent },
   { path: 'rate', component: EntityPageComponent },
   { path: 'rateType', component: EntityPageComponent },
-  { path: 'edit/order', component: EntityPageComponent },
   { path: '', pathMatch: 'full', redirectTo: '/admin/list/car' },
   { path: '**', component: PageNotFoundComponent },
 ];
