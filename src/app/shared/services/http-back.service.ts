@@ -14,7 +14,7 @@ export class HttpBackService {
 
   constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
 
-  getAll<T>(entityName: string, page = 0, limit = 49): Observable<T[]> {
+  getAll<T>(entityName: string, page: number = 0, limit: number = 49): Observable<T[]> {
     return this.httpClient
       .get<ResponseResult<T[]>>(`${this.backUrl}/${entityName}?page=${page}&limit=${limit}`)
       .pipe(

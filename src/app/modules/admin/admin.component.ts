@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, OnInit, HostListener } from '@angular/core';
-import { listItems } from './side-nav-list-item/sidenav-list-items-array';
+import { pages } from './side-nav-list-item/sidenav-list-items-array';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { SidenavListItem } from '@shared/interfaces/sidenav-list-item';
@@ -11,7 +11,7 @@ import { SidenavListItem } from '@shared/interfaces/sidenav-list-item';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminComponent implements OnInit {
-  items = listItems;
+  items = pages;
   sidenavOpened: boolean;
   sidenavMode: MatDrawerMode;
   constructor(public router: Router) {}

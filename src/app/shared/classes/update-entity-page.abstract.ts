@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChangeDetectorRef, Directive, Input, OnDestroy, OnInit } from '@angular/core';
-import { map, switchMap } from 'rxjs/operators';
-import { EMPTY, Observable, Subject } from 'rxjs';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { UpdateEntityConfig } from '@shared/interfaces/update-entity-config';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -18,20 +18,22 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   showSpinner: boolean;
   progressValue = 0;
   formGeneratedTrigger$ = new Subject();
+  dataChangeTrigger$ = new Subject();
   saveEntityTrigger$ = new Subject<T>();
-  data = [];
+  data = {};
   entityName: string;
 
   private _service: HttpBackService;
   private formGenerated$ = this.formGeneratedTrigger$.asObservable();
   private saveEntity$ = this.saveEntityTrigger$.asObservable();
+  private dataChange$ = this.dataChangeTrigger$.asObservable();
   private _entity: T;
   private _formBuilder: FormBuilder;
   private _snackBar: MatSnackBar;
   private _changeDetectorRef: ChangeDetectorRef;
   private _activatedRoute: ActivatedRoute;
   private _inputs: EntityInputs;
-  private _index: number;
+  private _index = 0;
   protected constructor(
     service: HttpBackService,
     router: ActivatedRoute,
@@ -49,12 +51,21 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   @Input() set entity(value: T) {
     if (value) {
       this._entity = value;
-      this.data = [];
+      this.data = {};
       this.generateForm();
     }
   }
 
   ngOnInit(): void {
+    this.dataChange$
+      .pipe(
+        untilDestroyed(this),
+        map((data) => data)
+      )
+      .subscribe((value) => {
+        this.data[value[0]] = value[1];
+      });
+
     this.formGenerated$
       .pipe(
         untilDestroyed(this),
@@ -86,7 +97,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
           this.entityName = commands[commands.length - 1];
           this._inputs[this.entityName].inputs.forEach((input) => {
             if ('dataName' in input) {
-              this.data.push(this._service.getAll(input.dataName));
+              this.dataChangeTrigger$.next([input.dataName, this._service.getAll(input.dataName)]);
             }
           });
           this.resetEntity();
@@ -118,8 +129,8 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
     this._changeDetectorRef.detectChanges();
   }
 
-  getEntityPropertyArray(): Observable<unknown> {
-    return this.data[this._index ? this._index++ : 0];
+  getEntityPropertyArray(dataName: string): Observable<unknown> {
+    return this.data[dataName];
   }
 
   private saveEntity(service: HttpBackService, entity: T, id: string): Observable<T> {
@@ -137,7 +148,8 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
       const formControlValue = this._entity ? this._entity[control] : null;
       formControls[control] = this._formBuilder.control(formControlValue, Validators.required);
       if (control.slice(control.length - 2).includes('Id')) {
-        this.data.push(this._service.getAll(control.slice(0, control.length - 2)));
+        const dataName = control.slice(0, control.length - 2);
+        this.dataChangeTrigger$.next([dataName, this._service.getAll(dataName)]);
       }
     });
     this.form = this._formBuilder.group(formControls);

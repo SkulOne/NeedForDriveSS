@@ -14,11 +14,12 @@
       <mat-label>{{ input.matLabel }}</mat-label>
       <mat-select *ngIf="input.dataName; else elseBlock" [formControlName]="input.controlName">
         <mat-option
-          *ngFor="let propertyEntity of getEntityPropertyArray() | async; let index"
+          *ngFor="let propertyEntity of getEntityPropertyArray(input.dataName) | async"
           [value]="propertyEntity"
         >
           {{ propertyEntity.name }}</mat-option
         >
+        <!--          todo проблема с RateType-->
       </mat-select>
       <ng-template #elseBlock>
         <input matInput type="text" formControlName="{{ input.controlName }}" />

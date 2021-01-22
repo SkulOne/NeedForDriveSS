@@ -30,6 +30,7 @@ import { EntityPageComponent } from './entity-page/entity-page.component';
 import { EntityListComponent } from './entity-page/entity-list/entity-list.component';
 import { EntitySettingsComponent } from './entity-page/entity-settings/entity-settings.component';
 import { AdminCarListComponent } from './admin-car-list/admin-car-list.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { AdminCarListComponent } from './admin-car-list/admin-car-list.component
     MatSortModule,
     SharedModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ],
 })
 export class AdminModule {}

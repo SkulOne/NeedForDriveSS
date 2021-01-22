@@ -24,7 +24,6 @@ import { HttpBackService } from '@shared/services/http-back.service';
 import { ActivatedRoute } from '@angular/router';
 import { inputs } from '../../modules/admin/entity-page/inputs';
 import { EntityInput } from '@shared/interfaces/entity-inputs';
-import { executeBrowserBuilder } from '@angular-devkit/build-angular';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
@@ -39,6 +38,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   formGeneratedTrigger$ = new Subject();
   resetFormTrigger$ = new Subject();
   pageEventTrigger$ = new Subject();
+  pageSizeOptions = [7, 20, 60, 100];
 
   private deleteBtnTrigger$ = new Subject<{ id: string; message: string }>();
   @ViewChild(MatPaginator) private _paginator: MatPaginator;
@@ -121,14 +121,22 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
       )
       .subscribe();
 
+    this.pageEventTrigger$.next();
+
     this.pageEvent$
       .pipe(
         untilDestroyed(this),
         switchMap((pageEvent: PageEvent) => {
-          console.log((pageEvent.pageIndex * pageEvent.pageSize) / pageEvent.length);
-          if ((pageEvent.pageIndex * pageEvent.pageSize) / pageEvent.length >= 0.75) {
+          if (
+            (pageEvent.pageIndex * pageEvent.pageSize) / pageEvent.length >= 0.75 ||
+            pageEvent.pageSize > pageEvent.length
+          ) {
             this.showSpinner = true;
-            return this._service.getAll<T>(this._entityName, this._pageIndex++);
+            return this._service.getAll<T>(
+              this._entityName,
+              this._pageIndex++,
+              pageEvent.pageSize * 3
+            );
           }
           return EMPTY;
         })
@@ -202,7 +210,6 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
 
   private setData(): Observable<void> {
     this.showSpinner = true;
-    this._changeDetectorRef.detectChanges();
     return this._service.getAll<T>(this._entityName).pipe(
       switchMap((property) => {
         this.crateDisplayedColumns();
@@ -221,6 +228,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   }
 
   private dataSorting(control: string): void {
+    console.log(control);
     let filteredData = this._data;
     if (control) {
       const filteredValue = this.sortingForm.get(control).value.toString().toLowerCase();

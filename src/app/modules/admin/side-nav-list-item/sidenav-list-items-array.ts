@@ -1,6 +1,6 @@
 import { SidenavListItem } from '@shared/interfaces/sidenav-list-item';
 
-export const listItems: SidenavListItem[] = [
+export const pages: SidenavListItem[] = [
   {
     icon: 'create',
     textContent: 'Карточка автомобиля',

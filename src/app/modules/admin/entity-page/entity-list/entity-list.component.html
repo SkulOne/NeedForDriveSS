@@ -46,7 +46,7 @@
     </table>
 
     <mat-paginator
-      [pageSizeOptions]="[7]"
+      [pageSizeOptions]="pageSizeOptions"
       showFirstLastButtons
       (page)="pageEventTrigger$.next($event)"
     ></mat-paginator>
