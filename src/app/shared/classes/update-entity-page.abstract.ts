@@ -33,7 +33,6 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   private _changeDetectorRef: ChangeDetectorRef;
   private _activatedRoute: ActivatedRoute;
   private _inputs: EntityInputs;
-  private _index = 0;
   protected constructor(
     service: HttpBackService,
     router: ActivatedRoute,
@@ -57,14 +56,9 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataChange$
-      .pipe(
-        untilDestroyed(this),
-        map((data) => data)
-      )
-      .subscribe((value) => {
-        this.data[value[0]] = value[1];
-      });
+    this.dataChange$.pipe(untilDestroyed(this)).subscribe((value) => {
+      this.data[value[0]] = value[1];
+    });
 
     this.formGenerated$
       .pipe(
@@ -80,7 +74,7 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
     this.saveEntity$
       .pipe(
         untilDestroyed(this),
-        switchMap((entity) => this.saveEntity(this._service, entity, getId(entity)))
+        switchMap((entity) => this.saveEntity(this._service, entity))
       )
       .subscribe(() => {
         this.showSpinner = false;
@@ -95,12 +89,6 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
         map((value) => {
           const commands = value.map((item) => item.path);
           this.entityName = commands[commands.length - 1];
-          this._inputs[this.entityName].inputs.forEach((input) => {
-            if ('dataName' in input) {
-              this.dataChangeTrigger$.next([input.dataName, this._service.getAll(input.dataName)]);
-            }
-          });
-          this.resetEntity();
         })
       )
       .subscribe();
@@ -120,7 +108,6 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
   saveTrigger(): void {
     this.showSpinner = true;
     const formValue = this.form.value;
-    formValue.id = getId(this.getEntity());
     this.saveEntityTrigger$.next(formValue);
   }
 
@@ -133,23 +120,24 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
     return this.data[dataName];
   }
 
-  private saveEntity(service: HttpBackService, entity: T, id: string): Observable<T> {
-    if (id) {
-      return service.put<T>(this.entityName, entity, id);
+  private saveEntity(service: HttpBackService, entity: T): Observable<T> {
+    if ('id' in entity) {
+      return service.put<T>(this.entityName, entity, getId(entity));
     }
     return service.post<T>(this.entityName, entity);
   }
 
   private generateForm(): void {
     const formControls = {};
-    const entityInput = this._inputs[this.entityName].inputs;
+    const entityInput = this._inputs[this.entityName].properties;
     entityInput.forEach((key) => {
-      const control = key.controlName;
-      const formControlValue = this._entity ? this._entity[control] : null;
+      const control = key.matColumnDef;
+      const formControlValue =
+        key.type === 'boolean' ? !!this._entity[control] : this._entity[control];
       formControls[control] = this._formBuilder.control(formControlValue, Validators.required);
       if (control.slice(control.length - 2).includes('Id')) {
-        const dataName = control.slice(0, control.length - 2);
-        this.dataChangeTrigger$.next([dataName, this._service.getAll(dataName)]);
+        const dataName = this.checkAndDeleteIdInPropName(control);
+        this.dataChangeTrigger$.next([control, this._service.getAll(dataName)]);
       }
     });
     this.form = this._formBuilder.group(formControls);
@@ -157,10 +145,18 @@ export abstract class UpdateEntityPage<T> implements OnInit, OnDestroy {
     this.formGeneratedTrigger$.next();
   }
 
+  private checkAndDeleteIdInPropName(entityProperty: string): string {
+    return entityProperty.slice(entityProperty.length - 2).includes('Id')
+      ? entityProperty.slice(0, entityProperty.length - 2)
+      : entityProperty;
+  }
+
   private formSupplemented(changedValue: FormChangedValue): Observable<unknown> {
     const changedValueArray = Object.values(changedValue);
     const length = changedValueArray.length;
-    const valuesLength = Object.values(changedValueArray).filter((value) => value).length;
+    const valuesLength = Object.values(changedValueArray).filter(
+      (value) => value || value === false
+    ).length;
     this.progressValue = (valuesLength / length) * 100;
     return EMPTY;
   }

@@ -3,9 +3,6 @@ import { SelectControlEntity, TextInput } from '@shared/interfaces/input';
 
 export interface EntityInputs {
   [key: string]: {
-    tableHeaders: TableHeader[];
-    inputs: EntityInput[];
+    properties: TableHeader[];
   };
 }
-
-export type EntityInput = TextInput | SelectControlEntity;

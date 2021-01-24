@@ -14,6 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CellValuePipe } from '@shared/pipes/cell-value.pipe';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MatButtonModule } from '@angular/material/button';
+import { StringToBooleanPipe } from '@shared/pipes/string-to-boolean.pipe';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MatButtonModule } from '@angular/material/button';
     SpinnerComponent,
     ConfirmDialogComponent,
     PageNotFoundComponent,
+    StringToBooleanPipe,
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import { MatButtonModule } from '@angular/material/button';
     SpinnerComponent,
     CellValuePipe,
     ConfirmDialogComponent,
+    StringToBooleanPipe,
   ],
 })
 export class SharedModule {}

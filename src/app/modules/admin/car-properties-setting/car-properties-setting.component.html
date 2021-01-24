@@ -11,20 +11,20 @@
     <form class="setting-form" [formGroup]="form">
       <div class="properties">
         <mat-form-field
-          *ngFor="let input of inputs[entityName].inputs; let index"
+          *ngFor="let input of inputs[entityName].properties; let index"
           appearance="outline"
         >
-          <mat-label>{{ input.matLabel }}</mat-label>
-          <mat-select *ngIf="input.dataName; else elseBlock" [formControlName]="input.controlName">
+          <mat-label>{{ input.text }}</mat-label>
+          <mat-select *ngIf="input.property; else elseBlock" [formControlName]="input.matColumnDef">
             <mat-option
-              *ngFor="let propertyEntity of getEntityPropertyArray() | async; let index"
+              *ngFor="let propertyEntity of getEntityPropertyArray(input.matColumnDef) | async"
               [value]="propertyEntity"
             >
               {{ propertyEntity.name }}</mat-option
             >
           </mat-select>
           <ng-template #elseBlock>
-            <input matInput type="text" formControlName="{{ input.controlName }}" />
+            <input matInput type="text" formControlName="{{ input.matColumnDef }}" />
           </ng-template>
         </mat-form-field>
       </div>

@@ -12,6 +12,7 @@ import { AdminCarListComponent } from './modules/admin/admin-car-list/admin-car-
 import { PageNotFoundComponent } from './modules/shared-module/components/page-not-found/page-not-found.component';
 import { CarPropertiesSettingComponent } from './modules/admin/car-properties-setting/car-properties-setting.component';
 import { MainComponent } from './modules/main/main.component';
+import { AdminOrderComponent } from './modules/admin/admin-order/admin-order.component';
 
 const mainModuleRoutes: Routes = [
   { path: 'main', component: MainPageComponent },
@@ -29,7 +30,7 @@ const mainModuleRoutes: Routes = [
 const adminModuleRoutes: Routes = [
   { path: 'edit/car', component: CarPropertiesSettingComponent },
   { path: 'list/car', component: AdminCarListComponent },
-  { path: 'edit/order', component: EntityPageComponent },
+  { path: 'edit/order', component: AdminOrderComponent },
   { path: 'list/order', component: EntityPageComponent },
   { path: 'category', component: EntityPageComponent },
   { path: 'city', component: EntityPageComponent },
