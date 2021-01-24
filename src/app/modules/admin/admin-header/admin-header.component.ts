@@ -17,7 +17,6 @@ import { pages } from '../side-nav-list-item/sidenav-list-items-array';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SidenavListItem } from '@shared/interfaces/sidenav-list-item';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-admin-header',

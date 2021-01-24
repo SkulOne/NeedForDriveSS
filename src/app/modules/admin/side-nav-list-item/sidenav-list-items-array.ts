@@ -14,7 +14,7 @@ export const pages: SidenavListItem[] = [
   {
     icon: 'view_module',
     textContent: 'Категории',
-    routerLink: '/admin/category',
+    routerLink: '/admin/order',
   },
   {
     icon: 'view_column',

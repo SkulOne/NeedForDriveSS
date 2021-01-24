@@ -87,3 +87,15 @@ figure.mat-figure {
     font-size: 20px;
   }
 }
+
+div.mat-elevation-z8 {
+  overflow-x: scroll;
+  table thead tr th {
+    padding-right: 4px;
+  }
+  tr td {
+    &:not(:last-child) {
+      padding-right: 4px;
+    }
+  }
+}

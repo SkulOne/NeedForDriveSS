@@ -64,7 +64,10 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   cancelOrder(): void {
-    this.orderService.cancelOrder(this.order).pipe(untilDestroyed(this)).subscribe();
+    this.orderService
+      .changeOrderStatus(this.order, this.orderService.cancelledId)
+      .pipe(untilDestroyed(this))
+      .subscribe();
     this.router.navigate(['/order']);
   }
 }
