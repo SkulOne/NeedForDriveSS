@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ResponseResult } from '@shared/interfaces/response-result';
 import { catchError, map } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ErrorHandlerService } from '@shared/services/error-handler.service';
 import { getId } from '@shared/utils';
 
@@ -14,9 +14,21 @@ export class HttpBackService {
 
   constructor(private httpClient: HttpClient, private errorHandler: ErrorHandlerService) {}
 
-  getAll<T>(entityName: string, page: number = 0, limit: number = 49): Observable<T[]> {
+  getAll<T>(
+    entityName: string,
+    page: number = 0,
+    limit: number = 49,
+    filterProperties?: unknown[]
+  ): Observable<T[]> {
+    let params = new HttpParams().set('page', String(page)).set('limit', String(limit));
+    if (filterProperties && filterProperties.length) {
+      filterProperties.forEach((property) => {
+        const [key, value] = Object.entries(property)[0];
+        params = params.append(key, value);
+      });
+    }
     return this.httpClient
-      .get<ResponseResult<T[]>>(`${this.backUrl}/${entityName}?page=${page}&limit=${limit}`)
+      .get<ResponseResult<T[]>>(`${this.backUrl}/${entityName}`, { params })
       .pipe(
         catchError((err) => this.errorHandler.handleHttpError(err)),
         map((result) => result.data)

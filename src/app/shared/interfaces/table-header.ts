@@ -7,6 +7,7 @@ export interface TableHeader {
 
 export enum InputType {
   Text = 'text',
+  Number = 'number',
   Boolean = 'boolean',
   Object = 'object',
   Date = 'date',

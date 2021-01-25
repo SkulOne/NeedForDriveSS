@@ -1,6 +1,6 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ChangeDetectorRef, Directive, Input, OnDestroy, OnInit } from '@angular/core';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { EMPTY, Observable, of, Subject } from 'rxjs';
 import { UpdateEntityConfig } from '@shared/interfaces/update-entity-config';
 import { MatSnackBar } from '@angular/material/snack-bar';

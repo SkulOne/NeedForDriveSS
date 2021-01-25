@@ -17,6 +17,7 @@ import { Subject } from 'rxjs';
 import { ChangeStatus } from '@shared/interfaces/change-status';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { switchMap } from 'rxjs/operators';
+import { orderStatusIds } from '@shared/orderStatusIdConst';
 
 @Component({
   selector: 'app-admin-order-list',
@@ -29,6 +30,7 @@ import { switchMap } from 'rxjs/operators';
 })
 export class AdminOrderListComponent extends EntityTable<Order> implements OnInit, OnDestroy {
   changeStatusButtonTrigger = new Subject<ChangeStatus>();
+  orderStatusIds = orderStatusIds;
   private changeStatusButton$ = this.changeStatusButtonTrigger.asObservable();
 
   constructor(

@@ -7,16 +7,13 @@ import { ErrorHandlerService } from './error-handler.service';
 import { LocationService } from './location.service';
 import { HttpBackService } from '@shared/services/http-back.service';
 import { ResponseResult } from '@shared/interfaces/response-result';
+import { orderStatusIds } from '@shared/orderStatusIdConst';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
   nextStepBtnTrigger = new Subject();
-  readonly cancelledId = '5e26a1f5099b810b946c5d8c';
-  readonly newId = '5e26a191099b810b946c5d89';
-  readonly issueId = '5e26a1d5099b810b946c5d8a';
-  readonly confirmedId = '5e26a1f0099b810b946c5d8b';
 
   private _orderBehavior = new BehaviorSubject(null);
   private _stepperIndex: number;
@@ -74,12 +71,13 @@ export class OrderService {
 
   getNewOrders(): Observable<number> {
     return this.httpClient
-      .get<ResponseResult<Order[]>>(`api/db/order?orderStatusId=${this.newId}&page=1&limit=1`)
+      .get<ResponseResult<Order[]>>(
+        `api/db/order?orderStatusId=${orderStatusIds.newId}&page=1&limit=1`
+      )
       .pipe(map((newOrders) => newOrders.count));
   }
 
   changeOrderStatus(order: Order, statusId: string): Observable<Order> {
-    console.log(order);
     order.orderStatusId.id = statusId;
     return this.httpBack.put<Order>('order', order);
   }

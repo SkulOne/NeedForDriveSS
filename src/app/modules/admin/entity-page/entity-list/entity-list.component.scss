@@ -15,8 +15,11 @@
   font-size: 18px;
 }
 
-.inputs-container mat-form-field {
-  margin-right: 8px;
+.inputs-container {
+  mat-form-field,
+  mat-checkbox {
+    margin-right: 8px;
+  }
 }
 
 .sort-form {
@@ -30,8 +33,7 @@
 
 .actions {
   display: flex;
-  width: 100%;
-  justify-content: flex-end;
+  flex-direction: column;
   button {
     margin-left: 16px;
   }

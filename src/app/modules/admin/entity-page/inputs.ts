@@ -24,7 +24,7 @@ export const inputs: EntityInputs = {
   rate: {
     properties: [
       { type: InputType.Object, text: 'Тип', matColumnDef: 'rateTypeId', property: ['name'] },
-      { type: InputType.Text, text: 'Цена', matColumnDef: 'price' },
+      { type: InputType.Number, text: 'Цена', matColumnDef: 'price' },
     ],
   },
 
@@ -37,8 +37,8 @@ export const inputs: EntityInputs = {
   car: {
     properties: [
       { type: InputType.Text, text: 'Модель', matColumnDef: 'name' },
-      { type: InputType.Text, text: 'Мин. цена', matColumnDef: 'priceMin' },
-      { type: InputType.Text, text: 'Макс. цена', matColumnDef: 'priceMax' },
+      { type: InputType.Number, text: 'Мин. цена', matColumnDef: 'priceMin' },
+      { type: InputType.Number, text: 'Макс. цена', matColumnDef: 'priceMax' },
       { type: InputType.Text, text: 'Номер', matColumnDef: 'number' },
       { type: InputType.Text, text: 'Бензин', matColumnDef: 'tank' },
       { type: InputType.Object, text: 'Категория', matColumnDef: 'categoryId', property: ['name'] },
@@ -64,7 +64,7 @@ export const inputs: EntityInputs = {
         matColumnDef: 'rateId',
         property: ['rateTypeId', 'name'],
       },
-      { type: InputType.Text, text: 'Цена', matColumnDef: 'price' },
+      { type: InputType.Number, text: 'Цена', matColumnDef: 'price' },
       { type: InputType.Boolean, text: 'Полный бак', matColumnDef: 'isFullTank' },
       { type: InputType.Boolean, text: 'Детское кресло', matColumnDef: 'isNeedChildChair' },
       { type: InputType.Boolean, text: 'Правый руль', matColumnDef: 'isRightWheel' },

@@ -1,16 +1,43 @@
 <div class="admin-section-title">Поиск</div>
 
 <div class="content">
-  <form [formGroup]="sortingForm" class="sort-form">
+  <form [formGroup]="sortingForm" class="sort-form" (ngSubmit)="sortButtonTrigger$.next()">
     <div class="inputs-container">
-      <mat-form-field appearance="outline" *ngFor="let input of sortInputs">
-        <mat-label>{{ input.text }}</mat-label>
-        <input type="text" matInput [formControlName]="input.matColumnDef" />
-      </mat-form-field>
+      <ng-container *ngFor="let input of sortInputs; let index" [ngSwitch]="input.type">
+        <mat-form-field appearance="outline" *ngSwitchDefault>
+          <mat-label>{{ input.text }}</mat-label>
+          <input matInput type="text" formControlName="{{ input.matColumnDef }}" />
+        </mat-form-field>
+        <mat-checkbox *ngSwitchCase="'boolean'" [formControlName]="input.matColumnDef">{{
+          input.text
+        }}</mat-checkbox>
+        <mat-form-field appearance="outline" *ngSwitchCase="'date'">
+          <mat-label> {{ input.text }}</mat-label>
+          <input
+            matInput
+            type="text"
+            [formControlName]="input.matColumnDef"
+            [showMaskTyped]="maskedVisible"
+            (focus)="maskedVisible = true"
+            (focusout)="maskedVisible = false"
+            [validation]="true"
+            [dropSpecialCharacters]="false"
+            mask="d0.m0.0000 Hh:m0"
+            placeholder="Выберите дату"
+            autocomplete="none"
+          />
+        </mat-form-field>
+        <mat-error *ngIf="sortingForm.controls"></mat-error>
+      </ng-container>
     </div>
-    <button mat-icon-button (click)="resetData()">
-      <mat-icon>refresh</mat-icon>
-    </button>
+    <div class="actions">
+      <button mat-icon-button (click)="sortButtonTrigger$.next()">
+        <mat-icon>search</mat-icon>
+      </button>
+      <button mat-icon-button (click)="resetData()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
   </form>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
@@ -18,21 +45,12 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ header.text }}</th>
         <td mat-cell *matCellDef="let entity" [ngSwitch]="header.type">
           <ng-container *ngSwitchCase="'date'">{{
-            entity | cellValue: header | date: 'd.M.y H:mm'
+            entity | cellValue: header | date: 'd.MM.yyyy h:mm'
           }}</ng-container>
           <ng-container *ngSwitchCase="'boolean'">{{
             entity | cellValue: header | stringToBoolean
           }}</ng-container>
           <ng-container *ngSwitchDefault> {{ entity | cellValue: header }} </ng-container>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="edit">
-        <th mat-header-cell *matHeaderCellDef>Изменить</th>
-        <td mat-cell *matCellDef="let order" class="icon-column">
-          <button mat-icon-button color="accent" (click)="selectEntity(order)">
-            <mat-icon>edit</mat-icon>
-          </button>
         </td>
       </ng-container>
 
@@ -56,7 +74,7 @@
             mat-icon-button
             color="primary"
             (click)="
-              changeStatusButtonTrigger.next({ order: order, statusId: orderService.confirmedId })
+              changeStatusButtonTrigger.next({ order: order, statusId: orderStatusIds.confirmedId })
             "
           >
             <mat-icon>done</mat-icon>
@@ -70,7 +88,7 @@
           <button
             mat-icon-button
             (click)="
-              changeStatusButtonTrigger.next({ order: order, statusId: orderService.issueId })
+              changeStatusButtonTrigger.next({ order: order, statusId: orderStatusIds.issueId })
             "
           >
             <mat-icon class="report-icon">report_problem</mat-icon>
@@ -84,7 +102,7 @@
           <button
             mat-icon-button
             (click)="
-              changeStatusButtonTrigger.next({ order: order, statusId: orderService.cancelledId })
+              changeStatusButtonTrigger.next({ order: order, statusId: orderStatusIds.cancelledId })
             "
           >
             <mat-icon class="cancel-icon">cancel</mat-icon>

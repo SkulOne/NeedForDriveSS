@@ -1,4 +1,4 @@
-import { TableHeader } from '@shared/interfaces/table-header';
+import { InputType, TableHeader } from '@shared/interfaces/table-header';
 import {
   ChangeDetectorRef,
   Directive,
@@ -10,19 +10,22 @@ import {
 } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { EMPTY, Observable, Subject } from 'rxjs';
 import { UpdateEntityConfig } from '@shared/interfaces/update-entity-config';
 import { MatTableDataSource } from '@angular/material/table';
 import { untilDestroyed } from 'ngx-take-until-destroy';
-import { mergeMap, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { ConfirmDialogComponent } from '../../modules/shared-module/components/confrim-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormChangedValue } from '@shared/interfaces/form-changed-value';
 import { HttpBackService } from '@shared/services/http-back.service';
 import { ActivatedRoute } from '@angular/router';
 import { inputs } from '../../modules/admin/entity-page/inputs';
+import { orderStatusIds } from '@shared/orderStatusIdConst';
+import { dateValidator, oneValue } from '@shared/validators';
+
+export { orderStatusIds } from '@shared/orderStatusIdConst';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
@@ -36,8 +39,10 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   formGeneratedTrigger$ = new Subject();
   resetFormTrigger$ = new Subject();
   pageEventTrigger$ = new Subject();
+  sortButtonTrigger$ = new Subject();
   pageSizeOptions = [7, 20, 60, 100];
   optionColumns = ['edit', 'delete'];
+  maskedVisible: boolean;
 
   private deleteBtnTrigger$ = new Subject<{ id: string; message: string }>();
   @ViewChild(MatPaginator) private _paginator: MatPaginator;
@@ -46,7 +51,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
   private resetForm$ = this.resetFormTrigger$.asObservable();
   private deleteBtn$ = this.deleteBtnTrigger$.asObservable();
   private pageEvent$ = this.pageEventTrigger$.asObservable();
-  private _ignoredKeys = ['updatedAt', 'createdAt', 'id'];
+  private sortButton$ = this.sortButtonTrigger$.asObservable();
   private _formBuilder: FormBuilder;
   private _dialog: MatDialog;
   private _snackBar: MatSnackBar;
@@ -68,8 +73,6 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
     this._changeDetectorRef = config.changeDetectorRef;
     this._service = service;
     this._router = router;
-    console.log(this.optionColumns);
-    console.log(this.optionColumns);
   }
 
   set data(value: T[]) {
@@ -108,7 +111,22 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
         this.detect();
       });
 
-    this.sorting$().pipe(untilDestroyed(this)).subscribe();
+    // todo: Возможно можно будет вернуть
+    // this.sorting$().pipe(untilDestroyed(this)).subscribe();
+
+    this.sortButton$
+      .pipe(
+        untilDestroyed(this),
+        switchMap(() => {
+          this.showSpinner = true;
+
+          return this._service.getAll<T>(this._entityName, 0, 49, this.getSortingProperty());
+        })
+      )
+      .subscribe((data) => {
+        this.showSpinner = false;
+        this.data = data;
+      });
 
     this.formGenerated$.pipe(untilDestroyed(this)).subscribe(() => {
       this.detect();
@@ -135,7 +153,8 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
             return this._service.getAll<T>(
               this._entityName,
               this._pageIndex++,
-              pageEvent.pageSize * 3
+              pageEvent.pageSize * 3,
+              this.getSortingProperty()
             );
           }
           return EMPTY;
@@ -163,12 +182,31 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
+  private getSortingProperty(): unknown[] {
+    const sortingValue = this.sortingForm.value;
+    const values = [];
+    Object.keys(sortingValue).forEach((key) => {
+      if (sortingValue[key]) {
+        const value =
+          key === 'orderStatusId' ? orderStatusIds[sortingValue[key] + 'Id'] : sortingValue[key];
+        values.push({ [key]: value });
+      }
+    });
+    return values;
+  }
+
   private generateSortForm(): void {
     const formControls = {};
     this.sortInputs.forEach((key) => {
-      if (this._ignoredKeys.indexOf(key.matColumnDef) < 0) {
-        formControls[key.matColumnDef] = this._formBuilder.control(null);
+      const control = this._formBuilder.control(null);
+      switch (key.type) {
+        case InputType.Date:
+          control.setValidators(dateValidator);
+          break;
+        case InputType.Number:
+          control.setValidators(oneValue);
       }
+      formControls[key.matColumnDef] = control;
     });
     this.sortingForm = this._formBuilder.group(formControls);
     this.formGeneratedTrigger$.next();
@@ -192,21 +230,19 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
     });
   }
 
-  private sorting$(): Observable<unknown> {
-    return this.sortingForm.valueChanges.pipe(
-      mergeMap((values: FormChangedValue) => this.getChangedControl(values)),
-      switchMap((control) => {
-        this.dataSorting(control);
-        return EMPTY;
-      })
-    );
-  }
+  // private sorting$(): Observable<unknown> {
+  //   return this.sortingForm.valueChanges.pipe(
+  //     mergeMap((values: FormChangedValue) => this.getChangedControl(values)),
+  //     switchMap((control) => {
+  //       this.dataSorting(control);
+  //       return EMPTY;
+  //     })
+  //   );
+  // }
 
   private crateDisplayedColumns(): void {
     const columns = this.sortInputs.map((value) => value.matColumnDef);
     this.columns = columns.concat(this.optionColumns);
-    console.log(this.columns);
-    console.log(this.optionColumns);
   }
 
   private setData(): Observable<void> {
@@ -220,27 +256,6 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
         return EMPTY;
       })
     );
-  }
-
-  private getChangedControl(values: FormChangedValue): string[] | Observable<null> {
-    const keys = Object.keys(values);
-    const control = keys.filter((key: string) => values[key]);
-    return control.length ? control : of(null);
-  }
-
-  private dataSorting(control: string): void {
-    let filteredData = this._data;
-    if (control) {
-      const filteredValue = this.sortingForm.get(control).value.toString().toLowerCase();
-      filteredData = this._data.filter((entity) => {
-        let value = entity[control];
-        if (typeof value === 'object') {
-          value = value?.name;
-        }
-        return value?.toString().toLowerCase().indexOf(filteredValue) > -1;
-      });
-    }
-    this.dataSource.data = filteredData;
   }
 
   private detect(): void {
