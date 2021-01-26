@@ -18,6 +18,7 @@ import { ChangeStatus } from '@shared/interfaces/change-status';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { switchMap } from 'rxjs/operators';
 import { orderStatusIds } from '@shared/orderStatusIdConst';
+import { createDate } from '@shared/utils';
 
 @Component({
   selector: 'app-admin-order-list',
@@ -48,6 +49,14 @@ export class AdminOrderListComponent extends EntityTable<Order> implements OnIni
 
   ngOnInit(): void {
     super.ngOnInit();
+
+    this.activatedRoute.queryParamMap.subscribe((value) => {
+      value.keys.forEach((key) => {
+        this.sortingForm.get(key).setValue(value.get(key));
+        this.formSubmit();
+      });
+    });
+
     this.changeStatusButton$
       .pipe(
         untilDestroyed(this),
@@ -60,5 +69,18 @@ export class AdminOrderListComponent extends EntityTable<Order> implements OnIni
           verticalPosition: 'top',
         });
       });
+  }
+
+  formSubmit(): void {
+    const dateControls = [this.sortingForm.get('dateTo'), this.sortingForm.get('dateFrom')];
+    dateControls.forEach((control) => {
+      if (control.value) {
+        control.setValue(+createDate(control.value), {
+          emitViewToModelChange: true,
+          emitModelToViewChange: true,
+        });
+      }
+    });
+    this.sortButtonTrigger$.next();
   }
 }

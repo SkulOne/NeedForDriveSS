@@ -1,7 +1,7 @@
 <div class="admin-section-title">Поиск</div>
 
 <div class="content">
-  <form [formGroup]="sortingForm" class="sort-form" (ngSubmit)="sortButtonTrigger$.next()">
+  <form [formGroup]="sortingForm" class="sort-form" (ngSubmit)="formSubmit()">
     <div class="inputs-container">
       <ng-container *ngFor="let input of sortInputs; let index" [ngSwitch]="input.type">
         <mat-form-field appearance="outline" *ngSwitchDefault>
@@ -22,7 +22,7 @@
             (focusout)="maskedVisible = false"
             [validation]="true"
             [dropSpecialCharacters]="false"
-            mask="d0.m0.0000 Hh:m0"
+            mask="d0.m0.0000 Hh:m0:s0"
             placeholder="Выберите дату"
             autocomplete="none"
           />
@@ -31,10 +31,10 @@
       </ng-container>
     </div>
     <div class="actions">
-      <button mat-icon-button (click)="sortButtonTrigger$.next()">
+      <button mat-icon-button (click)="formSubmit()" type="button">
         <mat-icon>search</mat-icon>
       </button>
-      <button mat-icon-button (click)="resetData()">
+      <button mat-icon-button (click)="resetData()" type="button">
         <mat-icon>refresh</mat-icon>
       </button>
     </div>
@@ -45,7 +45,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ header.text }}</th>
         <td mat-cell *matCellDef="let entity" [ngSwitch]="header.type">
           <ng-container *ngSwitchCase="'date'">{{
-            entity | cellValue: header | date: 'd.MM.yyyy h:mm'
+            entity | cellValue: header | date: 'd.MM.yyyy h:mm:ss'
           }}</ng-container>
           <ng-container *ngSwitchCase="'boolean'">{{
             entity | cellValue: header | stringToBoolean

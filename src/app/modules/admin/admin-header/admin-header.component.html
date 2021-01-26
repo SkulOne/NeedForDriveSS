@@ -20,7 +20,7 @@
 </form>
 <div class="icon">
   <mat-divider [vertical]="true"></mat-divider>
-  <button mat-icon-button>
+  <button mat-icon-button (click)="notifyTrigger$.next()">
     <mat-icon
       class="notification"
       matBadgeColor="warn"

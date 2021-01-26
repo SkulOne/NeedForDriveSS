@@ -5,35 +5,19 @@
     <div class="inputs-container">
       <ng-container *ngFor="let input of sortInputs; let index" [ngSwitch]="input.type">
         <mat-form-field appearance="outline" *ngSwitchDefault>
-          <mat-label>{{ input.text }}, {{ input.type }}</mat-label>
+          <mat-label>{{ input.text }}</mat-label>
           <input matInput type="text" formControlName="{{ input.matColumnDef }}" />
         </mat-form-field>
         <mat-checkbox *ngSwitchCase="'boolean'" [formControlName]="input.matColumnDef">{{
           input.text
         }}</mat-checkbox>
-        <mat-form-field appearance="outline" *ngSwitchCase="'date'">
-          <mat-label> {{ input.text }} </mat-label>
-          <input
-            matInput
-            type="text"
-            [formControlName]="input.matColumnDef"
-            [showMaskTyped]="maskedVisible"
-            (focus)="maskedVisible = true"
-            (focusout)="maskedVisible = false"
-            [validation]="true"
-            [dropSpecialCharacters]="false"
-            mask="d0.m0.0000 Hh:m0"
-            placeholder="Выберите дату"
-            autocomplete="none"
-          />
-        </mat-form-field>
       </ng-container>
     </div>
     <div class="actions">
-      <button mat-icon-button (click)="sortButtonTrigger$.next()">
+      <button mat-icon-button (click)="sortButtonTrigger$.next()" type="button">
         <mat-icon>search</mat-icon>
       </button>
-      <button mat-icon-button (click)="resetData()">
+      <button mat-icon-button (click)="resetData()" type="button">
         <mat-icon>refresh</mat-icon>
       </button>
     </div>
@@ -44,7 +28,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ header.text }}</th>
         <td mat-cell *matCellDef="let entity" [ngSwitch]="header.type">
           <ng-container *ngSwitchCase="'date'">{{
-            entity | cellValue: header | date: 'd.MM.yyyy h:mm'
+            entity | cellValue: header | date: 'd.MM.yyyy h:mm:ss'
           }}</ng-container>
           <ng-container *ngSwitchCase="'boolean'">{{
             entity | cellValue: header | stringToBoolean

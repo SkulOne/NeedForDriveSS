@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { EMPTY, Observable, Subject } from 'rxjs';
 import { UpdateEntityConfig } from '@shared/interfaces/update-entity-config';
 import { MatTableDataSource } from '@angular/material/table';
@@ -111,7 +111,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
         this.detect();
       });
 
-    // todo: Возможно можно будет вернуть
+    // todo: Возможно можно будет вернуть, обсуди с ментором
     // this.sorting$().pipe(untilDestroyed(this)).subscribe();
 
     this.sortButton$
@@ -189,6 +189,7 @@ export abstract class EntityTable<T> implements OnInit, OnDestroy {
       if (sortingValue[key]) {
         const value =
           key === 'orderStatusId' ? orderStatusIds[sortingValue[key] + 'Id'] : sortingValue[key];
+        console.log({ [key]: value });
         values.push({ [key]: value });
       }
     });

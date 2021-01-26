@@ -31,8 +31,7 @@ import { EntityListComponent } from './entity-page/entity-list/entity-list.compo
 import { EntitySettingsComponent } from './entity-page/entity-settings/entity-settings.component';
 import { AdminCarListComponent } from './admin-car-list/admin-car-list.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { AdminOrderComponent } from './admin-order/admin-order.component';
-import { AdminOrderListComponent } from './admin-order/admin-order-list/admin-order-list.component';
+import { AdminOrderListComponent } from './admin-order-list/admin-order-list.component';
 import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
@@ -49,7 +48,6 @@ import { NgxMaskModule } from 'ngx-mask';
     EntityListComponent,
     EntitySettingsComponent,
     AdminCarListComponent,
-    AdminOrderComponent,
     AdminOrderListComponent,
   ],
   imports: [

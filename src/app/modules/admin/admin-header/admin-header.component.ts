@@ -4,8 +4,6 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  ViewChild,
-  ElementRef,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -26,12 +24,16 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 })
 export class AdminHeaderComponent implements OnInit, OnDestroy {
   logoutTrigger = new Subject<void>();
-  logout$ = this.logoutTrigger.asObservable();
+  notifyTrigger$ = new Subject<void>();
   showLogoutSpinner: boolean;
   showNotifySpinner = true;
   orderLength: number;
   routes = pages;
   searchRoutesForm: FormGroup;
+
+  private logout$ = this.logoutTrigger.asObservable();
+  private notify$ = this.notifyTrigger$.asObservable();
+
   constructor(
     private authorizationService: AuthorizationService,
     private router: Router,
@@ -64,6 +66,14 @@ export class AdminHeaderComponent implements OnInit, OnDestroy {
         this.showNotifySpinner = false;
         this.changeDetectorRef.detectChanges();
       });
+
+    this.notify$.pipe(untilDestroyed(this)).subscribe(() => {
+      this.router.navigate(['/admin', 'list', 'order'], {
+        queryParams: {
+          orderStatusId: 'new',
+        },
+      });
+    });
 
     this.initForm();
   }
